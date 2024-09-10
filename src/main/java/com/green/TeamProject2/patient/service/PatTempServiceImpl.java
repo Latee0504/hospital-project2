@@ -13,7 +13,17 @@ public class PatTempServiceImpl implements PatTempService{
     private SqlSessionTemplate sqlSession;
 
     @Override
-    public List<PatTempVO> getAllPetTem() {
-        return sqlSession.selectList("patTemMapper.getAllPetTemp");
+    public List<PatTempVO> getAllPatTemp(String tempDate) {
+        return sqlSession.selectList("patTempMapper.getAllPatTemp", tempDate);
+    }
+
+    @Override
+    public PatTempVO getMaxPatTemp(String tempDate) {
+        return sqlSession.selectOne("patTempMapper.getMaxPatTemp", tempDate);
+    }
+
+    @Override
+    public PatTempVO getMinPatTemp(String tempDate) {
+        return sqlSession.selectOne("patTempMapper.getMinPatTemp", tempDate);
     }
 }
