@@ -13,6 +13,11 @@ public class PatTempServiceImpl implements PatTempService{
     private SqlSessionTemplate sqlSession;
 
     @Override
+    public List<PatTempVO> getAll() {
+        return sqlSession.selectList("patTempMapper.getAll");
+    }
+
+    @Override
     public List<PatTempVO> getAllPatTemp(String tempDate) {
         return sqlSession.selectList("patTempMapper.getAllPatTemp", tempDate);
     }
@@ -25,5 +30,10 @@ public class PatTempServiceImpl implements PatTempService{
     @Override
     public PatTempVO getMinPatTemp(String tempDate) {
         return sqlSession.selectOne("patTempMapper.getMinPatTemp", tempDate);
+    }
+
+    @Override
+    public PatTempVO getAvg() {
+        return sqlSession.selectOne("patTempMapper.getAvg");
     }
 }

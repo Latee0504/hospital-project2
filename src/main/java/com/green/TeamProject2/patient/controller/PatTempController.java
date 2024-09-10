@@ -15,7 +15,13 @@ public class PatTempController {
     @Resource(name = "patTempService")
     private PatTempServiceImpl patTempService;
 
-    // 온도 전부 얻는 컨트롤러
+    // 온도 전부 얻음
+    @GetMapping("/getAll")
+    List<PatTempVO> getAll(){
+        return patTempService.getAll();
+    }
+
+    // 온도 10개 얻는 컨트롤러
     @PostMapping("/getAllPatTemp")
     List<PatTempVO> getAllPatTemp(@RequestBody Map<String, String> isTemp){
         return patTempService.getAllPatTemp(isTemp.get("date"));
@@ -32,7 +38,13 @@ public class PatTempController {
         return patTempService.getMinPatTemp(isTemp.get("date"));
     }
 
+    // 전체 평균 컨트
+    @GetMapping("/getAvg")
+    PatTempVO getAvg(){
+        return patTempService.getAvg();
+    }
 
 
-sadsadasda
+
+
 }
