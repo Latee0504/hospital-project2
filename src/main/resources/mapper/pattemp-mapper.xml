@@ -51,7 +51,7 @@
 
     <!--특정 날짜의 평균 쿼리-->
     <select id="getAvgWhen" resultMap="patTemp">
-        SELECT AVG(TEMP)
+        SELECT AVG(TEMP) AS TMEP
         FROM pat_temp
         WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>

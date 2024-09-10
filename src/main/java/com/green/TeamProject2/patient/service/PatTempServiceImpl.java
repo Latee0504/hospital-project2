@@ -36,4 +36,9 @@ public class PatTempServiceImpl implements PatTempService{
     public PatTempVO getAvg() {
         return sqlSession.selectOne("patTempMapper.getAvg");
     }
+
+    @Override
+    public PatTempVO getAvgWhen(String tempDate) {
+        return sqlSession.selectOne("patTempMapper.getAvgWhen", tempDate);
+    }
 }

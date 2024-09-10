@@ -19,4 +19,7 @@ public interface PatTempService {
 
     //전체 평균 온도
     PatTempVO getAvg();
+
+    //선택 날짜의 평균
+    PatTempVO getAvgWhen(String tempDate);
 }
