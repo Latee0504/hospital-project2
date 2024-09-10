@@ -22,4 +22,13 @@ public interface PatTempService {
 
     //선택 날짜의 평균
     PatTempVO getAvgWhen(String tempDate);
+
+    //전체 진료일 수
+    int getAllDate();
+
+    //60분 단위로 끊어서 받아온 당일의 시간당 평균
+    List<PatTempVO> getDataByH(String tempDate);
+
+    //30분 단위로 끊어서 받아온 당일의 시간당 평균
+    List<PatTempVO> getDataByM(String tempData);
 }

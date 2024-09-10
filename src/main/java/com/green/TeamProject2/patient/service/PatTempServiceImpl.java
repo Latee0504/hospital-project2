@@ -41,4 +41,19 @@ public class PatTempServiceImpl implements PatTempService{
     public PatTempVO getAvgWhen(String tempDate) {
         return sqlSession.selectOne("patTempMapper.getAvgWhen", tempDate);
     }
+
+    @Override
+    public int getAllDate() {
+        return sqlSession.selectOne("patTempMapper.getAllDate");
+    }
+
+    @Override
+    public List<PatTempVO> getDataByH(String tempDate) {
+        return sqlSession.selectList("patTempMapper.getDataByH", tempDate);
+    }
+
+    @Override
+    public List<PatTempVO> getDataByM(String tempData) {
+        return sqlSession.selectList("patTempMapper.getDataBym", tempData);
+    }
 }

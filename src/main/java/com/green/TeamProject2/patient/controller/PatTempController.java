@@ -44,7 +44,27 @@ public class PatTempController {
         return patTempService.getAvg();
     }
 
+    // 선택한 날짜의 평균
+    @PostMapping("/getAvgWhen")
+    PatTempVO getAvgWhen(@RequestBody Map<String, String> isTemp){
+        return patTempService.getAvgWhen(isTemp.get("date"));
+    }
 
+    // 전체 진료일 수
+    @GetMapping("/getAllDate")
+    int getAllDate(){
+        return patTempService.getAllDate();
+    }
 
+    //60분으로 나눠진 당일 평균 온도
+    @PostMapping("/getDataByH")
+    List<PatTempVO> getDataByH(@RequestBody Map<String, String> isTemp){
+        return patTempService.getDataByH(isTemp.get("date"));
+    }
 
+    //30분으로 나눠진 당일 평균 온도
+    @PostMapping("/getDataByM")
+    List<PatTempVO> getDataByM(@RequestBody Map<String, String> isTemp){
+        return patTempService.getDataByM(isTemp.get("date"));
+    }
 }

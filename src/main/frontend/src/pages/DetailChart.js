@@ -53,8 +53,14 @@ const DetailChart = ({currentDate}) => {
   }
   };
 
-  //평균을 담을 변수
+  //전체 평균을 담을 변수
   const[avgChart, setAvgChart] = useState(0)
+
+  //전체 진료일 수를 담을 변수
+  const[allDate, setAllDate] = useState(0)
+
+  //선택한 날짜의 평균을 담을 변수
+  const[avgWhen, setAvgWhen] = useState(0)
 
   // 모든 체온 정보를 담을 리스트
   const[allData, setAllData] = useState([])
@@ -70,18 +76,31 @@ const DetailChart = ({currentDate}) => {
     setSelectDate(date)
   }
 
-  // // 환자의 온도 전체 데이터 받아옴
-  // useEffect(()=>{
-  //   axios
-  //   .get(`/patTemp/getAll`)
-  //   .then((res)=>{
-  //     setAllData(res.data)
-  //     console.log(res.data)
-  //   })
-  //   .catch((error)=>{
-  //     console.log('전체 받아오면서 에러', error)
-  //   })
-  // }, [chartData])
+  // 환자 전체 진료일 수를 받아옴
+  useEffect(()=>{
+    axios
+    .get(`/patTemp/getAllDate`)
+    .then((res)=>{
+      setAllDate(res.data)
+      console.log(res)
+    })
+    .catch((error)=>{
+      console.log('전체 진료일 받아오기 에러', error)
+    })
+  }, [chartData])
+
+  // 환자의 온도 전체 데이터 받아옴
+  useEffect(()=>{
+    axios
+    .get(`/patTemp/getAll`)
+    .then((res)=>{
+      setAllData(res.data)
+      console.log('환자 전체 데이터')
+    })
+    .catch((error)=>{
+      console.log('전체 받아오면서 에러', error)
+    })
+  }, [chartData])
 
   // 전체 데이터의 평균
   useEffect(()=>{
@@ -94,7 +113,16 @@ const DetailChart = ({currentDate}) => {
     .catch((error)=>{
       console.log('전체 평균에서 에러', error)
     })
-  }, [])
+  }, [chartData])
+
+  //선택한 날짜의 평균
+  useEffect(()=>{
+    axios
+    .post(`/patTemp/getAvgWhen`, {date:DateFormat(selectDate)})
+    .then((res)=>{
+      setAvgWhen(res.data.temp)
+    })
+  }, [chartData])
 
   // 전체 온도 데이터 받아서 꾸며줌(10개)
   useEffect(()=>{
@@ -115,9 +143,7 @@ const DetailChart = ({currentDate}) => {
     data.datasets[0].data.push(chartOne.temp)
   });
 
-
-   
-
+  
 
   return (
     <>
@@ -126,8 +152,20 @@ const DetailChart = ({currentDate}) => {
           <table>
             <tbody>
               <tr>
-                <td>평균</td>
+                <td>전체 평균</td>
                 <td>{avgChart}</td>
+              </tr>
+              <tr>
+                <td>날짜 평균</td>
+                <td>{avgWhen}</td>
+              </tr>
+              <tr>
+                <td>총 데이터 수</td>
+                <td>{allData.length}</td>
+              </tr>
+              <tr>
+                <td>총 일수</td>
+                <td>{allDate}일</td>
               </tr>
             </tbody>
           </table>

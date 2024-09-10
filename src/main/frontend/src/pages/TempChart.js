@@ -24,11 +24,12 @@ const TemperChart = ({currentDate}) => {
 
   const[isShow, setIsShow] = useState(false)
 
+  const[isDuring, setIsDuring] = useState(0)
+
   //선택한 날짜를 변경할 함수
   function handleSelectDate(date){
     setSelectDate(date)
   }
-
 
   // 실시간 체온과 시각정보를 담은 객체들을 담을 리스트
   const[chartData, setChartData] = useState([])
@@ -39,9 +40,6 @@ const TemperChart = ({currentDate}) => {
     , min: 0
   })
   
-
-  // 전날의 체온 정보를 담을 리스트
-  const[beforeData, setBeforeData] = useState([])
 
   const data = {
     labels: [],
@@ -84,14 +82,15 @@ const TemperChart = ({currentDate}) => {
     axios
     .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
     .then((res)=>{
+      console.log(res.data)
+      console.log(isShow)
       setChartData(res.data)
       setIsShow(true)
     })
     .catch((error)=>{
-      console.log(DateFormat(selectDate))
       console.log('온도 받아오기 실패', error)
     })
-  }, [selectDate, chartData])
+  }, [selectDate])
 
   // 최대 온도 얻기
   useEffect(()=>{
@@ -103,7 +102,7 @@ const TemperChart = ({currentDate}) => {
         max:res.data
       })     
     })
-  }, [tempData.max])
+  }, [])
 
   // 최소 온도 얻기
   useEffect(()=>{
@@ -115,13 +114,67 @@ const TemperChart = ({currentDate}) => {
         min:res.data
       })
     })
-  }, [tempData.min])
+  }, [])
  
   //오늘의 체온 데이터로 차트를 그림
   chartData.forEach((chartOne, i) => {
-    data.labels.push(chartOne.tempDate)
-    data.datasets[0].data.push(chartOne.temp)
+    if(chartOne.hour!=0){
+      data.labels.push(chartOne.hour)
+      data.datasets[0].data.push(chartOne.temp)
+    }
+    else if(chartOne.hour!=0&chartOne.minite!=0){
+      data.labels.push(chartOne.hour+chartOne.minite)
+      data.datasets[0].data.push(chartOne.temp)
+    }
+    else{
+      data.labels.push(chartOne.tempDate)
+      data.datasets[0].data.push(chartOne.temp)
+    }   
   });
+
+  // 시간 간격에 따라 차트를 다시 그릴 함수
+  function reChartWhenTime(selectDate, isDuring){
+    if(isDuring==2){
+      axios
+      .post(`/patTemp/getDataByH`, {date:DateFormat(selectDate)})
+      .then((res)=>{
+        console.log(res)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log('시간별로 받아오기 에러', error)
+      })
+    }
+    else if(isDuring==1){
+      axios
+      .post(`/patTemp/getDataByM`, {date:DateFormat(selectDate)})
+      .then((res)=>{
+        console.log(res)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log('30분별로 받아오기 에러', error)
+      })
+    }
+    else{
+      axios
+      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
+      .then((res)=>{
+        console.log(res.data)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log(DateFormat(selectDate))
+        console.log('함수 속의 온도 받아오기 실패', error)
+      })
+    }
+  }
+
+  // 시간 간격을 담을 변수를 바꿔줄 함수
+  function handleSelectDuring(e){
+    setIsDuring(e.target.value)
+    reChartWhenTime(selectDate, isDuring)
+  }
 
 
   return (
@@ -148,10 +201,15 @@ const TemperChart = ({currentDate}) => {
       <div className='info-content'>
         <div className='select-box'>
           <p>결과 출력 선택바</p>
-          <select onClick={(e)=>{}}>
-            <option>30분마다</option>
-            <option>1시간마다</option>
+          <select value={isDuring} onChange={(e)=>{handleSelectDuring(e)}}>
+            <option value={0}>원래대로</option>
+            <option value={1}>30분마다</option>
+            <option value={2}>1시간마다</option>
           </select>
+          <div>
+            <button type='button' onClick={(e)=>{handleSelectDate(currentDate-1)}}>이전</button>
+            <button type='button' onClick={(e)=>{handleSelectDate(currentDate+1)}}>이후</button>
+          </div>
         </div>
         <div className='temp-chart'>
          <Line data={data} options={options}/>

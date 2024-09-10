@@ -8,6 +8,9 @@
         <id column="TEMP_NUM" property="tempNum"/>
         <result column="TEMP" property="temp"/>
         <result column="TEMP_DATE" property="tempDate"/>
+        <result column="DATE" property="date"/>
+        <result column="HOUR" property="hour"/>
+        <result column="MINUTE" property="minute"/>
     </resultMap>
 
     <!--해당 환자의 전체 온도 데이터 조회-->
@@ -51,9 +54,40 @@
 
     <!--특정 날짜의 평균 쿼리-->
     <select id="getAvgWhen" resultMap="patTemp">
-        SELECT AVG(TEMP) AS TMEP
+        SELECT AVG(TEMP) AS TEMP
         FROM pat_temp
         WHERE DATE(TEMP_DATE) = #{tempDate}
+    </select>
+
+    <!--전체 진료일 수-->
+    <select id="getAllDate" resultType="int">
+        SELECT COUNT(DISTINCT DATE(TEMP_DATE)) AS DATE_NUM
+        FROM pat_temp
+    </select>
+    
+    <!--30분 단위로 끊어서 받아옴-->
+    <select id="getDataByM" resultMap="patTemp">
+        SELECT DATE(TEMP_DATE) AS DATE
+            , HOUR(TEMP_DATE) AS HOUR
+            , AVG(TEMP) AS TEMP
+            , FLOOR(MINUTE(TEMP_DATE) / 30) * 30 AS MINUTE
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE)=#{tempDate}
+        GROUP BY HOUR(TEMP_DATE)
+            , DATE(TEMP_DATE)
+            , FLOOR(MINUTE(TEMP_DATE) / 30) * 30
+        ORDER BY DATE, HOUR, MINUTE;
+    </select>
+
+    <!--60분 단위로 끊어서 받아옴-->
+    <select id="getDataByH" resultMap="patTemp">
+        SELECT DATE(TEMP_DATE) AS DATE
+            , HOUR(TEMP_DATE) AS HOUR
+            , AVG(TEMP) AS TEMP
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE)=#{tempDate}
+        GROUP BY HOUR(TEMP_DATE), DATE(TEMP_DATE)
+        ORDER BY DATE, HOUR;
     </select>
 </mapper>
 
