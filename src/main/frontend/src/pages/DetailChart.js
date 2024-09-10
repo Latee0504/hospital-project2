@@ -54,7 +54,7 @@ const DetailChart = ({currentDate}) => {
   };
 
   //평균을 담을 변수
-  let revChart = 0
+  const[avgChart, setAvgChart] = useState(0)
 
   // 모든 체온 정보를 담을 리스트
   const[allData, setAllData] = useState([])
@@ -88,8 +88,8 @@ const DetailChart = ({currentDate}) => {
     axios
     .get(`/patTemp/getAvg`)
     .then((res)=>{
-      revChart=res.data.temp
-      console.log(res)
+      setAvgChart(res.data.temp)
+      console.log('전체평균 성공',res)
     })
     .catch((error)=>{
       console.log('전체 평균에서 에러', error)
@@ -127,7 +127,7 @@ const DetailChart = ({currentDate}) => {
             <tbody>
               <tr>
                 <td>평균</td>
-                <td>{revChart}</td>
+                <td>{avgChart}</td>
               </tr>
             </tbody>
           </table>

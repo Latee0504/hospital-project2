@@ -45,7 +45,7 @@
 
     <!--전체 값의 평균을 받아올 쿼리-->
     <select id="getAvg" resultMap="patTemp">
-        SELECT AVG(TEMP)
+        SELECT AVG(TEMP) AS TEMP
         FROM pat_temp
     </select>
 
