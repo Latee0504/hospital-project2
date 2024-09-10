@@ -1,0 +1,44 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #eeeeee;
+  width: 100%;
+}
+.info-header{
+  width: 80%;
+  border: 1px solid red;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+
+}
+
+
+.info-content{
+  border: 1px solid red;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.temp-chart{
+  width: 60%;
+  border: 1px solid black;
+  margin: 15px;
+}
+
+.select-box{
+  border: 1px solid black;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 30%;
+  align-items: center;
+}
+
+
+

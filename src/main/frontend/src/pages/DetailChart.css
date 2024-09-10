@@ -1,0 +1,7 @@
+.sub-content{
+  display: flex;
+  flex-direction: column;
+}
+.rev-temp{
+  width: 30%;
+}
