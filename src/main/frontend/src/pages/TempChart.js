@@ -123,7 +123,7 @@ const TemperChart = ({currentDate}) => {
       data.datasets[0].data.push(chartOne.temp)
     }
     else if(chartOne.hour!=0&chartOne.minite!=0){
-      data.labels.push(chartOne.hour+chartOne.minite)
+      data.labels.push(`${chartOne.hour} - ${chartOne.minite}`)
       data.datasets[0].data.push(chartOne.temp)
     }
     else{
@@ -205,6 +205,9 @@ const TemperChart = ({currentDate}) => {
             <option value={0}>원래대로</option>
             <option value={1}>30분마다</option>
             <option value={2}>1시간마다</option>
+          </select>
+          <select>
+            <options>그거</options>
           </select>
           <div>
             <button type='button' onClick={(e)=>{handleSelectDate(currentDate-1)}}>이전</button>

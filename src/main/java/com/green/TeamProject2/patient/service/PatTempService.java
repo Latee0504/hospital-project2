@@ -30,5 +30,8 @@ public interface PatTempService {
     List<PatTempVO> getDataByH(String tempDate);
 
     //30분 단위로 끊어서 받아온 당일의 시간당 평균
-    List<PatTempVO> getDataByM(String tempData);
+    List<PatTempVO> getDataByM(String tempDate);
+
+    //현재 시간으로 부터 60분 간의 데이터
+    List<PatTempVO> getDuringH(String tempDate);
 }
