@@ -73,4 +73,10 @@ public class PatTempController {
     List<PatTempVO> getDuringH(@RequestBody Map<String, String> isTemp){
         return patTempService.getDuringH(isTemp.get("date"));
     }
+
+    //현재 시간으로 부터 30분 간의 데이터
+    @PostMapping("/getDuringM")
+    List<PatTempVO> getDuringM(@RequestBody Map<String, String> isTemp){
+        return patTempService.getDuringM(isTemp.get("date"));
+    }
 }

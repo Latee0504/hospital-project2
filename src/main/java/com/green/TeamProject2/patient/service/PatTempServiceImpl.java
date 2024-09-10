@@ -61,4 +61,9 @@ public class PatTempServiceImpl implements PatTempService{
     public List<PatTempVO> getDuringH(String tempDate) {
         return sqlSession.selectList("patTempMapper.getDuringH", tempDate);
     }
+
+    @Override
+    public List<PatTempVO> getDuringM(String tempDate) {
+        return sqlSession.selectList("patTempMapper.getDuringM", tempDate);
+    }
 }

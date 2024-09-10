@@ -19,12 +19,28 @@ const TemperChart = ({currentDate}) => {
     return `${year}${month}${day}`; // 'YYYYMMDD' 형식으로 반환
   }
 
+  function DateFormatDetail(date) {
+    const year = date.getFullYear(); // 년 추출
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 추출 (1월이 0이므로 +1)
+    const day = String(date.getDate()).padStart(2, '0'); // 일 추출
+    const hour = String(date.getHours()).padStart(2, '0'); // 시 추출
+    const minute = String(date.getMinutes()).padStart(2, '0'); // 분 추출
+    return `${year}-${month}-${day} ${hour}:${minute}`; // "년-월-일 시:분" 형식으로 반환
+  }
   //선택된 날짜를 담을 변수
   const[selectDate, setSelectDate] = useState(currentDate)
 
   const[isShow, setIsShow] = useState(false)
 
+  //1번 박스에서 사용할 선택 변수
   const[isDuring, setIsDuring] = useState(0)
+
+  //2번 박스에서 사용할 선택 변수
+  const[isDuple, setIsDuple] = useState(0)
+
+  //차트 다시 그릴때 필요한 변수
+  const[reDrawChart, setReDrawChart] = useState(false)
+
 
   //선택한 날짜를 변경할 함수
   function handleSelectDate(date){
@@ -116,7 +132,7 @@ const TemperChart = ({currentDate}) => {
     })
   }, [])
  
-  //오늘의 체온 데이터로 차트를 그림
+  //오늘의 체온 데이터로 차트를 그릴 내용을 뿌림
   chartData.forEach((chartOne, i) => {
     if(chartOne.hour!=0){
       data.labels.push(chartOne.hour)
@@ -170,12 +186,76 @@ const TemperChart = ({currentDate}) => {
     }
   }
 
-  // 시간 간격을 담을 변수를 바꿔줄 함수
-  function handleSelectDuring(e){
-    setIsDuring(e.target.value)
-    reChartWhenTime(selectDate, isDuring)
+  // 현재 시간으로 어디까지 출력할 지에 대해서 다시 받아주는
+  function reChartWhenDuple(selectDate, isDuple){
+    //시간별로
+    if(isDuple==1){
+      axios
+      .post(`/patTemp/getDuringH`, {date:DateFormatDetail(selectDate)})
+      .then((res)=>{
+        console.log(selectDate)
+        console.log(res.data)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log('시간별 출력 실패', error)
+      })
+    }
+    //30분간격으로
+    else if(isDuple==2){
+      axios
+      .post(`/patTemp/getDuringM`, {date:DateFormatDetail(selectDate)})
+      .then((res)=>{
+        console.log(res.data)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log('시간별 출력 실패', error)
+      })
+    }
+    //돌아가기
+    else{
+      axios
+      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
+      .then((res)=>{
+        console.log(res.data)
+        setChartData(res.data)
+      })
+      .catch((error)=>{
+        console.log(DateFormat(selectDate))
+        console.log('함수 속의 온도 받아오기 실패', error)
+      })
+    }
   }
 
+
+  useEffect(()=>{
+    if(reDrawChart){
+      reChartWhenTime(selectDate, isDuring)
+    }
+    
+  },[isDuring])
+
+  useEffect(()=>{
+    if(reDrawChart){
+      reChartWhenDuple(selectDate, isDuple)
+    }
+    
+  },[isDuple])
+
+  // 날짜를 하루 전으로 변경하는 함수
+  const goBackOneDay = () => {
+    const previousDay = new Date(selectDate);
+    previousDay.setDate(previousDay.getDate() - 1); // 하루 전으로 설정
+    setSelectDate(previousDay);
+  };
+
+  // 날짜를 하루 후로 변경하는 함수
+  const goForwardOneDay = () => {
+    const nextDay = new Date(selectDate);
+    nextDay.setDate(nextDay.getDate() + 1); // 하루 후로 설정
+    setSelectDate(nextDay);
+  };
 
   return (
     <div className='container'>
@@ -201,17 +281,27 @@ const TemperChart = ({currentDate}) => {
       <div className='info-content'>
         <div className='select-box'>
           <p>결과 출력 선택바</p>
-          <select value={isDuring} onChange={(e)=>{handleSelectDuring(e)}}>
+          <select value={isDuring} onChange={(e)=>{
+            setIsDuring(e.target.value)
+            setReDrawChart(true)
+            //reChartWhenTime(selectDate, isDuring)
+            }}>
             <option value={0}>원래대로</option>
             <option value={1}>30분마다</option>
             <option value={2}>1시간마다</option>
           </select>
-          <select>
-            <options>그거</options>
+          <select value={isDuple} onChange={(e)=>{
+            setIsDuple(e.target.value)
+            setReDrawChart(true)
+            //reChartWhenDuple(selectDate, isDuple)
+          }}>
+            <option value={0}>원래대로</option>
+            <option value={1}>시간별 데이터</option>
+            <option value={2}>반시간별 데이터</option>
           </select>
           <div>
-            <button type='button' onClick={(e)=>{handleSelectDate(currentDate-1)}}>이전</button>
-            <button type='button' onClick={(e)=>{handleSelectDate(currentDate+1)}}>이후</button>
+            <button type='button' onClick={(e)=>{goBackOneDay()}}>이전</button>
+            <button type='button' onClick={(e)=>{goForwardOneDay()}}>이후</button>
           </div>
         </div>
         <div className='temp-chart'>

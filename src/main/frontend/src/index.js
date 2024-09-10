@@ -4,13 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+//리액트 쿼리를 사용하기 위한 step1
+const queryClinet = new QueryClient()
+
 root.render(
   //<React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    //리액트 쿼리 사용을 위한 step2
+    <QueryClientProvider client={queryClinet}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
   //</React.StrictMode>
 );
 
