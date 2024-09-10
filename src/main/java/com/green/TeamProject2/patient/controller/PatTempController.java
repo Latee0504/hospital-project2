@@ -37,7 +37,7 @@ public class PatTempController {
     PatTempVO getMinPatTemp(@RequestBody Map<String, String> isTemp){
         return patTempService.getMinPatTemp(isTemp.get("date"));
     }
-asdasg
+
     // 전체 평균 컨트
     @GetMapping("/getAvg")
     PatTempVO getAvg(){
