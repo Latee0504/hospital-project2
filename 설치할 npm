@@ -1,0 +1,4 @@
+설치할 npm
+1)axios 등 기본 설치 
+2)캘린더 라이브러리 npm i react-calendar
+3)차트 라이브러리 npm install chart.js react-chartjs-2
