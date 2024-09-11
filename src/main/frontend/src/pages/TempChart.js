@@ -123,7 +123,7 @@ const TemperChart = ({currentDate}) => {
       data.datasets[0].data.push(chartOne.temp)
     }
     else if(chartOne.hour!=0&chartOne.minite!=0){
-      data.labels.push(`${chartOne.hour} - ${chartOne.minite}`)
+      data.labels.push(`${chartOne.hour}:${chartOne.minite}`)
       data.datasets[0].data.push(chartOne.temp)
     }
     else{
