@@ -119,3 +119,20 @@
 .comp-div>div>div:nth-child(3){
   width: 30%;
 }
+
+.comp-div table{
+  margin: 0 auto;
+}
+
+.simple-view{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 50px;
+  align-content: center;
+  margin: 0 auto;
+}
+
+.simple-view>div{
+  border: 1px solid gray;
+ 
+}

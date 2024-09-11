@@ -79,4 +79,10 @@ public class PatTempController {
     List<PatTempVO> getDuringM(@RequestBody Map<String, String> isTemp){
         return patTempService.getDuringM(isTemp.get("date"));
     }
+
+    //진료일자를 하루 씩
+    @GetMapping("/getDateByWeek")
+    List<PatTempVO> getDateByWeek(){
+        return patTempService.getAllDateByWeek();
+    }
 }

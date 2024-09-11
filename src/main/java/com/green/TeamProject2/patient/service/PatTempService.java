@@ -37,4 +37,7 @@ public interface PatTempService {
 
     //현재 시간으로 부터 30분 간의 데이터
     List<PatTempVO> getDuringM(String tempDate);
+
+    //전체 진료일자를 하루 씩 일주일의 형식으로 받아옴
+    List<PatTempVO> getAllDateByWeek();
 }

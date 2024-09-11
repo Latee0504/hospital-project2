@@ -11,6 +11,8 @@
         <result column="DATE" property="date"/>
         <result column="HOUR" property="hour"/>
         <result column="MINUTE" property="minute"/>
+        <result column="MONTH" property="month"/>
+        <result column="DAY" property="day"/>
     </resultMap>
 
     <!--해당 환자의 전체 온도 데이터 조회-->
@@ -76,7 +78,7 @@
         GROUP BY HOUR(TEMP_DATE)
             , DATE(TEMP_DATE)
             , FLOOR(MINUTE(TEMP_DATE) / 30) * 30
-        ORDER BY DATE, HOU~R, MINUTE;
+        ORDER BY DATE, HOUR, MINUTE;
     </select>
 
     <!--60분 단위로 끊어서 받아옴-->
@@ -104,6 +106,13 @@
         FROM pat_temp
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 30 MINUTE
         AND #{tempDate} - INTERVAL 0 MINUTE;
+    </select>
+
+    <!--전체 진료일 자를 하루 씩 받아 옴-->
+    <select id="getAllDateByWeek" resultMap="patTemp">
+        SELECT MONTH(TEMP_DATE) AS MONTH, DAY(TEMP_DATE) AS DAY
+        FROM pat_temp
+        GROUP BY MONTH(TEMP_DATE), DAY(TEMP_DATE)
     </select>
 </mapper>
 

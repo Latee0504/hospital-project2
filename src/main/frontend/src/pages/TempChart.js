@@ -1,12 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Bar, Line } from 'react-chartjs-2'
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
+import { Line } from 'react-chartjs-2'
+import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, BarElement } from 'chart.js';
 import './TempChart.css'
+import NewBarChart from '../craft/NewBarChart';
+
 
 
 // Chart.js 모듈 등록
-ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement);
+
+
 
 
 const TemperChart = ({currentDate}) => {
@@ -53,8 +57,8 @@ const TemperChart = ({currentDate}) => {
   // 선택한 날짜의 체온과 시각정보를 담을 객체들을 담을 리스트
   const[compData, setCompData] = useState([])
 
-  // 선택한 날짜에 하루 전의 데이터를 담을 객체 리스트
-  const[beforeData, setBeforeData] = useState([])
+  // 전체 진료일 데이터를 받아올 리스트
+  const[treDateList, setTreDateList] = useState([])  
 
   // 최대 최소 온도를 담을 변수
   const[tempData, setTempData] = useState({
@@ -84,7 +88,7 @@ const TemperChart = ({currentDate}) => {
       },
       title: {
         display: true,
-        text: '실시간 환자 체온 변화',
+        text: `해당 날짜의 환자 체온 변화`,
       }     
     },
     scales: {
@@ -104,7 +108,7 @@ const TemperChart = ({currentDate}) => {
     labels: [],
     datasets: [
       {
-        label: `${DateFormat(selectDate)}의 데이터`,
+        label: `실시간 환자의 데이터`,
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
@@ -137,38 +141,47 @@ const TemperChart = ({currentDate}) => {
   }
   };
 
-  //바 차트 데이터
-
-  //바 차트 옵션
 
    // 전체 온도 데이터 받아서 꾸며줌
    useEffect(()=>{
     axios
     .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
     .then((res)=>{
-      console.log(res.data)
-      console.log(isShow)
-      setChartData(res.data)
-      setCompData(res.data)
       setIsShow(true)
+      if(selectDate==currentDate){
+        setCompData(res.data)
+      }
+      else{
+        setChartData(res.data)
+      }
     })
     .catch((error)=>{
       console.log('온도 받아오기 실패', error)
     })
   }, [selectDate])
-
-  // 어제의 평균 체온 얻기
   
+  // 전체 진료일 얻어오기
+  useEffect(()=>{
+    axios
+    .get(`/patTemp/getDateByWeek`)
+    .then((res)=>{
+      setTreDateList(res.data)
+      console.log('12313',res)
+    })
+    .catch((error)=>{})
+  }, [])
 
   // 최대 온도 얻기
   useEffect(()=>{
     axios
     .post(`/patTemp/getMax`, {date:DateFormat(selectDate)})
     .then((res)=>{
-      setTempData({
-        ...tempData,
-        max:res.data
-      })     
+      if(selectDate==currentDate){
+        setTempData({
+          ...tempData,
+          max:res.data
+        }) 
+      }    
     })
   }, [tempData.max])
 
@@ -177,10 +190,12 @@ const TemperChart = ({currentDate}) => {
     axios
     .post(`/patTemp/getMin`, {date:DateFormat(selectDate)})
     .then((res)=>{
-      setTempData({
-        ...tempData,
-        min:res.data
-      })
+      if(selectDate==currentDate){
+        setTempData({
+          ...tempData,
+          min:res.data
+        })
+      }    
     })
   }, [tempData.min])
  
@@ -191,7 +206,7 @@ const TemperChart = ({currentDate}) => {
       data.datasets[0].data.push(chartOne.temp)
     }
     else if(chartOne.hour!=0&chartOne.minite!=0){
-      data.labels.push(`${chartOne.hour}:${chartOne.minite}`)
+      data.labels.push(chartOne.hour)
       data.datasets[0].data.push(chartOne.temp)
       
     }
@@ -206,6 +221,7 @@ const TemperChart = ({currentDate}) => {
     cData.labels.push(compOne.tempDate)
     cData.datasets[0].data.push(compOne.temp)
   })
+
 
   // 시간 간격에 따라 차트를 다시 그릴 함수
   function reChartWhenTime(selectDate, isDuring){
@@ -287,7 +303,6 @@ const TemperChart = ({currentDate}) => {
     }
   }
 
-
   useEffect(()=>{
     if(reDrawChart){
       reChartWhenTime(selectDate, isDuring)
@@ -346,12 +361,21 @@ const TemperChart = ({currentDate}) => {
             </tbody>
           </table>
       </div>
-        
         <div>
           <Line data={cData} options={cOptions}/>
         </div>
       </div>
-      
+      <div className='simple-view'>
+        {
+          treDateList.map((treDateOne, i)=>{
+            return(
+              <div>
+                {treDateOne.month}월{treDateOne.day}일
+              </div>
+            )
+          })
+        }       
+      </div>
     
       {/* <div className='info-content'>
         <div className='select-box'>
@@ -384,7 +408,7 @@ const TemperChart = ({currentDate}) => {
         </div>
       </div> */}
       <div className='sub-function'>
-        <div className=''>
+        <div className='122'>
             <div>
               시간별 그래프 출력
             </div>
@@ -399,31 +423,34 @@ const TemperChart = ({currentDate}) => {
           </select>
         </div>
         <div>
-        <Line data={data} options={options}/>
+          <Line data={data} options={options}/>
         </div>
       </div>
       <div className='comp-div'>
         어제와 비교
         <div>
-          <div>
-            어제의 데이터 바 형태로 
+            <button type='button' onClick={(e)=>{goBackOneDay()}}>이전</button>
+            <button type='button' onClick={(e)=>{goForwardOneDay()}}>이후</button>
+          </div>
+        <div>
+          <div> 
+            <NewBarChart selectDate={DateFormat(selectDate)-1} />
           </div>
           <div>
-            오늘의 데이터 바 형태로
+            <NewBarChart selectDate={DateFormat(selectDate)}/>
           </div>
           <div>
             <table>
               <tbody>
                 <tr>
-                  <td>체온 변화</td>
-                  <td></td>
+                  <td>체온 변화 기록</td>
+                  <td>{}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
      </>
     }
   </div>
