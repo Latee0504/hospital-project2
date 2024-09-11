@@ -68,7 +68,7 @@ public class PatTempServiceImpl implements PatTempService{
     }
 
     @Override
-    public List<PatTempVO> getAllDateByWeek() {
-        return sqlSession.selectList("patTempMapper.getAllDateByWeek");
+    public List<PatTempVO> getAllDateByWeek(String tempDate) {
+        return sqlSession.selectList("patTempMapper.getAllDateByWeek", tempDate);
     }
 }

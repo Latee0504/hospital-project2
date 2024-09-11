@@ -31,6 +31,12 @@ const TemperChart = ({currentDate}) => {
     const minute = String(date.getMinutes()).padStart(2, '0'); // 분 추출
     return `${year}-${month}-${day} ${hour}:${minute}`; // "년-월-일 시:분" 형식으로 반환
   }
+
+  function DateFormatSimple(date){
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 추출 (1월이 0이므로 +1)
+    const day = String(date.getDate()).padStart(2, '0'); // 일 추출
+    return `${month}월 ${day}일`
+  }
   //선택된 날짜를 담을 변수
   const[selectDate, setSelectDate] = useState(currentDate)
 
@@ -163,13 +169,13 @@ const TemperChart = ({currentDate}) => {
   // 전체 진료일 얻어오기
   useEffect(()=>{
     axios
-    .get(`/patTemp/getDateByWeek`)
+    .post(`/patTemp/getDateByWeek`, {date:DateFormatDetail(selectDate)})
     .then((res)=>{
       setTreDateList(res.data)
       console.log('12313',res)
     })
     .catch((error)=>{})
-  }, [])
+  }, [selectDate])
 
   // 최대 온도 얻기
   useEffect(()=>{
@@ -200,15 +206,20 @@ const TemperChart = ({currentDate}) => {
   }, [tempData.min])
 
   chartData.forEach((chartOne, i) => {
+    //1시간 간격
     if(chartOne.hour!=0){
-      data.labels.push(chartOne.hour)
-      data.datasets[0].data.push(chartOne.temp)
-    }
-    else if(chartOne.hour!=0&chartOne.minite!=0){
-      data.labels.push(chartOne.hour)
-      data.datasets[0].data.push(chartOne.temp)
+      //30분간격
+      if(chartOne.minute){
+        data.labels.push(chartOne.minute)
+        data.datasets[0].data.push(chartOne.temp)
+      }
+      else{
+        data.labels.push(chartOne.hour)
+        data.datasets[0].data.push(chartOne.temp)
+      }
       
     }
+    //처음
     else{
       data.labels.push(chartOne.tempDate)
       data.datasets[0].data.push(chartOne.temp)
@@ -369,43 +380,50 @@ const TemperChart = ({currentDate}) => {
           treDateList.map((treDateOne, i)=>{
             return(
               <div>
-                {treDateOne.month}월{treDateOne.day}일
+                <p>{treDateOne.date}</p>
+                <p>{treDateOne.temp}도</p>
+                <p>오늘의 부저횟수</p>
               </div>
             )
           })
-        }       
+        }
       </div>
     
-      {/* <div className='info-content'>
-        <div className='select-box'>
-          <p>결과 출력 선택바</p>
-          <select value={isDuring} onChange={(e)=>{
-            setIsDuring(e.target.value)
-            setReDrawChart(true)
-            //reChartWhenTime(selectDate, isDuring)
-            }}>
-            <option value={0}>원래대로</option>
-            <option value={1}>30분마다</option>
-            <option value={2}>1시간마다</option>
-          </select>
-          <select value={isDuple} onChange={(e)=>{
-            setIsDuple(e.target.value)
-            setReDrawChart(true)
-            //reChartWhenDuple(selectDate, isDuple)
-          }}>
-            <option value={0}>원래대로</option>
-            <option value={1}>시간별 데이터</option>
-            <option value={2}>반시간별 데이터</option>
-          </select>
+      <div className='sub-function'>
+        <div>
+            <div>
+              범위 출력
+            </div>
+            <div>
+              <select value={isDuring} onChange={(e)=>{
+              setIsDuring(e.target.value)
+              setReDrawChart(true)
+              //reChartWhenTime(selectDate, isDuring)
+              }}>
+              <option value={0}>원래대로</option>
+              <option value={1}>30분마다</option>
+              <option value={2}>1시간마다</option>
+              </select>
+            </div>
           <div>
-            <button type='button' onClick={(e)=>{goBackOneDay()}}>이전</button>
-            <button type='button' onClick={(e)=>{goForwardOneDay()}}>이후</button>
+            현재 시간부터 선택한 기간내 보기
+          </div>
+          <div>
+            <select value={isDuple} onChange={(e)=>{
+              setIsDuple(e.target.value)
+              setReDrawChart(true)
+              //reChartWhenDuple(selectDate, isDuple)
+            }}>
+              <option value={0}>원래대로</option>
+              <option value={1}>시간별 데이터</option>
+              <option value={2}>반시간별 데이터</option>
+            </select>
           </div>
         </div>
         <div className='temp-chart'>
-          <Line data={data} options={options}/>
+         <Line data={data} options={options}/>
         </div>
-      </div> */}
+      </div> */
       <div className='sub-function'>
         <div className='122'>
             <div>
@@ -424,6 +442,19 @@ const TemperChart = ({currentDate}) => {
         <div>
           <Line data={data} options={options}/>
         </div>
+       <div>
+        데이터 차트
+        {
+          chartData.map((chart, i)=>{
+            return(
+              <>
+                <p>{chart.hour}시{chart.minute}분:</p>
+                <p>{chart.temp}도</p>
+              </>
+            )
+          })
+        }
+       </div>
       </div>
       <div className='comp-div'>
         어제와 비교
