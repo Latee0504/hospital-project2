@@ -81,8 +81,8 @@ public class PatTempController {
     }
 
     //진료일자를 하루 씩
-    @GetMapping("/getDateByWeek")
-    List<PatTempVO> getDateByWeek(){
-        return patTempService.getAllDateByWeek();
+    @PostMapping("/getDateByWeek")
+    List<PatTempVO> getDateByWeek(@RequestBody Map<String, String> isTemp){
+        return patTempService.getAllDateByWeek(isTemp.get("date"));
     }
 }

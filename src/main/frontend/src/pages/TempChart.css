@@ -71,23 +71,23 @@
 
 .sub-function{
   display: flex;
-  margin: 0 auto;
-  justify-content: space-between;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
   gap: 50px;
   width: 80%;
 }
 
 .sub-function>div{
   border: 1px solid black;
-  width: 400px;
-  height: 200px;
+  margin: auto;
 }
 
 .sub-function>div:nth-child(1){
-  width: 30%;
+  width: 10%;
 }
-.sub-function>div:nth-child(2){
-  width: 70%;
+.sub-function>div:nth-child(3){
+  width: 40%;
 }
 
 .comp-div{
@@ -125,14 +125,20 @@
 }
 
 .simple-view{
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 50px;
-  align-content: center;
+  align-content: space-between;
   margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .simple-view>div{
   border: 1px solid gray;
- 
+}
+
+.sub-line-div{
+  width: 5000px;
 }

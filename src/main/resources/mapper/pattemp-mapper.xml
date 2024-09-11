@@ -71,7 +71,7 @@
     <select id="getDataByM" resultMap="patTemp">
         SELECT DATE(TEMP_DATE) AS DATE
             , HOUR(TEMP_DATE) AS HOUR
-            , AVG(TEMP) AS TEMP
+            , ROUND(AVG(TEMP), 2) AS TEMP
             , FLOOR(MINUTE(TEMP_DATE) / 30) * 30 AS MINUTE
         FROM pat_temp
         WHERE DATE(TEMP_DATE)=#{tempDate}
@@ -85,7 +85,7 @@
     <select id="getDataByH" resultMap="patTemp">
         SELECT DATE(TEMP_DATE) AS DATE
             , HOUR(TEMP_DATE) AS HOUR
-            , AVG(TEMP) AS TEMP
+            , ROUND(AVG(TEMP), 2) AS TEMP
         FROM pat_temp
         WHERE DATE(TEMP_DATE)=#{tempDate}
         GROUP BY HOUR(TEMP_DATE), DATE(TEMP_DATE)
@@ -110,9 +110,11 @@
 
     <!--전체 진료일 자를 하루 씩 받아 옴-->
     <select id="getAllDateByWeek" resultMap="patTemp">
-        SELECT MONTH(TEMP_DATE) AS MONTH, DAY(TEMP_DATE) AS DAY
+        SELECT DATE_FORMAT(TEMP_DATE, '%Y-%m-%d') AS DATE, ROUND(AVG(TEMP), 2) AS TEMP
         FROM pat_temp
-        GROUP BY MONTH(TEMP_DATE), DAY(TEMP_DATE)
+        WHERE TEMP_DATE BETWEEN DATE_SUB(STR_TO_DATE( #{tempDate}, '%Y-%m-%d'), INTERVAL 3 DAY)
+        AND DATE_ADD(STR_TO_DATE( #{tempDate}, '%Y-%m-%d'), INTERVAL 3 DAY)
+        GROUP BY DATE_FORMAT(TEMP_DATE, '%Y-%m-%d');
     </select>
 </mapper>
 
