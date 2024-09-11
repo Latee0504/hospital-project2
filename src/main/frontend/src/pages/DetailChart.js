@@ -116,7 +116,6 @@ const DetailChart = ({currentDate}) => {
   });
 
 
-   
 
 
   return (

@@ -80,7 +80,7 @@ const TemperChart = ({currentDate}) => {
   };
 
    // 전체 온도 데이터 받아서 꾸며줌
-   useEffect(()=>{
+  useEffect(()=>{
     axios
     .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
     .then((res)=>{
@@ -116,7 +116,7 @@ const TemperChart = ({currentDate}) => {
       })
     })
   }, [tempData.min])
- 
+
   //오늘의 체온 데이터로 차트를 그림
   chartData.forEach((chartOne, i) => {
     data.labels.push(chartOne.tempDate)
@@ -131,8 +131,8 @@ const TemperChart = ({currentDate}) => {
       ?
       null
       :
-     <>
-        <div className='info-header'>
+    <>
+      <div className='info-header'>
         <div>오늘의 날씨</div>
         <div>
           오늘의 최고 : {tempData.max.temp}도
@@ -154,10 +154,10 @@ const TemperChart = ({currentDate}) => {
           </select>
         </div>
         <div className='temp-chart'>
-         <Line data={data} options={options}/>
+          <Line data={data} options={options}/>
         </div>
       </div>
-     </>
+    </>
     }
   </div>
   )

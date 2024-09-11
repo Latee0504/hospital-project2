@@ -2,20 +2,20 @@
   text-align: center;
 }
 
-.div-notice{
+/* .div-notice{
   margin: 0 auto;
   border: 1px solid red;
   background-color: cornflowerblue;
   color: white;
-}
+} */
 
-.div-notice>ul{
+/* .div-notice>ul{
   display: flex;
   gap: 20px;
   justify-content: space-around;
   width: 100%;
   padding: 30px;
-}
+} */
 
 .div-content{
   display: flex;
