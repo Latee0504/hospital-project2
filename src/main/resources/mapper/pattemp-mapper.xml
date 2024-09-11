@@ -97,6 +97,14 @@
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 1 HOUR
         AND #{tempDate} - INTERVAL 0 MINUTE;
     </select>
+
+    <!--현재 시간으로 부터 30분 간의 데이터-->
+    <select id="getDuringM" resultMap="patTemp">
+        SELECT *
+        FROM pat_temp
+        WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 30 MINUTE
+        AND #{tempDate} - INTERVAL 0 MINUTE;
+    </select>
 </mapper>
 
 

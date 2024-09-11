@@ -5,13 +5,42 @@
   background-color: #eeeeee;
   width: 100%;
 }
-.info-header{
+
+.main-chart{
+  width: 80%;
+  height: 60%;
+  border: 1px solid red;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+}
+
+.main-chart>div:nth-child(1){
+  width: 20%;
+  border: 1px solid red;
+}
+
+.main-chart>div:nth-child(1)>div, table{
+  border: 1px solid blue;
+}
+
+.main-chart>div:nth-child(2){
+  width: 60%;
+  border: 1px solid black;
+}
+
+.info-select-day{
   width: 80%;
   border: 1px solid red;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+}
 
+.info-select-day td{
+  padding: 10px;
 }
 
 
@@ -40,5 +69,53 @@
   align-items: center;
 }
 
+.sub-function{
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  gap: 50px;
+  width: 80%;
+}
 
+.sub-function>div{
+  border: 1px solid black;
+  width: 400px;
+  height: 200px;
+}
 
+.sub-function>div:nth-child(1){
+  width: 30%;
+}
+.sub-function>div:nth-child(2){
+  width: 70%;
+}
+
+.comp-div{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.comp-div>div{
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  justify-content: space-between;
+  width: 100%;
+}
+.comp-div>div>div{
+  border: 1px solid black;
+}
+
+.comp-div>div>div:nth-child(1){
+  width: 30%;
+}
+.comp-div>div>div:nth-child(2){
+  width: 30%;
+}
+.comp-div>div>div:nth-child(3){
+  width: 30%;
+}

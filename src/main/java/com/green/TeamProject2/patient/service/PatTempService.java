@@ -34,4 +34,7 @@ public interface PatTempService {
 
     //현재 시간으로 부터 60분 간의 데이터
     List<PatTempVO> getDuringH(String tempDate);
+
+    //현재 시간으로 부터 30분 간의 데이터
+    List<PatTempVO> getDuringM(String tempDate);
 }
