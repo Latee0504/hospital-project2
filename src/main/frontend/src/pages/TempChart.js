@@ -143,7 +143,7 @@ const TemperChart = ({currentDate}) => {
 
 
    // 전체 온도 데이터 받아서 꾸며줌
-   useEffect(()=>{
+  useEffect(()=>{
     axios
     .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
     .then((res)=>{
@@ -198,8 +198,7 @@ const TemperChart = ({currentDate}) => {
       }    
     })
   }, [tempData.min])
- 
-  //오늘의 체온 데이터로 차트를 그릴 내용을 뿌림
+
   chartData.forEach((chartOne, i) => {
     if(chartOne.hour!=0){
       data.labels.push(chartOne.hour)
@@ -404,7 +403,7 @@ const TemperChart = ({currentDate}) => {
           </div>
         </div>
         <div className='temp-chart'>
-         <Line data={data} options={options}/>
+          <Line data={data} options={options}/>
         </div>
       </div> */}
       <div className='sub-function'>
@@ -451,7 +450,7 @@ const TemperChart = ({currentDate}) => {
           </div>
         </div>
       </div>
-     </>
+    </>
     }
   </div>
   )

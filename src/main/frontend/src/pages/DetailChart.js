@@ -143,8 +143,6 @@ const DetailChart = ({currentDate}) => {
     data.datasets[0].data.push(chartOne.temp)
   });
 
-  
-
   return (
     <>
       <div className='top-content'>
