@@ -76,7 +76,7 @@
         GROUP BY HOUR(TEMP_DATE)
             , DATE(TEMP_DATE)
             , FLOOR(MINUTE(TEMP_DATE) / 30) * 30
-        ORDER BY DATE, HOUR, MINUTE;
+        ORDER BY DATE, HOU~R, MINUTE;
     </select>
 
     <!--60분 단위로 끊어서 받아옴-->
