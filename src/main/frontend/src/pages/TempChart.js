@@ -166,6 +166,7 @@ const TemperChart = ({currentDate}) => {
   };
 
   // 리액트 쿼리
+  useQuery()
   
    // 전체 온도 데이터 받아서 꾸며줌
    useEffect(()=>{
@@ -417,8 +418,8 @@ const TemperChart = ({currentDate}) => {
             <div>
               <select value={isDuring} onChange={(e)=>{
               setIsDuring(e.target.value)
-              setReDrawChart(true)
-              //reChartWhenTime(selectDate, isDuring)
+              setIsDuple(0)
+              setReDrawChart(true)           
               }}>
               <option value={0}>원래대로</option>
               <option value={1}>30분마다</option>
@@ -432,7 +433,6 @@ const TemperChart = ({currentDate}) => {
             <select value={isDuple} onChange={(e)=>{
               setIsDuple(e.target.value)
               setReDrawChart(true)
-              //reChartWhenDuple(selectDate, isDuple)
             }}>
               <option value={0}>원래대로</option>
               <option value={1}>시간별 데이터</option>
@@ -447,13 +447,16 @@ const TemperChart = ({currentDate}) => {
         데이터 차트
         {
           chartData.map((chart, i)=>{
-            return(
+            if(isDuring && isDuple==0){
+              return(
               <>
                 <p>{chart.hour}시{chart.minute}분:</p>
                 <p>{chart.temp}도</p>
               </>
             )
-          })
+            } 
+          }
+        )
         }
        </div>
       </div>
