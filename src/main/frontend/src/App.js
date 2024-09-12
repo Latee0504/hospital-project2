@@ -6,7 +6,10 @@ import TempChart from './pages/TempChart';
 import MainLayout from './layout/MainLayout';
 import { Route, Routes } from 'react-router-dom';
 import DetailChart from './pages/DetailChart';
+import { QueryClient } from 'react-query';
 
+//리액트 쿼리
+const queryClient = new QueryClient()
 
 function App() {
   // 현재 날짜를 선언한 변수
