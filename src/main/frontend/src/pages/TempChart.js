@@ -469,25 +469,7 @@ const TemperChart = ({currentDate}) => {
         <div className='temp-chart'>
          <Line data={data} options={options}/>
         </div>
-      </div> */
-      <div className='sub-function'>
-        <div className='122'>
-          <div>
-            시간별 그래프 출력
-          </div>
-          <select value={isDuring} onChange={(e)=>{
-          setIsDuring(e.target.value)
-          setReDrawChart(true)
-          //reChartWhenTime(selectDate, isDuring)
-          }}>
-            <option value={0}>원래대로</option>
-            <option value={1}>30분마다</option>
-            <option value={2}>1시간마다</option>
-          </select>
-        </div>
-        <div>
-          <Line data={data} options={options}/>
-        </div>
+        
        <div>
         데이터 차트
         {
