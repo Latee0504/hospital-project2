@@ -17,6 +17,9 @@ public interface PatTempService {
     //최소 온도
     PatTempVO getMinPatTemp(String tempDate);
 
+    // 최대 최소 온도
+    PatTempVO getPateTemp(String tempDate);
+
     //전체 평균 온도
     PatTempVO getAvg();
 

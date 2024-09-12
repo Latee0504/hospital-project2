@@ -12,4 +12,6 @@ public class PatTempVO {
     private int minute; //30분 데이터
     private int month;  //월 데이터
     private int day; //일 데이터
+    private float max;
+    private float min;
 }
