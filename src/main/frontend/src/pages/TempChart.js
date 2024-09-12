@@ -4,16 +4,39 @@ import { Line } from 'react-chartjs-2'
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, BarElement } from 'chart.js';
 import './TempChart.css'
 import NewBarChart from '../craft/NewBarChart';
+import { useQuery } from 'react-query';
+
 
 
 
 // Chart.js 모듈 등록
 ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement);
 
+//리액트 쿼리
+const fenchTempData =  async (date) => {
+  const response = await axios.post(`/patTemp/getAllPatTemp`, {date})
+  return response.data;
+}
+
+const fetchDateList = async (date) => {
+  const response = await axios.post('/patTemp/getDateByWeek', { date });
+  return response.data;
+};
+
+const fetchMaxTemp = async (date) => {
+  const response = await axios.post('/patTemp/getMax', { date });
+  return response.data;
+};
+
+const fetchMinTemp = async (date) => {
+  const response = await axios.post('/patTemp/getMin', { date });
+  return response.data;
+};
 
 
 
 const TemperChart = ({currentDate}) => {
+
 
   //선택된 날짜의 년월일만 보여주게 바꿔줄 함수
   function DateFormat(date){
@@ -51,11 +74,6 @@ const TemperChart = ({currentDate}) => {
   //차트 다시 그릴때 필요한 변수
   const[reDrawChart, setReDrawChart] = useState(false)
 
-
-  //선택한 날짜를 변경할 함수
-  function handleSelectDate(date){
-    setSelectDate(date)
-  }
 
   // 실시간 체온과 시각정보를 담은 객체들을 담을 리스트
   const[chartData, setChartData] = useState([])
@@ -147,7 +165,9 @@ const TemperChart = ({currentDate}) => {
   }
   };
 
-
+  // 리액트 쿼리
+  useQuery()
+  
    // 전체 온도 데이터 받아서 꾸며줌
   useEffect(()=>{
     axios
@@ -165,7 +185,7 @@ const TemperChart = ({currentDate}) => {
       console.log('온도 받아오기 실패', error)
     })
   }, [selectDate])
-  
+ 
   // 전체 진료일 얻어오기
   useEffect(()=>{
     axios
@@ -189,7 +209,7 @@ const TemperChart = ({currentDate}) => {
         }) 
       }    
     })
-  }, [tempData.max])
+  }, [])
 
   // 최소 온도 얻기
   useEffect(()=>{
@@ -233,99 +253,99 @@ const TemperChart = ({currentDate}) => {
   })
 
 
-  // 시간 간격에 따라 차트를 다시 그릴 함수
-  function reChartWhenTime(selectDate, isDuring){
-    if(isDuring==2){
-      axios
-      .post(`/patTemp/getDataByH`, {date:DateFormat(selectDate)})
-      .then((res)=>{
-        console.log(res)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log('시간별로 받아오기 에러', error)
-      })
+    // 시간 간격에 따라 차트를 다시 그릴 함수
+    function reChartWhenTime(selectDate, isDuring){
+      if(isDuring==2){
+        axios
+        .post(`/patTemp/getDataByH`, {date:DateFormat(selectDate)})
+        .then((res)=>{
+          console.log(res)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log('시간별로 받아오기 에러', error)
+        })
+      }
+      else if(isDuring==1){
+        axios
+        .post(`/patTemp/getDataByM`, {date:DateFormat(selectDate)})
+        .then((res)=>{
+          console.log(res)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log('30분별로 받아오기 에러', error)
+        })
+      }
+      else{
+        axios
+        .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
+        .then((res)=>{
+          console.log(res.data)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log(DateFormat(selectDate))
+          console.log('함수 속의 온도 받아오기 실패', error)
+        })
+      }
     }
-    else if(isDuring==1){
-      axios
-      .post(`/patTemp/getDataByM`, {date:DateFormat(selectDate)})
-      .then((res)=>{
-        console.log(res)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log('30분별로 받아오기 에러', error)
-      })
+  
+    // 현재 시간으로 어디까지 출력할 지에 대해서 다시 받아주는
+    function reChartWhenDuple(selectDate, isDuple){
+      //시간별로
+      if(isDuple==1){
+        axios
+        .post(`/patTemp/getDuringH`, {date:DateFormatDetail(selectDate)})
+        .then((res)=>{
+          console.log(selectDate)
+          console.log(res.data)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log('시간별 출력 실패', error)
+        })
+      }
+      //30분간격으로
+      else if(isDuple==2){
+        axios
+        .post(`/patTemp/getDuringM`, {date:DateFormatDetail(selectDate)})
+        .then((res)=>{
+          console.log(res.data)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log('시간별 출력 실패', error)
+        })
+      }
+      //돌아가기
+      else{
+        axios
+        .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
+        .then((res)=>{
+          console.log(res.data)
+          setChartData(res.data)
+        })
+        .catch((error)=>{
+          console.log(DateFormat(selectDate))
+          console.log('함수 속의 온도 받아오기 실패', error)
+        })
+      }
     }
-    else{
-      axios
-      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
-      .then((res)=>{
-        console.log(res.data)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log(DateFormat(selectDate))
-        console.log('함수 속의 온도 받아오기 실패', error)
-      })
-    }
-  }
-
-  // 현재 시간으로 어디까지 출력할 지에 대해서 다시 받아주는
-  function reChartWhenDuple(selectDate, isDuple){
-    //시간별로
-    if(isDuple==1){
-      axios
-      .post(`/patTemp/getDuringH`, {date:DateFormatDetail(selectDate)})
-      .then((res)=>{
-        console.log(selectDate)
-        console.log(res.data)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log('시간별 출력 실패', error)
-      })
-    }
-    //30분간격으로
-    else if(isDuple==2){
-      axios
-      .post(`/patTemp/getDuringM`, {date:DateFormatDetail(selectDate)})
-      .then((res)=>{
-        console.log(res.data)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log('시간별 출력 실패', error)
-      })
-    }
-    //돌아가기
-    else{
-      axios
-      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
-      .then((res)=>{
-        console.log(res.data)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log(DateFormat(selectDate))
-        console.log('함수 속의 온도 받아오기 실패', error)
-      })
-    }
-  }
-
-  useEffect(()=>{
-    if(reDrawChart){
-      reChartWhenTime(selectDate, isDuring)
-    }
-    
-  },[isDuring])
-
-  useEffect(()=>{
-    if(reDrawChart){
-      reChartWhenDuple(selectDate, isDuple)
-    }
-    
-  },[isDuple])
+  
+    useEffect(()=>{
+      if(reDrawChart){
+        reChartWhenTime(selectDate, isDuring)
+      }
+      
+    },[isDuring])
+  
+    useEffect(()=>{
+      if(reDrawChart){
+        reChartWhenDuple(selectDate, isDuple)
+      }
+      
+    },[isDuple])
 
   // 날짜를 하루 전으로 변경하는 함수
   const goBackOneDay = () => {
@@ -341,6 +361,35 @@ const TemperChart = ({currentDate}) => {
     setSelectDate(nextDay);
   };
 
+   //오늘의 체온 데이터로 차트를 그릴 내용을 뿌림
+   chartData.forEach((chartOne, i) => {
+    //1시간 간격
+    if(chartOne.hour!=0){
+      //30분간격
+      if(chartOne.minute){
+        data.labels.push(chartOne.minute)
+        data.datasets[0].data.push(chartOne.temp)
+      }
+      else{
+        data.labels.push(chartOne.hour)
+        data.datasets[0].data.push(chartOne.temp)
+      }
+      
+    }
+    //처음
+    else{
+      data.labels.push(chartOne.tempDate)
+      data.datasets[0].data.push(chartOne.temp)
+    }   
+  });
+
+  //변하지 않을 차트 그림
+  compData.forEach((compOne, i)=>{
+    cData.labels.push(compOne.tempDate)
+    cData.datasets[0].data.push(compOne.temp)
+  })
+
+  
   return (
     <div className='container'>
     {
@@ -395,8 +444,8 @@ const TemperChart = ({currentDate}) => {
             <div>
               <select value={isDuring} onChange={(e)=>{
               setIsDuring(e.target.value)
-              setReDrawChart(true)
-              //reChartWhenTime(selectDate, isDuring)
+              setIsDuple(0)
+              setReDrawChart(true)           
               }}>
               <option value={0}>원래대로</option>
               <option value={1}>30분마다</option>
@@ -410,7 +459,6 @@ const TemperChart = ({currentDate}) => {
             <select value={isDuple} onChange={(e)=>{
               setIsDuple(e.target.value)
               setReDrawChart(true)
-              //reChartWhenDuple(selectDate, isDuple)
             }}>
               <option value={0}>원래대로</option>
               <option value={1}>시간별 데이터</option>
@@ -444,13 +492,16 @@ const TemperChart = ({currentDate}) => {
         데이터 차트
         {
           chartData.map((chart, i)=>{
-            return(
+            if(isDuring && isDuple==0){
+              return(
               <>
                 <p>{chart.hour}시{chart.minute}분:</p>
                 <p>{chart.temp}도</p>
               </>
             )
-          })
+            } 
+          }
+        )
         }
        </div>
       </div>
