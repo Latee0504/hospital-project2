@@ -165,22 +165,24 @@
 }
 
 .simple-view{
-
-  /* width: 80%;
+  
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 50px;
   align-content: space-between;
   margin: 0 auto;
   margin-top: 20px;
-  margin-bottom: 20px; */
+  margin-bottom: 20px;
 
-  width: 50%;
+  /* width: 50%;
   margin: 50px 0px auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 50px;
-  align-content: center;
+  align-content: center; */
+
+  border: 1px solid red;
 }
 
 .simple-view > div{

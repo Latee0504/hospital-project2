@@ -389,20 +389,20 @@ const TemperChart = ({currentDate}) => {
     
       <div className='sub-function'>
         <div>
-            <div>
-              범위 출력
-            </div>
-            <div>
-              <select value={isDuring} onChange={(e)=>{
-              setIsDuring(e.target.value)
-              setReDrawChart(true)
-              //reChartWhenTime(selectDate, isDuring)
-              }}>
-              <option value={0}>원래대로</option>
-              <option value={1}>30분마다</option>
-              <option value={2}>1시간마다</option>
-              </select>
-            </div>
+          <div>
+            범위 출력
+          </div>
+          <div>
+            <select value={isDuring} onChange={(e)=>{
+            setIsDuring(e.target.value)
+            setReDrawChart(true)
+            //reChartWhenTime(selectDate, isDuring)
+            }}>
+            <option value={0}>원래대로</option>
+            <option value={1}>30분마다</option>
+            <option value={2}>1시간마다</option>
+            </select>
+          </div>
           <div>
             현재 시간부터 선택한 기간내 보기
           </div>
@@ -419,9 +419,10 @@ const TemperChart = ({currentDate}) => {
           </div>
         </div>
         <div className='temp-chart'>
-         <Line data={data} options={options}/>
+          <Line data={data} options={options}/>
         </div>
-      </div> */
+      </div>
+      
       <div className='sub-function'>
         <div className='122'>
           <div>
