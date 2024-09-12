@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: #F3F4F6;
 }
 
 /* .div-notice{
@@ -18,13 +19,16 @@
 } */
 
 .div-content{
+  width: 100%;
+  height: auto;
   display: flex;
 }
 
-.div-content>:nth-child(1){
+/* .div-content>:nth-child(1){
   width: 10%;
   height: 100%;
 }
 .div-content>:nth-child(2){
   width: 90%;
-}
+}  */
+

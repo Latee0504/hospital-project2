@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './DetailChart.css'
 import Calendar from 'react-calendar';
 import axios from 'axios'
 import { Bar, Line } from 'react-chartjs-2'
@@ -144,30 +145,29 @@ const DetailChart = ({currentDate}) => {
   });
 
   return (
-    <>
+    <div className='detail-div'>
       <div className='top-content'>
-        <div>
-          <table>
-            <tbody>
-              <tr>
-                <td>전체 평균</td>
-                <td>{avgChart}</td>
-              </tr>
-              <tr>
-                <td>날짜 평균</td>
-                <td>{avgWhen}</td>
-              </tr>
-              <tr>
-                <td>총 데이터 수</td>
-                <td>{allData.length}</td>
-              </tr>
-              <tr>
-                <td>총 일수</td>
-                <td>{allDate}일</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <h2>📌그린대학병원 환자 데이터</h2>
+        <table className='detail-table'>
+          <tbody>
+            <tr>
+              <td>전체 평균</td>
+              <td>{avgChart}</td>
+            </tr>
+            <tr>
+              <td>날짜 평균</td>
+              <td>{avgWhen}</td>
+            </tr>
+            <tr>
+              <td>총 데이터 수</td>
+              <td>{allData.length}</td>
+            </tr>
+            <tr>
+              <td>총 일수</td>
+              <td>{allDate}일</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div className='sub-content'>
         <div>
@@ -190,13 +190,13 @@ const DetailChart = ({currentDate}) => {
             showNeighboringMonth={false}/> 
             :
             <div className='notice'>
-              해당 환자의 {DateFormat(selectDate)}의 체온 기록입니다
+              🩸해당 환자의 {DateFormat(selectDate)}의 체온 기록입니다
               <button type='button' onClick={(e)=>{setSelectDate(currentDate)}}>오늘 날짜로 돌아가기</button>
             </div>
           }
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

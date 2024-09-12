@@ -1,7 +1,54 @@
+
+.detail-div {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.top-content {
+  width: 20%;
+  height: 36%;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+}
+
+.top-content > h2 {
+  font-size: 22px;
+  font-family: 'Freesentation-9Black';
+  margin-bottom: 10px;
+}
+.detail-table {
+  width: 100%;
+  height: 150px;
+  text-align: left;
+  border-top: 3px double lightgray;
+  border-bottom: 3px double lightgray;
+}
+
+.detail-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+
 .sub-content{
+  width: 79%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
 }
+
 .rev-temp{
   width: 30%;
 }
+
