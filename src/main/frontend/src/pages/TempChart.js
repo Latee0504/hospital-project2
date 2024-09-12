@@ -437,21 +437,21 @@ const TemperChart = ({currentDate}) => {
       </div>
     
       <div className='sub-function'>
-        <div>
-            <div>
-              범위 출력
-            </div>
-            <div>
-              <select value={isDuring} onChange={(e)=>{
-              setIsDuring(e.target.value)
-              setIsDuple(0)
-              setReDrawChart(true)           
-              }}>
-              <option value={0}>원래대로</option>
-              <option value={1}>30분마다</option>
-              <option value={2}>1시간마다</option>
-              </select>
-            </div>
+        <div className='side-box'>
+          <div>
+            범위 출력
+          </div>
+          <div>
+            <select value={isDuring} onChange={(e)=>{
+            setIsDuring(e.target.value)
+            setIsDuple(0)
+            setReDrawChart(true)           
+            }}>
+            <option value={0}>원래대로</option>
+            <option value={1}>30분마다</option>
+            <option value={2}>1시간마다</option>
+            </select>
+          </div>
           <div>
             현재 시간부터 선택한 기간내 보기
           </div>
@@ -467,44 +467,26 @@ const TemperChart = ({currentDate}) => {
           </div>
         </div>
         <div className='temp-chart'>
-         <Line data={data} options={options}/>
-        </div>
-      </div> */
-      <div className='sub-function'>
-        <div className='122'>
-          <div>
-            시간별 그래프 출력
-          </div>
-          <select value={isDuring} onChange={(e)=>{
-          setIsDuring(e.target.value)
-          setReDrawChart(true)
-          //reChartWhenTime(selectDate, isDuring)
-          }}>
-            <option value={0}>원래대로</option>
-            <option value={1}>30분마다</option>
-            <option value={2}>1시간마다</option>
-          </select>
-        </div>
-        <div>
           <Line data={data} options={options}/>
         </div>
-       <div>
-        데이터 차트
-        {
-          chartData.map((chart, i)=>{
-            if(isDuring && isDuple==0){
-              return(
-              <>
-                <p>{chart.hour}시{chart.minute}분:</p>
-                <p>{chart.temp}도</p>
-              </>
-            )
-            } 
+        <div>
+          데이터 차트
+          {
+            chartData.map((chart, i)=>{
+              if(isDuring && isDuple==0){
+                return(
+                <>
+                  <p>{chart.hour}시{chart.minute}분:</p>
+                  <p>{chart.temp}도</p>
+                </>
+              )
+              } 
+            }
+          )
           }
-        )
-        }
-       </div>
+        </div>
       </div>
+
       <div className='comp-div'>
 
         <div className='text'>
