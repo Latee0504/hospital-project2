@@ -18,7 +18,8 @@ function App() {
         <MainLayout/>
       </div>
       <div className='div-content'>
-        <SubLayout/>
+        {/* 옆에 목차 */}
+        {/* <SubLayout/> */}
         <Routes>
           <Route path='/' element={<TempChart currentDate={currentDate}/>}/>
           <Route path='/detail' element={<DetailChart currentDate={currentDate}/>} />

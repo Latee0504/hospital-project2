@@ -351,10 +351,8 @@ const TemperChart = ({currentDate}) => {
      <>
       <div className='main-chart'>
         <div className='info-select-day'>
-          <div>
-            네이버를 통한 오늘의 날씨
-          </div>
-          <table>
+          <h3> 📌오늘의 날씨</h3>
+          <table className='weather-table'>
             <tbody>
               <tr>
                 <td>최고 온도</td>
@@ -370,9 +368,9 @@ const TemperChart = ({currentDate}) => {
               </tr>
             </tbody>
           </table>
-      </div>
+        </div>
         <div>
-          <Line data={cData} options={cOptions}/>
+          <Line className='aaa' data={cData} options={cOptions}/>
         </div>
       </div>
       <div className='simple-view'>
@@ -426,14 +424,14 @@ const TemperChart = ({currentDate}) => {
       </div> */
       <div className='sub-function'>
         <div className='122'>
-            <div>
-              시간별 그래프 출력
-            </div>
-            <select value={isDuring} onChange={(e)=>{
-            setIsDuring(e.target.value)
-            setReDrawChart(true)
-            //reChartWhenTime(selectDate, isDuring)
-            }}>
+          <div>
+            시간별 그래프 출력
+          </div>
+          <select value={isDuring} onChange={(e)=>{
+          setIsDuring(e.target.value)
+          setReDrawChart(true)
+          //reChartWhenTime(selectDate, isDuring)
+          }}>
             <option value={0}>원래대로</option>
             <option value={1}>30분마다</option>
             <option value={2}>1시간마다</option>
@@ -457,11 +455,13 @@ const TemperChart = ({currentDate}) => {
        </div>
       </div>
       <div className='comp-div'>
-        어제와 비교
-        <div>
-            <button type='button' onClick={(e)=>{goBackOneDay()}}>이전</button>
-            <button type='button' onClick={(e)=>{goForwardOneDay()}}>이후</button>
-          </div>
+
+        <div className='text'>
+          <button type='button' onClick={(e)=>{goBackOneDay()}}>이전</button>
+          <h3>어제와 비교</h3>
+          <button type='button' onClick={(e)=>{goForwardOneDay()}}>이후</button>
+        </div>
+
         <div>
           <div> 
             <NewBarChart selectDate={DateFormat(selectDate)-1} />
