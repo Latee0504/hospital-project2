@@ -168,8 +168,7 @@ const TemperChart = ({currentDate}) => {
           else{
             setChartData(res1.data)
           }
-          setTreDateList(res2.data)
-      
+          setTreDateList(res2.data)     
         })
       )
       .catch(()=>{})
