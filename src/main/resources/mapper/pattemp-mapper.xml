@@ -13,17 +13,19 @@
         <result column="MINUTE" property="minute"/>
         <result column="MONTH" property="month"/>
         <result column="DAY" property="day"/>
+        <result column="MAX" property="max"/>
+        <result column="MIN" property="min"/>
     </resultMap>
 
     <!--해당 환자의 전체 온도 데이터 조회-->
     <select id="getAll" resultMap="patTemp">
-        SELECT *
+        SELECT TEMP_DATE, TEMP
         FROM pat_temp
     </select>
 
     <!--오늘 날짜인 환자의 체온 정보 10개를 받아올 쿼리-->
     <select id="getAllPatTemp" resultMap="patTemp">
-        SELECT *
+        SELECT TEMP_DATE, TEMP
         FROM (
             SELECT *
             FROM pat_temp
@@ -32,6 +34,13 @@
             LIMIT 10
         ) AS NEW_TEMP
         ORDER BY TEMP_DATE
+    </select>
+
+    <!--해당 날짜의 최대 최소 온도를 함께 받아올 쿼리-->
+    <select id="getPatTemp" resultMap="patTemp">
+        SELECT MAX(TEMP) AS MAX, MIN(TEMP) AS MIN, TEMP_DATE
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>
 
     <!--오늘 날짜인 최대 온도를 받아올 쿼리-->

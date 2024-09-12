@@ -77,66 +77,35 @@ const DetailChart = ({currentDate}) => {
     setSelectDate(date)
   }
 
-  // 환자 전체 진료일 수를 받아옴
-  useEffect(()=>{
-    axios
-    .get(`/patTemp/getAllDate`)
-    .then((res)=>{
-      setAllDate(res.data)
-      console.log(res)
-    })
-    .catch((error)=>{
-      console.log('전체 진료일 받아오기 에러', error)
-    })
-  }, [chartData])
 
-  // 환자의 온도 전체 데이터 받아옴
+  //useEffect 전체를 하나로 합침
   useEffect(()=>{
-    axios
-    .get(`/patTemp/getAll`)
-    .then((res)=>{
-      setAllData(res.data)
-      console.log('환자 전체 데이터')
-    })
-    .catch((error)=>{
-      console.log('전체 받아오면서 에러', error)
-    })
-  }, [chartData])
+    axios.all([
+      axios
+      .get(`/patTemp/getAllDate`),
+      axios
+      .get(`/patTemp/getAll`),
+      axios
+      .get(`/patTemp/getAvg`),
+      axios
+      .post(`/patTemp/getAvgWhen`, {date:DateFormat(selectDate)}),
+      axios
+      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
 
-  // 전체 데이터의 평균
-  useEffect(()=>{
-    axios
-    .get(`/patTemp/getAvg`)
-    .then((res)=>{
-      setAvgChart(res.data.temp)
-      console.log('전체평균 성공',res)
-    })
-    .catch((error)=>{
-      console.log('전체 평균에서 에러', error)
-    })
-  }, [chartData])
+    ])
+    .then(
+      axios.spread((res1, res2, res3, res4, res5)=>{
+        setAllDate(res1.data)
+        setAllData(res2.data)
+        setAvgChart(res3.data.temp)
+        setAvgWhen(res4.data.temp)
+        setChartData(res5.data)
+      }
+    ))
+    .catch(()=>{})
+  }, [selectDate])
 
-  //선택한 날짜의 평균
-  useEffect(()=>{
-    axios
-    .post(`/patTemp/getAvgWhen`, {date:DateFormat(selectDate)})
-    .then((res)=>{
-      setAvgWhen(res.data.temp)
-    })
-  }, [chartData])
-
-  // 전체 온도 데이터 받아서 꾸며줌(10개)
-  useEffect(()=>{
-    axios
-    .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
-    .then((res)=>{
-      setChartData(res.data)
-    })
-    .catch((error)=>{
-      console.log(DateFormat(selectDate))
-      console.log('온도 받아오기 실패', error)
-    })
-  }, [selectDate, chartData])
+  
 
   //오늘의 체온 데이터로 차트를 그림
   chartData.forEach((chartOne, i) => {
