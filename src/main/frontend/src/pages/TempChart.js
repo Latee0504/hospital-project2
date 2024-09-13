@@ -63,6 +63,8 @@ const TemperChart = ({currentDate}) => {
     , min: 0
   })
 
+  //
+
   //실시간 차트 데이터
   const data = {
     labels: [],
@@ -148,14 +150,12 @@ const TemperChart = ({currentDate}) => {
         axios
         .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)}),
         axios
-        .post(`/patTemp/getDateByWeek`, {date:DateFormatDetail(selectDate)}),
-        axios
         .post(`/patTemp/getMax`, {date:DateFormat(selectDate)}),
         axios
         .post(`/patTemp/getMin`, {date:DateFormat(selectDate)}),
       ])
       .then(
-        axios.spread((res1, res2, res3, res4)=>{
+        axios.spread((res1, res3, res4)=>{
           setIsShow(true)
           if(selectDate==currentDate){
             setCompData(res1.data)
@@ -164,16 +164,28 @@ const TemperChart = ({currentDate}) => {
               min:res4.data,
               max:res3.data
             })
+           
           }
           else{
             setChartData(res1.data)
           }
-          setTreDateList(res2.data)     
+             
         })
       )
       .catch(()=>{})
     }, 5000);
+
+    axios
+    .post(`/patTemp/getDateByWeek`, {date:DateFormatDetail(selectDate)})
+    .then((res)=>{
+      setTreDateList(res.data)  
+    })
+    .catch((error)=>{
+
+    })
+    
   }, [selectDate])
+
 
   // 시간 간격에 따라 차트를 다시 그릴 함수
   function reChartWhenTime(selectDate, isDuring){
@@ -240,22 +252,22 @@ const TemperChart = ({currentDate}) => {
         setChartData(res.data)
       })
       .catch((error)=>{
-        console.log('시간별 출력 실패', error)
+        console.log('반시간별 출력 실패', error)
       })
     }
     //돌아가기
-    else{
-      axios
-      .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
-      .then((res)=>{
-        console.log(res.data)
-        setChartData(res.data)
-      })
-      .catch((error)=>{
-        console.log(DateFormat(selectDate))
-        console.log('함수 속의 온도 받아오기 실패', error)
-      })
-    }
+    // else{
+    //   axios
+    //   .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
+    //   .then((res)=>{
+    //     console.log(res.data)
+    //     setChartData(res.data)
+    //   })
+    //   .catch((error)=>{
+    //     console.log(DateFormat(selectDate))
+    //     console.log('함수 속의 온도 받아오기 실패', error)
+    //   })
+    // }
   }
 
   useEffect(()=>{
@@ -273,26 +285,7 @@ const TemperChart = ({currentDate}) => {
   },[isDuple])
 
 
-  chartData.forEach((chartOne, i) => {
-    //1시간 간격
-    if(chartOne.hour!=0){
-      //30분간격
-      if(chartOne.minute){
-        data.labels.push(chartOne.minute)
-        data.datasets[0].data.push(chartOne.temp)
-      }
-      else{
-        data.labels.push(chartOne.hour)
-        data.datasets[0].data.push(chartOne.temp)
-      }
-      
-    }
-    //처음
-    else{
-      data.labels.push(chartOne.tempDate)
-      data.datasets[0].data.push(chartOne.temp)
-    }   
-  });
+
 
   //변하지 않을 차트 그림
   compData.forEach((compOne, i)=>{
@@ -329,18 +322,12 @@ const TemperChart = ({currentDate}) => {
       }
       
     }
-    //처음
     else{
       data.labels.push(chartOne.tempDate)
       data.datasets[0].data.push(chartOne.temp)
     }   
   });
 
-  //변하지 않을 차트 그림
-  compData.forEach((compOne, i)=>{
-    cData.labels.push(compOne.tempDate)
-    cData.datasets[0].data.push(compOne.temp)
-  })
 
   
   return (
@@ -397,10 +384,10 @@ const TemperChart = ({currentDate}) => {
             <div>
               <select value={isDuring} onChange={(e)=>{
               setIsDuring(e.target.value)
-              setIsDuple(0)
+              
               setReDrawChart(true)           
               }}>
-              <option value={0}>원래대로</option>
+          
               <option value={1}>30분마다</option>
               <option value={2}>1시간마다</option>
               </select>
@@ -413,7 +400,7 @@ const TemperChart = ({currentDate}) => {
               setIsDuple(e.target.value)
               setReDrawChart(true)
             }}>
-              <option value={0}>원래대로</option>
+             
               <option value={1}>시간별 데이터</option>
               <option value={2}>반시간별 데이터</option>
             </select>
@@ -451,7 +438,7 @@ const TemperChart = ({currentDate}) => {
             <NewBarChart selectDate={DateFormat(selectDate)-1} />
           </div>
           <div>
-            <NewBarChart selectDate={DateFormat(selectDate)}/>
+            <NewBarChart selectDate={DateFormat(selectDate)} />
           </div>
           <div>
             <table>
