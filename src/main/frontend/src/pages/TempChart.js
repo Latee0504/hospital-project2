@@ -175,12 +175,7 @@ const TemperChart = ({currentDate}) => {
               min:res4.data,
               max:res3.data
             })
-           
-          }
-          else{
-            setChartData(res1.data)
-          }
-             
+          }          
         })
       )
       .catch(()=>{})
@@ -191,10 +186,7 @@ const TemperChart = ({currentDate}) => {
     .then((res)=>{
       setTreDateList(res.data)  
     })
-    .catch((error)=>{
-
-    })
-    
+    .catch((error)=>{})
   }, [selectDate])
 
   useEffect(() => {
@@ -206,12 +198,13 @@ const TemperChart = ({currentDate}) => {
       let record = '';
       if (diff > 0) {
         record = `오늘의 평균 체온이 어제보다 ${diff.toFixed(2)}°C 높습니다.`;
-      } else if (diff < 0) {
+      } 
+      else if (diff < 0) {
         record = `오늘의 평균 체온이 어제보다 ${Math.abs(diff).toFixed(2)}°C 낮습니다.`;
-      } else {
+      } 
+      else {
         record = '오늘의 평균 체온이 어제와 같습니다.';
       }
-      
       setTempChangeRecord(record);
     }
   }, [yesterdayData, todayData]);
@@ -236,7 +229,7 @@ const TemperChart = ({currentDate}) => {
       .then((res)=>{
         console.log(res)
         setChartData(res.data)
-        console.log(2);
+        console.log(2);  
       })
       .catch((error)=>{
         console.log('30분별로 받아오기 에러', error)
@@ -247,7 +240,6 @@ const TemperChart = ({currentDate}) => {
       axios
       .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
       .then((res)=>{
-        console.log(res.data)
         setChartData(res.data)
       })
       .catch((error)=>{
@@ -311,7 +303,6 @@ const TemperChart = ({currentDate}) => {
     if(reDrawChart){
       reChartWhenDuple(selectDate, isDuple)
     }
-    
   },[isDuple])
 
 
@@ -350,7 +341,6 @@ const TemperChart = ({currentDate}) => {
         data.labels.push(chartOne.hour)
         data.datasets[0].data.push(chartOne.temp)
       }
-      
     }
     else{
       data.labels.push(chartOne.tempDate)
@@ -383,7 +373,7 @@ const TemperChart = ({currentDate}) => {
               </tr>
               <tr>
                 <td>평균 온도</td>
-                <td>{(tempData.max.temp+tempData.min.temp)/2}도</td>
+                <td>{((tempData.max.temp+tempData.min.temp)/2).toFixed(2)}도</td>
               </tr>
             </tbody>
           </table>
@@ -399,7 +389,6 @@ const TemperChart = ({currentDate}) => {
               <div>
                 <p>{treDateOne.date}</p>
                 <p>{treDateOne.temp}도</p>
-                <p>오늘의 부저횟수</p>
               </div>
             )
           })
@@ -409,28 +398,28 @@ const TemperChart = ({currentDate}) => {
       <div className='sub-function'>
         <div>
             <div>
-              범위 출력
+              간격 선택
             </div>
             <div>
               <select value={isDuring} onChange={(e)=>{
               setIsDuring(e.target.value)
-              
+              setIsDuple(0)
               setReDrawChart(true)           
               }}>
-          
+              <option value={0}>간격 선택</option>
               <option value={1}>30분마다</option>
               <option value={2}>1시간마다</option>
               </select>
             </div>
           <div>
-            선택한 기간 전 보기
+            범위 선택
           </div>
           <div>
             <select value={isDuple} onChange={(e)=>{
               setIsDuple(e.target.value)
               setReDrawChart(true)
             }}>
-             
+              <option value={0}>범위 선택</option>
               <option value={1}>시간별 데이터</option>
               <option value={2}>반시간별 데이터</option>
             </select>
@@ -444,13 +433,15 @@ const TemperChart = ({currentDate}) => {
         데이터 차트
         {
           chartData.map((chart, i)=>{
-            if(isDuring && isDuple==0){
-              return(
-              <>
-                <p>{chart.hour}시{chart.minute}분:</p>
-                <p>{chart.temp}도</p>
-              </>
-            )
+            if(isDuring){
+              if(!isDuple){
+                return(
+                  <>
+                    <p>{chart.hour}시{chart.minute}분:</p>
+                    <p>{chart.temp}도</p>
+                  </>
+                  )
+              }         
             } 
           }
         )
@@ -482,7 +473,7 @@ const TemperChart = ({currentDate}) => {
         </div>
       </div>
     </>
-    }
+  }
   </div>
   )
 }

@@ -59,13 +59,13 @@
 
     <!--전체 값의 평균을 받아올 쿼리-->
     <select id="getAvg" resultMap="patTemp">
-        SELECT AVG(TEMP) AS TEMP
+        SELECT ROUND(AVG(TEMP), 3) AS TEMP
         FROM pat_temp
     </select>
 
     <!--특정 날짜의 평균 쿼리-->
     <select id="getAvgWhen" resultMap="patTemp">
-        SELECT AVG(TEMP) AS TEMP
+        SELECT ROUND(AVG(TEMP), 2) AS TEMP
         FROM pat_temp
         WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>
