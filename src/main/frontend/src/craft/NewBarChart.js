@@ -25,7 +25,7 @@ const NewBarChart = ({selectDate, onDataChange}) => {
       console.log(res.data)
       setBarData(res.data)
       if (onDataChange) {
-        onDataChange(res.data);
+        onDataChange(res.data); //여기서 부모 컴포넌트로 데이터 전달
       }
       setIsShow(true)
     })

@@ -63,7 +63,18 @@ const TemperChart = ({currentDate}) => {
     , min: 0
   })
 
-  //
+  //셀렉트 데이트의 어제의온도와 오늘의 데이터 비교
+  const [yesterdayData, setYesterdayData] = useState([]);
+  const [todayData, setTodayData] = useState([]);
+  const [tempChangeRecord, setTempChangeRecord] = useState('');
+
+  const handleYesterdayDataChange = (data) => {
+    setYesterdayData(data);
+  };
+
+  const handleTodayDataChange = (data) => {
+    setTodayData(data);
+  };
 
   //실시간 차트 데이터
   const data = {
@@ -185,6 +196,25 @@ const TemperChart = ({currentDate}) => {
     })
     
   }, [selectDate])
+
+  useEffect(() => {
+    if (yesterdayData.length > 0 && todayData.length > 0) {
+      const yesterdayAvg = yesterdayData.reduce((sum, item) => sum + item.temp, 0) / yesterdayData.length;
+      const todayAvg = todayData.reduce((sum, item) => sum + item.temp, 0) / todayData.length;
+      const diff = todayAvg - yesterdayAvg;
+      
+      let record = '';
+      if (diff > 0) {
+        record = `오늘의 평균 체온이 어제보다 ${diff.toFixed(2)}°C 높습니다.`;
+      } else if (diff < 0) {
+        record = `오늘의 평균 체온이 어제보다 ${Math.abs(diff).toFixed(2)}°C 낮습니다.`;
+      } else {
+        record = '오늘의 평균 체온이 어제와 같습니다.';
+      }
+      
+      setTempChangeRecord(record);
+    }
+  }, [yesterdayData, todayData]);
 
 
   // 시간 간격에 따라 차트를 다시 그릴 함수
@@ -435,17 +465,16 @@ const TemperChart = ({currentDate}) => {
         </div>
         <div>
           <div> 
-            <NewBarChart selectDate={DateFormat(selectDate)-1} />
+            <NewBarChart selectDate={DateFormat(selectDate)-1} onDataChange={handleYesterdayDataChange}/>
           </div>
           <div>
-            <NewBarChart selectDate={DateFormat(selectDate)} />
+            <NewBarChart selectDate={DateFormat(selectDate)} onDataChange={handleTodayDataChange}/>
           </div>
           <div>
             <table>
               <tbody>
                 <tr>
-                  <td>체온 변화 기록</td>
-                  <td>{}</td>
+                  <td>{tempChangeRecord}</td>
                 </tr>
               </tbody>
             </table>
