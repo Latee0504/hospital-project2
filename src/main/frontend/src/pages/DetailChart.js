@@ -192,25 +192,27 @@ const DetailChart = ({currentDate}) => {
           
         </div>
         <div className='top-sub-content'>
-            <h2>📌이전에 선택한 날짜의 정보</h2>
-            <Line data={bData} options={bOptions}/>
-            <h2>비교 정보</h2>
-            <table>
-              <tbody>
-                <tr>
-                  <td>온도 차이</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>시간 별 상승 온도</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+            <div>
+              <h2>📌이전에 선택한 날짜의 정보</h2>
+              <div>
+                <Line data={bData} options={bOptions}/>
+              </div>  
+            </div>
+            <div>
+              <h2>비교 정보</h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>온도 차이</td>
+                    <td>{}</td>
+                  </tr>
+                  <tr>
+                    <td>시간 별 상승 온도</td>
+                    <td>{}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
       </div>
       

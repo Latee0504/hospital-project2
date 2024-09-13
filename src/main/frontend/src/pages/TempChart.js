@@ -277,33 +277,19 @@ const TemperChart = ({currentDate}) => {
         console.log('반시간별 출력 실패', error)
       })
     }
-    //돌아가기
-    // else{
-    //   axios
-    //   .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)})
-    //   .then((res)=>{
-    //     console.log(res.data)
-    //     setChartData(res.data)
-    //   })
-    //   .catch((error)=>{
-    //     console.log(DateFormat(selectDate))
-    //     console.log('함수 속의 온도 받아오기 실패', error)
-    //   })
-    // }
   }
 
   useEffect(()=>{
     if(reDrawChart){
       reChartWhenTime(selectDate, isDuring)
     }
-    
-  },[isDuring])
+  },[isDuring, selectDate])
 
   useEffect(()=>{
     if(reDrawChart){
       reChartWhenDuple(selectDate, isDuple)
     }
-  },[isDuple])
+  },[isDuple, selectDate])
 
 
 
@@ -345,7 +331,8 @@ const TemperChart = ({currentDate}) => {
     else{
       data.labels.push(chartOne.tempDate)
       data.datasets[0].data.push(chartOne.temp)
-    }   
+    }
+    
   });
 
 
@@ -397,56 +384,66 @@ const TemperChart = ({currentDate}) => {
     
       <div className='sub-function'>
         <div>
+          <div>
+              <div>
+                간격 선택
+              </div>
+              <div>
+                <select value={isDuring} onChange={(e)=>{
+                setIsDuring(e.target.value)
+                setIsDuple(0)
+                setReDrawChart(true)           
+                }}>
+                <option value={0}>간격 선택</option>
+                <option value={1}>30분마다</option>
+                <option value={2}>1시간마다</option>
+                </select>
+              </div>
             <div>
-              간격 선택
+              범위 선택
             </div>
             <div>
-              <select value={isDuring} onChange={(e)=>{
-              setIsDuring(e.target.value)
-              setIsDuple(0)
-              setReDrawChart(true)           
+              <select value={isDuple} onChange={(e)=>{
+                setIsDuple(e.target.value)
+                setReDrawChart(true)
               }}>
-              <option value={0}>간격 선택</option>
-              <option value={1}>30분마다</option>
-              <option value={2}>1시간마다</option>
+                <option value={0}>범위 선택</option>
+                <option value={1}>시간별 데이터</option>
+                <option value={2}>반시간별 데이터</option>
               </select>
             </div>
-          <div>
-            범위 선택
           </div>
-          <div>
-            <select value={isDuple} onChange={(e)=>{
-              setIsDuple(e.target.value)
-              setReDrawChart(true)
-            }}>
-              <option value={0}>범위 선택</option>
-              <option value={1}>시간별 데이터</option>
-              <option value={2}>반시간별 데이터</option>
-            </select>
-          </div>
+          <div className='dataChart'>
+            <h4>데이터 차트</h4>
+            <table className='chart-table'>
+              <tbody>
+            {
+              chartData.map((chart, i)=>{
+                if(isDuring){
+                  if(!isDuple){
+                    if(isDuring!=0){
+                      return(
+                          <tr>
+                            <td>{chart.hour}시 {chart.minute}분</td>
+                            <td>{chart.temp}</td>
+                          </tr>
+                      )
+                    } 
+                  }        
+                }
+                else if(isDuple){
+                  return null
+                } 
+              }
+            ) 
+            }
+            </tbody> 
+          </table> 
+         </div>
         </div>
         <div className='temp-chart'>
          <Line data={data} options={options}/>
         </div>
-        
-       <div>
-        데이터 차트
-        {
-          chartData.map((chart, i)=>{
-            if(isDuring){
-              if(!isDuple){
-                return(
-                  <>
-                    <p>{chart.hour}시{chart.minute}분:</p>
-                    <p>{chart.temp}도</p>
-                  </>
-                  )
-              }         
-            } 
-          }
-        )
-        }
-       </div>
       </div>
       <div className='comp-div'>
         <div className='text'>
