@@ -4,11 +4,6 @@ import { Line } from 'react-chartjs-2'
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, BarElement } from 'chart.js';
 import './TempChart.css'
 import NewBarChart from '../craft/NewBarChart';
-import { useQueries, useQuery } from '@tanstack/react-query';
-
-
-
-
 
 // Chart.js 모듈 등록
 ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement);
@@ -21,7 +16,7 @@ const TemperChart = ({currentDate}) => {
     const year = date.getFullYear() // 년 추출
     const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 추출 
     const day = String(date.getDate()).padStart(2, '0'); // 일 추출 
-    return `${year}${month}${day}`; // 'YYYYMMDD' 형식으로 반환
+    return `${year}-${month}-${day}`; // 'YYYYMMDD' 형식으로 반환
   }
 
   function DateFormatDetail(date) {
@@ -30,8 +25,11 @@ const TemperChart = ({currentDate}) => {
     const day = String(date.getDate()).padStart(2, '0'); // 일 추출
     const hour = String(date.getHours()).padStart(2, '0'); // 시 추출
     const minute = String(date.getMinutes()).padStart(2, '0'); // 분 추출
-    return `${year}-${month}-${day} ${hour}:${minute}`; // "년-월-일 시:분" 형식으로 반환
+    const seconds = String(date.getSeconds()).padStart(2, '0'); // 초 추출
+    return `${year}-${month}-${day} ${hour}:${minute}:${seconds}`; // "년-월-일 시:분:초" 형식으로 반환
   }
+
+  
 
   //선택된 날짜를 담을 변수
   const[selectDate, setSelectDate] = useState(currentDate)
@@ -47,6 +45,8 @@ const TemperChart = ({currentDate}) => {
   //차트 다시 그릴때 필요한 변수
   const[reDrawChart, setReDrawChart] = useState(false)
 
+  // 날씨 정보를 담을 상태 변수 추가
+  const[weatherData, setWeatherData] = useState(null);
 
   // 실시간 체온과 시각정보를 담은 객체들을 담을 리스트
   const[chartData, setChartData] = useState([])
@@ -202,15 +202,20 @@ const TemperChart = ({currentDate}) => {
       
       let record = '';
       if (diff > 0) {
-        record = `오늘의 평균 체온이 어제보다 ${diff.toFixed(2)}°C 높습니다.`;
+        record = `오늘의 선택한 시간대의 평균 체온이 
+        어제의 선택한 평균 체온보다 ${diff.toFixed(2)}°C 높습니다.`;
       } 
       else if (diff < 0) {
-        record = `오늘의 평균 체온이 어제보다 ${Math.abs(diff).toFixed(2)}°C 낮습니다.`;
+        record = `오늘의 선택한 시간대의 평균 체온이 
+        어제의 선택한 평균 체온보다 ${Math.abs(diff).toFixed(2)}°C 낮습니다.`;
       } 
       else {
-        record = '오늘의 평균 체온이 어제와 같습니다.';
+        record = '오늘의 선택한 시간대의 평균 체온이 어제의 선택한 평균 체온이 같습니다.';
       }
       setTempChangeRecord(record);
+    }
+    else{
+      setTempChangeRecord(`어느 한쪽의 값이 비었습니다`)
     }
   }, [yesterdayData, todayData]);
 
@@ -340,6 +345,54 @@ const TemperChart = ({currentDate}) => {
     
   });
 
+  useEffect(() => {
+    // Geolocation API로 위치 정보 가져오기
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // 위도, 경도 기반으로 기상 정보를 가져오기 위한 좌표 변환 또는 고정된 좌표 사용
+        const nx = 102; // 울산 삼산동의 격자 X 좌표
+        const ny = 84;  // 울산 삼산동의 격자 Y 좌표
+
+        // 기상청 API 요청
+        getWeather(nx, ny);
+      },
+      (error) => {
+        console.error('위치 정보를 가져오는 데 실패했습니다.', error);
+        // 실패 시 기본값으로 울산 삼산동의 좌표 사용
+        const nx = 102;
+        const ny = 84;
+        getWeather(nx, ny);
+      }
+    );
+  }, []);
+
+  const getWeather = (nx, ny) => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const date = String(today.getDate()).padStart(2, '0');
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    
+    const todayString = `${year}${month}${date}`;
+    const currentTime = `${hours}${minutes}`;
+
+    const serviceKey = 'i1%2F1wPcC2uClgWCnr0UbrvV6RdbATPAYtKRgV1jl6kYOvx9CZyg85IDTJNovlYqcYs3F%2BaGR8O6ukpzduxkXNA%3D%3D'; // 실제 API 키를 사용해야 함
+    const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${todayString}&base_time=${currentTime}&nx=${nx}&ny=${ny}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then((res) => {
+        setWeatherData(res); // 받아온 날씨 데이터를 상태에 저장
+        console.log(weatherData)
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+      });
+  };
 
   
   return (
@@ -353,6 +406,18 @@ const TemperChart = ({currentDate}) => {
       <div className='main-chart'>
         <div className='info-select-day'>
           <h3> 📌오늘의 날씨</h3>
+          <div>
+          {weatherData ? (
+                <div>
+                  <p>온도: {weatherData[0]}°C</p>
+                  <p>습도: {weatherData[1]}%</p>
+                  <p>날씨 상태: {weatherData[2]}</p>
+                </div>
+              ) : (
+                <p>날씨 정보를 가져오는 중입니다...</p>
+              )}
+          </div>
+          <h3>📌오늘의 환자 정보</h3>
           <table className='weather-table'>
             <tbody>
               <tr>
@@ -458,19 +523,13 @@ const TemperChart = ({currentDate}) => {
         </div>
         <div>
           <div> 
-            <NewBarChart selectDate={DateFormat(selectDate)-1} onDataChange={handleYesterdayDataChange}/>
+            <NewBarChart  selectDate={DateFormatDetail(new Date(selectDate.getTime() - 24 * 60 * 60 * 1000))} onDataChange={handleYesterdayDataChange} setSelectDate={setSelectDate}/>
           </div>
           <div>
-            <NewBarChart selectDate={DateFormat(selectDate)} onDataChange={handleTodayDataChange}/>
+            <NewBarChart selectDate={DateFormatDetail(selectDate)} onDataChange={handleTodayDataChange} setSelectDate={setSelectDate}/>
           </div>
-          <div>
-            <table>
-              <tbody>
-                <tr>
-                  <td>{tempChangeRecord}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className='last-child'>
+            <div>{tempChangeRecord}</div>   
           </div>
         </div>
       </div>

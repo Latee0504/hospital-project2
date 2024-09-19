@@ -36,6 +36,16 @@
         ORDER BY TEMP_DATE
     </select>
 
+    <!--바 차트에서 새로운 정보 10개를 받아올 쿼리 cnt가 변하면 지금으로 부터 cnt시간 이전 이후 데이터를 가져옴-->
+    <select id="getChangePatTemp" resultMap="patTemp">
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE) = DATE(#{tempDate})
+        AND TEMP_DATE &lt;= DATE_ADD(#{tempDate}, INTERVAL #{cnt} HOUR)
+        ORDER BY TEMP_DATE DESC
+        LIMIT 10
+    </select>
+
     <!--해당 날짜의 최대 최소 온도를 함께 받아올 쿼리-->
     <select id="getPatTemp" resultMap="patTemp">
         SELECT MAX(TEMP) AS MAX
