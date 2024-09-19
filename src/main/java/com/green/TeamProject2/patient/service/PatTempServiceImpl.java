@@ -33,6 +33,11 @@ public class PatTempServiceImpl implements PatTempService{
     }
 
     @Override
+    public PatTempVO getPateTemp(String tempDate) {
+        return sqlSession.selectOne("patTempMapper.getPatTemp", tempDate);
+    }
+
+    @Override
     public PatTempVO getAvg() {
         return sqlSession.selectOne("patTempMapper.getAvg");
     }

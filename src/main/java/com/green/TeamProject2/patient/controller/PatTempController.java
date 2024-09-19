@@ -38,6 +38,12 @@ public class PatTempController {
         return patTempService.getMinPatTemp(isTemp.get("date"));
     }
 
+    // 최대 최소 평균 온도 얻는 컨트롤러
+    @PostMapping("/getMath")
+    PatTempVO getMaxMinPatTemp(@RequestBody Map<String, String> isTemp){
+        return patTempService.getPateTemp(isTemp.get("date"));
+    }
+
     // 전체 평균 컨트
     @GetMapping("/getAvg")
     PatTempVO getAvg(){

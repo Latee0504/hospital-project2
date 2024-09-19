@@ -25,7 +25,7 @@ const NewBarChart = ({selectDate, onDataChange}) => {
       console.log(res.data)
       setBarData(res.data)
       if (onDataChange) {
-        onDataChange(res.data);
+        onDataChange(res.data); //여기서 부모 컴포넌트로 데이터 전달
       }
       setIsShow(true)
     })
@@ -44,6 +44,10 @@ const NewBarChart = ({selectDate, onDataChange}) => {
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: function (context) {
+          const values = context.dataset.data;
+          return values.map((value) => value > 30 ? 'red' : 'blue'); // 30 이상이면 빨간색, 아니면 파란색
+        },
         tension: 0.1,
       },
     ],
@@ -64,7 +68,7 @@ const NewBarChart = ({selectDate, onDataChange}) => {
     scales: {
       y: {
         min: 25.0, // y축 최소값 설정
-        max: 28.0,
+        max: 32.0,
         ticks: {
           stepSize: 0.05, // 눈금 간격 설정
           callback: (value) => `${value}°C`, // 눈금 레이블 포맷 설정

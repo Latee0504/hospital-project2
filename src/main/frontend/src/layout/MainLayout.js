@@ -19,8 +19,8 @@ const MainLayout = () => {
         </li>
       </ul>
       <div className='login-box'>
-        <p>김익명 님 안녕하세요!</p> 
-        <button className='btn'>로그아웃</button>
+        {/* <p>김익명 님 안녕하세요!</p> 
+        <button className='btn'>로그아웃</button> */}
       </div>
     </div>
   </div>
