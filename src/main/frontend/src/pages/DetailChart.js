@@ -111,6 +111,12 @@ const DetailChart = ({currentDate}) => {
   // 실시간 체온과 시각정보를 담은 객체들을 담을 리스트
   const[chartData, setChartData] = useState([])
 
+  // 실시간 체온의 최대 최소 값을 담을 객체
+  const[nowMath, setNowMath] = useState({
+    max:0
+    , min:0
+  })
+
   // 이전 최소 값 최대 값 평균을 담을 객체
   const[beforeMath, setBeforeMath] = useState({
     max:0
@@ -153,10 +159,12 @@ const DetailChart = ({currentDate}) => {
       axios
       .post(`/patTemp/getAllPatTemp`, {date:DateFormat(beforeDate)}),
       axios
-      .post(`/patTemp/getMath`, {date:DateFormat(beforeDate)})
+      .post(`/patTemp/getMath`, {date:DateFormat(beforeDate)}),
+      axios
+      .post(`/patTemp/getMath`, {date:DateFormat(selectDate)})
     ])
     .then(
-      axios.spread((res1, res2, res3, res4, res5, res6, res7)=>{
+      axios.spread((res1, res2, res3, res4, res5, res6, res7, res8)=>{
         setAllDate(res1.data)
         setAllData(res2.data)
         setAvgChart(res3.data.temp)
@@ -164,6 +172,7 @@ const DetailChart = ({currentDate}) => {
         setChartData(res5.data)
         setBeforeData(res6.data)
         setBeforeMath(res7.data)
+        setNowMath(res8.data)
       }
     ))
     .catch(()=>{})
@@ -197,6 +206,14 @@ const DetailChart = ({currentDate}) => {
               <tr>
                 <td>날짜 평균</td>
                 <td>{avgWhen}도</td>
+              </tr>
+              <tr>
+                <td>날짜 최고</td>
+                <td>{nowMath.max}도</td>
+              </tr>
+              <tr>
+                <td>날짜 최저</td>
+                <td>{nowMath.min}도</td>
               </tr>
               <tr>
                 <td>총 데이터 수</td>
