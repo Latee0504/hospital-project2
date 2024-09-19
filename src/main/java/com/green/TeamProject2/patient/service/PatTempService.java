@@ -43,4 +43,7 @@ public interface PatTempService {
 
     //전체 진료일자를 하루 씩 일주일의 형식으로 받아옴
     List<PatTempVO> getAllDateByWeek(String tempDate);
+
+    //바 차트에서 사용될 데이터 받아옴
+    List<PatTempVO> getChangePatTemp(String tempDate, int Cnt);
 }

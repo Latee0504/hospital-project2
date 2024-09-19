@@ -91,4 +91,12 @@ public class PatTempController {
     List<PatTempVO> getDateByWeek(@RequestBody Map<String, String> isTemp){
         return patTempService.getAllDateByWeek(isTemp.get("date"));
     }
+
+    //바차트에서 사용할 데이터
+    @PostMapping("/change")
+    List<PatTempVO> getChangePatTemp(@RequestBody Map<String,Object> isTemp){
+        String tempDate = (String) isTemp.get("date");
+        int cnt = (Integer) isTemp.get("cnt");
+        return patTempService.getChangePatTemp(tempDate, cnt);
+    }
 }

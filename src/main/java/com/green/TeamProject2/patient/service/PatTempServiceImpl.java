@@ -4,7 +4,10 @@ import com.green.TeamProject2.patient.vo.PatTempVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("patTempService")
 public class PatTempServiceImpl implements PatTempService{
@@ -75,5 +78,15 @@ public class PatTempServiceImpl implements PatTempService{
     @Override
     public List<PatTempVO> getAllDateByWeek(String tempDate) {
         return sqlSession.selectList("patTempMapper.getAllDateByWeek", tempDate);
+    }
+
+    @Override
+    public List<PatTempVO> getChangePatTemp(String tempDate, int cnt) {
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("tempDate", tempDate);
+        params.put("cnt", cnt);
+
+        return sqlSession.selectList("patTempMapper.getChangePatTemp", params);
     }
 }
