@@ -25,7 +25,7 @@
 
     <!--오늘 날짜인 환자의 체온 정보 10개를 받아올 쿼리-->
     <select id="getAllPatTemp" resultMap="patTemp">
-        SELECT TEMP_DATE, TEMP
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM (
             SELECT *
             FROM pat_temp
@@ -38,7 +38,10 @@
 
     <!--해당 날짜의 최대 최소 온도를 함께 받아올 쿼리-->
     <select id="getPatTemp" resultMap="patTemp">
-        SELECT MAX(TEMP) AS MAX, MIN(TEMP) AS MIN, TEMP_DATE
+        SELECT MAX(TEMP) AS MAX
+            , MIN(TEMP) AS MIN
+            , ROUND(AVG(TEMP), 2) AS AVG
+            , TEMP_DATE
         FROM pat_temp
         WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>
@@ -103,7 +106,7 @@
 
     <!--현재 시간으로 부터 60분 간의 데이터-->
     <select id="getDuringH" resultMap="patTemp">
-        SELECT *
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM pat_temp
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 1 HOUR
         AND #{tempDate} - INTERVAL 0 MINUTE;
@@ -111,7 +114,7 @@
 
     <!--현재 시간으로 부터 30분 간의 데이터-->
     <select id="getDuringM" resultMap="patTemp">
-        SELECT *
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM pat_temp
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 30 MINUTE
         AND #{tempDate} - INTERVAL 0 MINUTE;

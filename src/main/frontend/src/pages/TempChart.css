@@ -115,7 +115,11 @@
   gap: 5px;
 }
 
-
+.in-fun{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 .comp-div {
   display: flex;
   flex-direction: column;

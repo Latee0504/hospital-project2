@@ -14,4 +14,5 @@ public class PatTempVO {
     private int day; //일 데이터
     private float max;
     private float min;
+    private float avg;
 }

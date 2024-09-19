@@ -85,6 +85,10 @@ const TemperChart = ({currentDate}) => {
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: function (context) {
+          const values = context.dataset.data;
+          return values.map((value) => value > 30 ? 'red' : 'blue'); // 30 이상이면 빨간색, 아니면 파란색
+        },
         tension: 0.1,
       },
     ],
@@ -104,7 +108,7 @@ const TemperChart = ({currentDate}) => {
     scales: {
       y: {
         min: 25.0, // y축 최소값 설정
-        max: 28.0,
+        max: 32.0,
         ticks: {
           stepSize: 0.05, // 눈금 간격 설정
           callback: (value) => `${value}°C`, // 눈금 레이블 포맷 설정
@@ -122,6 +126,10 @@ const TemperChart = ({currentDate}) => {
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: function (context) {
+          const values = context.dataset.data;
+          return values.map((value) => value > 30 ? 'red' : 'blue'); // 30 이상이면 빨간색, 아니면 파란색
+        },
         tension: 0.1,
       },
     ],
@@ -142,7 +150,7 @@ const TemperChart = ({currentDate}) => {
     scales: {
       y: {
         min: 25.0, // y축 최소값 설정
-        max: 28.0,
+        max: 32.0,
         ticks: {
           stepSize: 0.05, // 눈금 간격 설정
           callback: (value) => `${value}°C`, // 눈금 레이블 포맷 설정
@@ -150,9 +158,6 @@ const TemperChart = ({currentDate}) => {
     }
   }
   };
-
-  //리액트 쿼리
-  
 
   //하나로 합친 useEffect *setInterval() 시간을 지정해 재 실행 되도록 함
   useEffect(()=>{
@@ -384,7 +389,7 @@ const TemperChart = ({currentDate}) => {
     
       <div className='sub-function'>
         <div>
-          <div>
+          <div className='in-fun'>
               <div>
                 간격 선택
               </div>

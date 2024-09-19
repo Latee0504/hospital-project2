@@ -22,11 +22,14 @@ const DetailChart = ({currentDate}) => {
     labels: [],
     datasets: [
       {
-        label: '선택된 날짜의 환자 체온 변화',
+        label: `이전 선택된 날짜의 환자 체온 변화`,
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
+        backgroundColor: function (context) {
+          const values = context.dataset.data;
+          return values.map((value) => value > 30 ? 'red' : 'blue'); // 30 이상이면 빨간색, 아니면 파란색
+        }, tension: 0.1,
       },
     ],
   };
@@ -45,7 +48,7 @@ const DetailChart = ({currentDate}) => {
     scales: {
       y: {
         min: 25.0, // y축 최소값 설정
-        max: 28.0,
+        max: 32.0,
         ticks: {
           stepSize: 0.05, // 눈금 간격 설정
           callback: (value) => `${value}°C`, // 눈금 레이블 포맷 설정
@@ -61,6 +64,10 @@ const DetailChart = ({currentDate}) => {
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: function (context) {
+          const values = context.dataset.data;
+          return values.map((value) => value > 30 ? 'red' : 'blue'); // 30 이상이면 빨간색, 아니면 파란색
+        },
         tension: 0.1,
       },
     ],
@@ -80,7 +87,7 @@ const DetailChart = ({currentDate}) => {
     scales: {
       y: {
         min: 25.0, // y축 최소값 설정
-        max: 28.0,
+        max: 32.0,
         ticks: {
           stepSize: 0.05, // 눈금 간격 설정
           callback: (value) => `${value}°C`, // 눈금 레이블 포맷 설정
@@ -104,7 +111,12 @@ const DetailChart = ({currentDate}) => {
   // 실시간 체온과 시각정보를 담은 객체들을 담을 리스트
   const[chartData, setChartData] = useState([])
 
-  
+  // 이전 최소 값 최대 값 평균을 담을 객체
+  const[beforeMath, setBeforeMath] = useState({
+    max:0
+    , min:0
+    , avg:0
+  })
 
   // 이전 정보를 담을 객체 리스트
   const[beforeData, setBeforeData] = useState([])
@@ -112,13 +124,17 @@ const DetailChart = ({currentDate}) => {
   //선택된 날짜를 담을 변수
   const[selectDate, setSelectDate] = useState(currentDate)
 
-// 이전에 선택한 날짜 정보를 담을 변수
+  // 이전에 선택한 날짜 정보를 담을 변수
   const[beforeDate, setBeforeDate] = useState(currentDate)
+
+  // 이전 정보가 있는지
+  const[isShow, setIsShow] = useState(false)
 
   //선택한 날짜를 변경할 함수
   function handleSelectDate(date){
     setSelectDate(date)
   }
+
 
 
   //useEffect 전체를 하나로 합침
@@ -135,16 +151,19 @@ const DetailChart = ({currentDate}) => {
       axios
       .post(`/patTemp/getAllPatTemp`,{date:DateFormat(selectDate)}),
       axios
-      .post(`/patTemp/getAllPatTemp`, {date:DateFormat(beforeDate)})
+      .post(`/patTemp/getAllPatTemp`, {date:DateFormat(beforeDate)}),
+      axios
+      .post(`/patTemp/getMath`, {date:DateFormat(beforeDate)})
     ])
     .then(
-      axios.spread((res1, res2, res3, res4, res5, res6)=>{
+      axios.spread((res1, res2, res3, res4, res5, res6, res7)=>{
         setAllDate(res1.data)
         setAllData(res2.data)
         setAvgChart(res3.data.temp)
         setAvgWhen(res4.data.temp)
         setChartData(res5.data)
         setBeforeData(res6.data)
+        setBeforeMath(res7.data)
       }
     ))
     .catch(()=>{})
@@ -173,15 +192,15 @@ const DetailChart = ({currentDate}) => {
             <tbody>
               <tr>
                 <td>전체 평균</td>
-                <td>{avgChart}</td>
+                <td>{avgChart}도</td>
               </tr>
               <tr>
                 <td>날짜 평균</td>
-                <td>{avgWhen}</td>
+                <td>{avgWhen}도</td>
               </tr>
               <tr>
                 <td>총 데이터 수</td>
-                <td>{allData.length}</td>
+                <td>{allData.length}개</td>
               </tr>
               <tr>
                 <td>총 일수</td>
@@ -189,30 +208,36 @@ const DetailChart = ({currentDate}) => {
               </tr>
             </tbody>
           </table>
-          
         </div>
+
         <div className='top-sub-content'>
-            <div>
-              <h2>📌이전에 선택한 날짜의 정보</h2>
-              <div>
-                <Line data={bData} options={bOptions}/>
-              </div>  
-            </div>
-            <div>
-              <h2>비교 정보</h2>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>온도 차이</td>
-                    <td>{}</td>
-                  </tr>
-                  <tr>
-                    <td>시간 별 상승 온도</td>
-                    <td>{}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <h3>📌이전에 선택한 날짜의 정보</h3>
+          {
+            isShow!=false
+            ?
+           <>
+            <table>
+              <tbody>
+                <tr>
+                  <td>평균 온도</td>
+                  <td>{beforeMath.avg}도</td>
+                </tr>
+                <tr>
+                  <td>최고 온도</td>
+                  <td>{beforeMath.max}도</td>
+                </tr>
+                <tr>
+                  <td>최저 온도</td>
+                  <td>{beforeMath.min}도</td>
+                </tr>
+              </tbody>
+            </table>
+            <Line data={bData} options={bOptions}/>
+           </>  
+            :
+            <h1>정보가 없습니다</h1>
+          }   
+          
         </div>
       </div>
       
@@ -237,9 +262,10 @@ const DetailChart = ({currentDate}) => {
             :
             <div className='notice'>
               🩸해당 환자의 {DateFormat(selectDate)}의 체온 기록입니다
-              <button type='button' onClick={(e)=>{
+              <button type='button' className='btn' onClick={(e)=>{
                 setBeforeDate(selectDate)
-                setSelectDate(currentDate)}}>오늘 날짜로 돌아가기
+                setSelectDate(currentDate)
+                setIsShow(true)}}>돌아가기
               </button>
             </div>
           }
