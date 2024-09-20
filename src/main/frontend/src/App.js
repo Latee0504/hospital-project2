@@ -1,15 +1,14 @@
-
 import './App.css';
-import SubLayout from './layout/SubLayout'
 import './reset.css'
 import TempChart from './pages/TempChart';
 import MainLayout from './layout/MainLayout';
 import { Route, Routes } from 'react-router-dom';
 import DetailChart from './pages/DetailChart';
+import Orders from './pages/Orders';
 
-
-
-
+import MangeCustomer from './pages/orderPage/MangeCustomer';
+import MangeItem from './pages/orderPage/MangeItem';
+import MangeOrdering from './pages/orderPage/MangeOrdering';
 
 function App() {
   // 현재 날짜를 선언한 변수
@@ -21,11 +20,14 @@ function App() {
         <MainLayout/>
       </div>
       <div className='div-content'>
-        {/* 옆에 목차 */}
-        {/* <SubLayout/> */}
         <Routes>
           <Route path='/' element={<TempChart currentDate={currentDate}/>}/>
           <Route path='/detail' element={<DetailChart currentDate={currentDate}/>} /> 
+          <Route path='/orders' element={<Orders/>}>
+            <Route path='' element={<MangeCustomer/>}/>
+            <Route path='ordering' element={<MangeOrdering/>}/>
+            <Route path='item' element={<MangeItem/>}/>
+          </Route>
         </Routes>
       </div>
     </div>

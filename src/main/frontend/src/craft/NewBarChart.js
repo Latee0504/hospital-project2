@@ -107,7 +107,7 @@ const NewBarChart = ({selectDate, onDataChange, setSelectDate}) => {
           }>한시간 전</button>
           <button type='button'  className='btn' onClick={()=>{
             setCnt(0)
-          }}>지금 시간</button>
+          }}>현재 시간</button>
           <button type='button'  className='btn' onClick={() => 
            changeCnt(+1)}>한시간 후</button>
         </div>

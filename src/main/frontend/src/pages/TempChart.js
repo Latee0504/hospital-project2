@@ -422,15 +422,15 @@ const TemperChart = ({currentDate}) => {
             <tbody>
               <tr>
                 <td>최고 온도</td>
-                <td>{tempData.max.temp}도</td>
+                <td>{tempData.max.temp}°C</td>
               </tr>
               <tr>
                 <td>최저 온도</td>
-                <td>{tempData.min.temp}도</td>
+                <td>{tempData.min.temp}°C</td>
               </tr>
               <tr>
                 <td>평균 온도</td>
-                <td>{((tempData.max.temp+tempData.min.temp)/2).toFixed(2)}도</td>
+                <td>{((tempData.max.temp+tempData.min.temp)/2).toFixed(2)}°C</td>
               </tr>
             </tbody>
           </table>
@@ -445,7 +445,7 @@ const TemperChart = ({currentDate}) => {
             return(
               <div>
                 <p>{treDateOne.date}</p>
-                <p>{treDateOne.temp}도</p>
+                <p>{treDateOne.temp}°C</p>
               </div>
             )
           })
@@ -495,7 +495,7 @@ const TemperChart = ({currentDate}) => {
                       return(
                           <tr>
                             <td>{chart.hour}시 {chart.minute}분</td>
-                            <td>{chart.temp}</td>
+                            <td>{chart.temp}°C</td>
                           </tr>
                       )
                     } 

@@ -1,0 +1,104 @@
+.customer-div{
+
+  height: 100%;
+}
+
+.customer-div>div{
+  display: flex;
+  gap: 20px;
+}
+
+.customer-div>div:nth-child(1){
+  height: 30%;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.customer-div>div:nth-child(1)>div{
+  height: 100%;
+  width: 40%;
+}
+
+.customer-content{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 15px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.customer-content>h4{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.customer-content>table>thead{
+  color: white;
+  background-color: gray;
+}
+
+.customer-content>table>thead>tr>td{
+  padding: 20px;
+}
+
+.simple-info-div{
+  border-radius: 15px;
+  background-color: white;
+  width: 80%;
+  margin: 0 auto;
+}
+.simple-info-div>h4{
+  margin: 40px;
+}
+.simple-info{
+  text-align: center;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.simple-info>table{
+  width: 100%;
+  text-align: center; 
+}
+
+.simple-info>table>tbody>tr>td:nth-child(1){
+  background-color: gray;
+  color: white;
+  padding: 20px;
+}
+
+.simple-info>table>tbody>tr>td:nth-child(2){
+  
+}
+
+.simple-info>table>tbody>tr>td:nth-child(2)>input{
+  width: 100%;
+  font-size: large;
+}
+
+.detail-info-div{
+  border-radius: 15px;
+  background-color: white;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.detail-info-div>h4{
+  margin: 40px;
+}
+
+.detail-info{
+ margin-top: 10px;
+ gap: 20px;
+}
+
+.detail-info>table{
+  width: 100%;
+  text-align: justify;
+}
+
+.btn-div>button{
+  margin: 10px auto;
+}

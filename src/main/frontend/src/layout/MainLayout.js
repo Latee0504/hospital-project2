@@ -1,6 +1,6 @@
 import React from 'react'
 import './MainLayout.css'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 const MainLayout = () => {
   const navigate = useNavigate()
   return (
@@ -17,11 +17,13 @@ const MainLayout = () => {
         <li>
           <p onClick={(e)=>{navigate(`/detail`)}}>상세 정보</p>
         </li>
+        <li>
+          <p onClick={(e)=>{navigate(`/orders`)}}>수주</p>
+        </li>
       </ul>
-      <div className='login-box'>
-        {/* <p>김익명 님 안녕하세요!</p> 
-        <button className='btn'>로그아웃</button> */}
-      </div>
+     
+      
+      
     </div>
   </div>
   )
