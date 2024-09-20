@@ -444,10 +444,10 @@ const TemperChart = ({currentDate}) => {
             }
             </tbody> 
           </table> 
-         </div>
+        </div>
         </div>
         <div className='temp-chart'>
-         <Line data={data} options={options}/>
+          <Line data={data} options={options}/>
         </div>
       </div>
 
