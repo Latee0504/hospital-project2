@@ -228,7 +228,7 @@ const DetailChart = ({currentDate}) => {
         </div>
 
         <div className='top-sub-content'>
-          <h3>📌이전에 선택한 날짜의 정보</h3>
+          <h3>📌이전에 선택한 날짜의 환자 정보</h3>
           {
             isShow!=false
             ?

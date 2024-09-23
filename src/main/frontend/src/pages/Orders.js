@@ -23,7 +23,12 @@ const Orders = () => {
         </div>
         <h3>수주 처리</h3>
         <div>
-          <p></p>
+          <p>
+            <span onClick={(e)=>{navigate(`/orders/proceed`)}}>주문서 처리</span>
+          </p>
+          <p>
+            <span></span>
+          </p>
         </div>
       </div>
       <div>

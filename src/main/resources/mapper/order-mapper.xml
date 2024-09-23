@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="orderMapper">
+    <!--상품-->
+    <resultMap id="item" type="com.green.TeamProject2.orders.vo.ItemVO">
+        <id column="ITEM_NUM" property="itemNum"/>
+        <result column="ITEM_NAME" property="itemName"/>
+        <result column="ITEM_CNT" property="itemCnt"/>
+        <result column="ITEM_PRICE" property="itemPrice"/>
+        <result column="ITEM_HIRE_DATE" property="itemHireDate"/>
+        <result column="ITEM_PERIOD" property="itemPeriod"/>
+    </resultMap>
+
+    <!--거래처-->
+    <resultMap id="customer" type="com.green.TeamProject2.orders.vo.CustomerVO">
+        <id column="CUSTOMER_NUM" property="customerNum"/>
+        <result column="CUSTOMER_LI" property="customerLi"/>
+        <result column="CUSTOMER_NAME" property="customerName"/>
+        <result column="CUSTOMER_HEAD_NAME" property="customerHeadName"/>
+        <result column="CUSTOMER_ADDRESS" property="customerAddress"/>
+        <result column="CUSTOMER_TEL" property="customerTel"/>
+        <result column="CUSTOMER_EMAIL" property="customerEmail"/>
+        <result column="CUSTOMER_ETC" property="customerEtc"/>
+    </resultMap>
+
+    <!--상품 등록-->
+    <insert id="regItem">
+        INSERT INTO ITEM
+        (ITEM_NAME
+        , ITEM_CNT
+        , ITEM_PRICE
+        , ITEM_HIRE_DATE
+        , ITEM_PERIOD
+        )
+        VALUES
+        (#{itemName}
+        , #{itemCnt}
+        , #{itemPrice}
+        , #{itemHireDate}
+        , #{itemPeriod}
+        )
+    </insert>
+
+    <!--상품 리스트-->
+    <select id="getItemList" resultMap="item">
+        SELECT *
+        FROM ITEM
+    </select>
+
+    <!--상품 삭제-->
+    <delete id="deleteItem">
+        DELETE
+        FROM ITEM
+        WHERE ITEM_NUM = #{itemNum}
+    </delete>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

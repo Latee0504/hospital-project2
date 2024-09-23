@@ -4,9 +4,16 @@ import axios from 'axios'
 
 const MangeCustomer = () => {
 
+  // 화면 새로 고침용 변수
+  const[cnt, setCnt] = useState(0)
+
+
   //전체 거래처 목록 리스트를 담을 변수
   const [customerList, setCustomerList] = useState([])
 
+  //이메일 참조 변수
+  const emailF = useRef()
+  const emailB = useRef()
 
   //등록할 거래처 정보를 저장할 변수
   const [regData, setRegData] = useState({
@@ -21,27 +28,35 @@ const MangeCustomer = () => {
 
   //입력받은 데이터로 바꾸는 함수
   function changeData(e){
-    setRegData({
-      ...regData,
-      [e.target.name]:e.target.value
-    })
-    console.log(e.target.name)
+    if(e.target.name==customerEmail){
+      setRegData(
+        ...regData,
+        [e.target.name]:emailF.current.value+emailB.current.value
+      )
+    }
+    else{
+      setRegData({
+        ...regData,
+        [e.target.name]:e.target.value
+      })
+      console.log(e.target.name)
+    }
   }
 
   //거래처 리스트 받아오기
   useEffect(()=>{
     axios
-    .get(``)
+    .get(`/order/getCustomerList`)
     .then((res)=>{})
     .catch((error)=>{
       console.log('거래처 리스트 구성 실패', error)
     })
-  }, [])
+  }, [cnt])
 
   //거래처 등록 함수
   function regCustomer(){
     axios
-    .post(``, regData)
+    .post(`/order/regCustomer`, regData)
     .then((res)=>{
       alert('등록성공')
     })
@@ -50,6 +65,7 @@ const MangeCustomer = () => {
     })
   }
 
+  //이메일 따로 받기
   const ref = useRef()
 
   return (
@@ -129,7 +145,7 @@ const MangeCustomer = () => {
         </div>
       </div>
       <div className='btn-div'>
-        <button type='button' className='btn'>등록</button>
+        <button type='button' className='btn' onClick={(e)=>{regCustomer()}}>등록</button>
       </div>
       <div className='customer-content'>
         <h4>거래처 목록</h4>

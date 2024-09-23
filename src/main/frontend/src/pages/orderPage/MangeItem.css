@@ -54,3 +54,6 @@
   background-color: gray;
 }
 
+.item-list-div>table>tbody>tr{
+  margin: 20px;
+}

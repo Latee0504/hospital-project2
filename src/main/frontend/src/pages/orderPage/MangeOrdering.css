@@ -1,3 +1,51 @@
 .order-div{
   height: 100%;
 }
+
+.order-list-div{
+  background-color: white;
+  height: 30%;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 15px;
+}
+
+.order-list-div>h4{
+  padding-top: 20px;
+}
+
+.order-list-div>table{
+  width: 100%;
+  margin-top: 20px;
+}
+
+.order-list-div>table>thead>tr>td{
+  background-color: gray;
+  color: white;
+  padding: 20px;
+}
+
+.order-start-div{
+  background-color: white;
+  height: 30%;
+  width: 80%;
+  margin: 0 auto;
+  
+  border-radius: 15px;
+}
+
+.order-start-div>h4{
+  padding-top: 20px;
+}
+
+.order-start-div>table{
+  width: 100%;
+  margin-top: 20px;
+}
+
+.order-start-div>table>thead>tr>td{
+  background-color: gray;
+  color: white;
+  padding: 20px;
+}

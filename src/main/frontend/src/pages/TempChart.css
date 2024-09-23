@@ -88,6 +88,14 @@
   text-align: left;
 }
 
+.sub-function-notice{
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
 .sub-function > div{
   border-radius: 10px;
   height: 100%;
@@ -186,6 +194,10 @@
 
 .comp-div table{
   margin: 0 auto;
+}
+
+.simple-view-notice{
+  margin-top: 50px;
 }
 
 .simple-view{
