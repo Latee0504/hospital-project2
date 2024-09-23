@@ -14,10 +14,11 @@ const MangeOrdering = () => {
               <td>상품명</td>
               <td>구매 갯수</td>
               <td>주문 일자</td>
+              <td>발주자 명</td>
             </tr>
           </thead>
           <tbody>
-            {/* 받아온 주문서 리스트를 받아서 그려줄 것 */}
+            {/* 발주 받아온 주문서 리스트를 받아서 그려줄 것 */}
           </tbody>
         </table>
       </div>
@@ -35,10 +36,11 @@ const MangeOrdering = () => {
               <td>상품명</td>
               <td>구매 갯수</td>
               <td>주문 일자</td>
+              <td>발주자 명</td>
             </tr>
           </thead>
           <tbody>
-            {/* 등록된 주문서 리스트를 받아서 그려줄 것 */}
+            {/* 처리 등록된 주문서 리스트를 받아서 그려줄 것 */}
           </tbody>
         </table>
       </div>

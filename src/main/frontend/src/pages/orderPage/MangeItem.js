@@ -49,7 +49,7 @@ const MangeItem = () => {
     axios
     .delete(`/order/deleteItem/${num}`)
     .then((res)=>{
-      console.log('삭제 성공')
+      alert('삭제 성공')
     })
     .catch((error)=>{
       console.log('삭제 실패', console.log(error))
@@ -127,17 +127,19 @@ const MangeItem = () => {
               itemList.map((item,i)=>{
                 return(
                 <tr key={i}>
-                  <input type='checkbox'/>
-                  <td>{i}</td>
+                  <td><input type='checkbox'/></td>
+                  <td>{i+1}</td>
                   <td>{item.itemName}</td>
                   <td>{item.itemCnt}</td>
                   <td>{item.itemHireDate}</td>
                   <td>{item.itemPeriod}</td>
                   <td>{item.itemPrice}</td>
-                  <button type='button' className='btn' onClick={(e)=>{deleteItem(item.itemNum)}}>삭제</button>
-                  <button type='button' className='btn' onClick={(e)=>{
-                   navigate()
-                  }}>수정</button>
+                  <td>
+                    <button type='button' className='btn' onClick={(e)=>{deleteItem(item.itemNum)}}>삭제</button>
+                    <button type='button' className='btn' onClick={(e)=>{
+                     navigate()
+                    }}>수정</button>
+                  </td>
                 </tr>
                 )
               })

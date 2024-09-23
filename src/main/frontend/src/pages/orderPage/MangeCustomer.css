@@ -1,5 +1,4 @@
 .customer-div{
-
   height: 100%;
 }
 
@@ -69,12 +68,8 @@
   padding: 20px;
 }
 
-.simple-info>table>tbody>tr>td:nth-child(2){
-  
-}
-
 .simple-info>table>tbody>tr>td:nth-child(2)>input{
-  width: 100%;
+  width: 90%;
   font-size: large;
 }
 
@@ -98,6 +93,25 @@
   width: 100%;
   text-align: justify;
 }
+
+.detail-info>table>tbody>tr>td:nth-child(1){
+  background-color: gray;
+  color: white;
+  padding: 12px;
+}
+
+.detail-info>table>tbody>tr>td:nth-child(2)>input{
+ width: 90%;
+ margin-left: 20px;
+}
+
+.detail-info>table>tbody>tr:nth-child(3)>td:nth-child(2)>input{
+  width: 50%;
+}
+.detail-info>table>tbody>tr:nth-child(3)>td:nth-child(2)>select{
+  width: 30%;
+}
+
 
 .btn-div>button{
   margin: 10px auto;

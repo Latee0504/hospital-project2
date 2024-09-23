@@ -56,6 +56,40 @@
         WHERE ITEM_NUM = #{itemNum}
     </delete>
 
+    <!--거래처 등록-->
+    <insert id="regCustomer">
+        INSERT INTO CUSTOMER
+        (CUSTOMER_LI
+        , CUSTOMER_NAME
+        , CUSTOMER_HEAD_NAME
+        , CUSTOMER_ADDRESS
+        , CUSTOMER_TEL
+        , CUSTOMER_EMAIL
+        , CUSTOMER_ETC
+        )
+        VALUES
+        (#{customerLi}
+        , #{customerName}
+        , #{customerHeadName}
+        , #{customerAddress}
+        , #{customerTel}
+        , #{customerEmail}
+        , #{customerEtc}
+        )
+    </insert>
+
+    <!--거래처 리스트-->
+    <select id="getCustomerList" resultMap="customer">
+        SELECT *
+        FROM CUSTOMER
+    </select>
+
+    <!--거래처 삭제-->
+    <delete id="deleteCustomer">
+        DELETE
+        FROM CUSTOMER
+        WHERE CUSTOMER_NUM = #{customerNum}
+    </delete>
 
 </mapper>
 
