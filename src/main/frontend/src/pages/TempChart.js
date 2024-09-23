@@ -405,7 +405,7 @@ const TemperChart = ({currentDate}) => {
      <>
       <div className='main-chart'>
         <div className='info-select-day'>
-          <h3> 📌오늘의 날씨</h3>
+          {/* <h3> 📌오늘의 날씨</h3>
           <div>
           {weatherData ? (
                 <div>
@@ -416,21 +416,21 @@ const TemperChart = ({currentDate}) => {
               ) : (
                 <p>날씨 정보를 가져오는 중입니다...</p>
               )}
-          </div>
+          </div> */}
           <h3>📌오늘의 환자 정보</h3>
           <table className='weather-table'>
             <tbody>
               <tr>
                 <td>최고 온도</td>
-                <td>{tempData.max.temp}도</td>
+                <td>{tempData.max.temp}°C</td>
               </tr>
               <tr>
                 <td>최저 온도</td>
-                <td>{tempData.min.temp}도</td>
+                <td>{tempData.min.temp}°C</td>
               </tr>
               <tr>
                 <td>평균 온도</td>
-                <td>{((tempData.max.temp+tempData.min.temp)/2).toFixed(2)}도</td>
+                <td>{((tempData.max.temp+tempData.min.temp)/2).toFixed(2)}°C</td>
               </tr>
             </tbody>
           </table>
@@ -439,19 +439,27 @@ const TemperChart = ({currentDate}) => {
           <Line className='aaa' data={cData} options={cOptions}/>
         </div>
       </div>
+      <div className='simple-view-notice'>
+        <h2>최근 일주일간 평균 온도</h2>
+      </div>
       <div className='simple-view'>
+        
         {
           treDateList.map((treDateOne, i)=>{
             return(
               <div>
                 <p>{treDateOne.date}</p>
-                <p>{treDateOne.temp}도</p>
+                <p>{treDateOne.temp}°C</p>
               </div>
             )
           })
         }
       </div>
-    
+      <div className='sub-function-notice'>
+        <button type='button' className='btn' onClick={(e)=>{goBackOneDay()}}>이전</button>
+        <h2>구간별, 범위별 온도 정보</h2>
+        <button type='button' className='btn' onClick={(e)=>{goForwardOneDay()}}>이후</button>
+      </div>
       <div className='sub-function'>
         <div>
           <div className='in-fun'>
@@ -495,7 +503,7 @@ const TemperChart = ({currentDate}) => {
                       return(
                           <tr>
                             <td>{chart.hour}시 {chart.minute}분</td>
-                            <td>{chart.temp}</td>
+                            <td>{chart.temp}°C</td>
                           </tr>
                       )
                     } 

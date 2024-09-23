@@ -201,19 +201,19 @@ const DetailChart = ({currentDate}) => {
             <tbody>
               <tr>
                 <td>전체 평균</td>
-                <td>{avgChart}도</td>
+                <td>{avgChart}°C</td>
               </tr>
               <tr>
                 <td>날짜 평균</td>
-                <td>{avgWhen}도</td>
+                <td>{avgWhen}°C</td>
               </tr>
               <tr>
                 <td>날짜 최고</td>
-                <td>{nowMath.max}도</td>
+                <td>{nowMath.max}°C</td>
               </tr>
               <tr>
                 <td>날짜 최저</td>
-                <td>{nowMath.min}도</td>
+                <td>{nowMath.min}°C</td>
               </tr>
               <tr>
                 <td>총 데이터 수</td>
@@ -228,7 +228,7 @@ const DetailChart = ({currentDate}) => {
         </div>
 
         <div className='top-sub-content'>
-          <h3>📌이전에 선택한 날짜의 정보</h3>
+          <h3>📌이전에 선택한 날짜의 환자 정보</h3>
           {
             isShow!=false
             ?
@@ -237,15 +237,15 @@ const DetailChart = ({currentDate}) => {
               <tbody>
                 <tr>
                   <td>평균 온도</td>
-                  <td>{beforeMath.avg}도</td>
+                  <td>{beforeMath.avg}°C</td>
                 </tr>
                 <tr>
                   <td>최고 온도</td>
-                  <td>{beforeMath.max}도</td>
+                  <td>{beforeMath.max}°C</td>
                 </tr>
                 <tr>
                   <td>최저 온도</td>
-                  <td>{beforeMath.min}도</td>
+                  <td>{beforeMath.min}°C</td>
                 </tr>
               </tbody>
             </table>
