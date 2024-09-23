@@ -17,6 +17,9 @@ public interface PatTempService {
     //최소 온도
     PatTempVO getMinPatTemp(String tempDate);
 
+    // 최대 최소 온도
+    PatTempVO getPateTemp(String tempDate);
+
     //전체 평균 온도
     PatTempVO getAvg();
 
@@ -37,4 +40,10 @@ public interface PatTempService {
 
     //현재 시간으로 부터 30분 간의 데이터
     List<PatTempVO> getDuringM(String tempDate);
+
+    //전체 진료일자를 하루 씩 일주일의 형식으로 받아옴
+    List<PatTempVO> getAllDateByWeek(String tempDate);
+
+    //바 차트에서 사용될 데이터 받아옴
+    List<PatTempVO> getChangePatTemp(String tempDate, int Cnt);
 }

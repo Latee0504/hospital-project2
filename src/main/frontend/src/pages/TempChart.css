@@ -1,48 +1,55 @@
+
+
 .container{
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: #eeeeee;
-  width: 100%;
+  margin: 50px 0px;
 }
+
 
 .main-chart{
   width: 80%;
   height: 60%;
-  border: 1px solid red;
   margin: 0 auto;
   display: flex;
   gap: 20px;
   justify-content: space-around;
 }
 
-.main-chart>div:nth-child(1){
-  width: 20%;
-  border: 1px solid red;
-}
-
-.main-chart>div:nth-child(1)>div, table{
-  border: 1px solid blue;
+.weather-table{
+  padding: 10px;
+  /* border: 1px solid blue; */
 }
 
 .main-chart>div:nth-child(2){
   width: 60%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .info-select-day{
-  width: 80%;
-  border: 1px solid red;
-  margin: 0 auto;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
 }
 
 .info-select-day td{
   padding: 10px;
 }
 
+.aaa{
+  width: 50%;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+}
 
 .info-content{
   border: 1px solid red;
@@ -51,12 +58,6 @@
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
-}
-
-.temp-chart{
-  width: 60%;
-  border: 1px solid black;
-  margin: 15px;
 }
 
 .select-box{
@@ -71,51 +72,185 @@
 
 .sub-function{
   display: flex;
-  margin: 0 auto;
+  margin: auto;
   justify-content: space-between;
-  gap: 50px;
+  height: 100%;
+  gap: 10px;
   width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.sub-function>div{
-  border: 1px solid black;
-  width: 400px;
-  height: 200px;
+.side-box {
+  width: 200px;
+  text-align: left;
+}
+
+.sub-function-notice{
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.sub-function > div{
+  border-radius: 10px;
+  height: 100%;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
 }
 
 .sub-function>div:nth-child(1){
   width: 30%;
-}
-.sub-function>div:nth-child(2){
-  width: 70%;
-}
-
-.comp-div{
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
-  width: 80%;
+  justify-content: center;
+  gap: 5px;
+}
+
+.sub-function>div:nth-child(1)>div{
+  background-color: #1C1946;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.comp-div>div{
-  border: 1px solid blue;
+
+
+.sub-function>div:nth-child(2){
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.in-fun{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.comp-div {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 30px auto;
+}
+
+.text {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.text > h3 {
+  margin: 0 auto;
+}
+
+.text > button {
+  width: 70px;
+  height: 30px;
+  background: #1C1946;
+  color: #fff;
+  border: none;
+  padding: 0px 10px;
+  border-radius: 5px;
+}
+
+.comp-div > div{
   display: flex;
   flex-direction: row;
   margin: 0 auto;
   justify-content: space-between;
   width: 100%;
+  margin-top: 30px;
 }
+
 .comp-div>div>div{
-  border: 1px solid black;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
 }
 
 .comp-div>div>div:nth-child(1){
-  width: 30%;
+  width: 33%;
 }
 .comp-div>div>div:nth-child(2){
-  width: 30%;
+  width: 33%;
 }
 .comp-div>div>div:nth-child(3){
+  width: 33%;
+}
+
+.comp-div table{
+  margin: 0 auto;
+}
+
+.simple-view-notice{
+  margin-top: 50px;
+}
+
+.simple-view{
+  width: 80%;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+  align-content: center;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+}
+
+.simple-view > div{
+  border: 1px solid gray;
+  background-color: #1C1946;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  color: white;
+  padding: 3px;
+}
+
+.sub-line-div{
+  width: 5000px;
+}
+
+.dataChart{
   width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.dataChart>h4{
+  margin: 5px;
+}
+
+.chart-table{
+  margin: 0 auto;
+  border: 1px solid black;
+  width: 100%;
+  height: 300px;
+}
+
+.last-child{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.simple-view>div{
+  padding: 10px;
 }

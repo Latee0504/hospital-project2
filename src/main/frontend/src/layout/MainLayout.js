@@ -1,19 +1,34 @@
 import React from 'react'
-import './MainLayout'
-import { useNavigate } from 'react-router-dom'
+import './MainLayout.css'
+import { Outlet, useNavigate } from 'react-router-dom'
 const MainLayout = () => {
   const navigate = useNavigate()
   return (
-       <ul>
-          <li>
-            <p onClick={(e)=>{navigate(`/`)}}>메인 화면</p>
-          </li>
-          <li>
-            <p onClick={(e)=>{navigate(`/detail`)}}>상세 정보</p>
-          </li>
-          
+  <div className='m-h'>
+    <div className='admin-header'>
+      <div className='logo'>
+        <img className='adminLogo' src='http://localhost:8080/images/logo.png' />
+        <h1>그린대학교병원</h1>
+      </div>
+      <ul className='admin-header-ul'>
+        <li>
+          <p onClick={(e)=>{navigate(`/`)}}>메인 화면</p>
+        </li>
+        <li>
+          <p onClick={(e)=>{navigate(`/detail`)}}>상세 정보</p>
+        </li>
+        <li>
+          <p onClick={(e)=>{navigate(`/sendOrder`)}}>발주</p>
+        </li>
+        <li>
+          <p onClick={(e)=>{navigate(`/orders`)}}>수주</p>
+        </li>
       </ul>
-    
+     
+      
+      
+    </div>
+  </div>
   )
 }
 

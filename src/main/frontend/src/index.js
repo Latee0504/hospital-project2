@@ -13,11 +13,13 @@ const queryClinet = new QueryClient()
 root.render(
   //<React.StrictMode>
     //리액트 쿼리 사용을 위한 step2
-    <QueryClientProvider client={queryClinet}>
-      <BrowserRouter>
-        <App />
+   
+      <BrowserRouter> 
+        <QueryClientProvider client={queryClinet}>
+          <App /> 
+        </QueryClientProvider>
       </BrowserRouter>
-    </QueryClientProvider>
+   
   //</React.StrictMode>
 );
 

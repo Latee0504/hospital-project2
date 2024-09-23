@@ -1,7 +1,167 @@
-.sub-content{
+
+.detail-div {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+
+}
+.redeah{
   display: flex;
   flex-direction: column;
-}
-.rev-temp{
   width: 30%;
+  height: 100%;
+  padding: 20px;
 }
+
+.top-content{
+  width: 100%;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+}
+
+.top-sub-content{
+  width: 100%;
+  height: 60%;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.top-sub-content>h3{
+  margin: 5px;
+}
+
+.top-sub-content>table{
+  margin-top: 10px;
+}
+
+.top-content > h2 {
+  font-size: 22px;
+  font-family: 'Freesentation-9Black';
+  margin-bottom: 10px;
+}
+.detail-table {
+  width: 100%;
+  text-align: left;
+  border-top: 3px double lightgray;
+  border-bottom: 3px double lightgray;
+}
+
+.detail-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.sub-content{
+  width: 79%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.10);
+  justify-content: space-between;
+}
+
+.rev-temp{
+  margin: 0 auto;
+}
+
+.top-sub-content>div{
+  width: 100%;
+}
+
+/* 캘린더 꾸미기 */
+
+/* 전체 캘린더 스타일 */
+.react-calendar {
+  width: 100%;
+  
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1C1946;
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 10px 0;
+}
+
+.react-calendar__navigation button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.react-calendar__navigation button:hover {
+  color: #FFD700;
+}
+
+.react-calendar__navigation button[aria-label*="Previous2"],
+.react-calendar__navigation button[aria-label*="Next2"] {
+  display: none;
+}
+
+.react-calendar__tile {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.react-calendar__tile:hover {
+  background-color: #f0f8ff;
+  transform: scale(1.05);
+}
+
+.react-calendar__tile--now {
+  background-color: #FFD700;
+  color: white;
+}
+
+.react-calendar__tile--active {
+  background-color: #1C1946;
+  color: white;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  font-weight: bold;
+  color: #1C1946;
+  padding: 10px 0;
+}
+
+.btn{
+  background: #1C1946;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 10px;
+}
+

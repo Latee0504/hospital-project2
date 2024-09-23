@@ -3,3 +3,4 @@
 2)캘린더 라이브러리 npm i react-calendar
 3)차트 라이브러리 npm install chart.js react-chartjs-2
 4)리액트 쿼리 라이브러리 npm install react-query 
+                      npm install @tanstack/react-query

@@ -11,17 +11,21 @@
         <result column="DATE" property="date"/>
         <result column="HOUR" property="hour"/>
         <result column="MINUTE" property="minute"/>
+        <result column="MONTH" property="month"/>
+        <result column="DAY" property="day"/>
+        <result column="MAX" property="max"/>
+        <result column="MIN" property="min"/>
     </resultMap>
 
     <!--해당 환자의 전체 온도 데이터 조회-->
     <select id="getAll" resultMap="patTemp">
-        SELECT *
+        SELECT TEMP_DATE, TEMP
         FROM pat_temp
     </select>
 
     <!--오늘 날짜인 환자의 체온 정보 10개를 받아올 쿼리-->
     <select id="getAllPatTemp" resultMap="patTemp">
-        SELECT *
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM (
             SELECT *
             FROM pat_temp
@@ -30,6 +34,26 @@
             LIMIT 10
         ) AS NEW_TEMP
         ORDER BY TEMP_DATE
+    </select>
+
+    <!--바 차트에서 새로운 정보 10개를 받아올 쿼리 cnt가 변하면 지금으로 부터 cnt시간 이전 이후 데이터를 가져옴-->
+    <select id="getChangePatTemp" resultMap="patTemp">
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE) = DATE(#{tempDate})
+        AND TEMP_DATE &lt;= DATE_ADD(#{tempDate}, INTERVAL #{cnt} HOUR)
+        ORDER BY TEMP_DATE DESC
+        LIMIT 10
+    </select>
+
+    <!--해당 날짜의 최대 최소 온도를 함께 받아올 쿼리-->
+    <select id="getPatTemp" resultMap="patTemp">
+        SELECT MAX(TEMP) AS MAX
+            , MIN(TEMP) AS MIN
+            , ROUND(AVG(TEMP), 2) AS AVG
+            , TEMP_DATE
+        FROM pat_temp
+        WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>
 
     <!--오늘 날짜인 최대 온도를 받아올 쿼리-->
@@ -48,13 +72,13 @@
 
     <!--전체 값의 평균을 받아올 쿼리-->
     <select id="getAvg" resultMap="patTemp">
-        SELECT AVG(TEMP) AS TEMP
+        SELECT ROUND(AVG(TEMP), 3) AS TEMP
         FROM pat_temp
     </select>
 
     <!--특정 날짜의 평균 쿼리-->
     <select id="getAvgWhen" resultMap="patTemp">
-        SELECT AVG(TEMP) AS TEMP
+        SELECT ROUND(AVG(TEMP), 2) AS TEMP
         FROM pat_temp
         WHERE DATE(TEMP_DATE) = #{tempDate}
     </select>
@@ -69,21 +93,21 @@
     <select id="getDataByM" resultMap="patTemp">
         SELECT DATE(TEMP_DATE) AS DATE
             , HOUR(TEMP_DATE) AS HOUR
-            , AVG(TEMP) AS TEMP
+            , ROUND(AVG(TEMP), 2) AS TEMP
             , FLOOR(MINUTE(TEMP_DATE) / 30) * 30 AS MINUTE
         FROM pat_temp
         WHERE DATE(TEMP_DATE)=#{tempDate}
         GROUP BY HOUR(TEMP_DATE)
             , DATE(TEMP_DATE)
             , FLOOR(MINUTE(TEMP_DATE) / 30) * 30
-        ORDER BY DATE, HOU~R, MINUTE;
+        ORDER BY DATE, HOUR, MINUTE;
     </select>
 
     <!--60분 단위로 끊어서 받아옴-->
     <select id="getDataByH" resultMap="patTemp">
         SELECT DATE(TEMP_DATE) AS DATE
             , HOUR(TEMP_DATE) AS HOUR
-            , AVG(TEMP) AS TEMP
+            , ROUND(AVG(TEMP), 2) AS TEMP
         FROM pat_temp
         WHERE DATE(TEMP_DATE)=#{tempDate}
         GROUP BY HOUR(TEMP_DATE), DATE(TEMP_DATE)
@@ -92,7 +116,7 @@
 
     <!--현재 시간으로 부터 60분 간의 데이터-->
     <select id="getDuringH" resultMap="patTemp">
-        SELECT *
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM pat_temp
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 1 HOUR
         AND #{tempDate} - INTERVAL 0 MINUTE;
@@ -100,10 +124,19 @@
 
     <!--현재 시간으로 부터 30분 간의 데이터-->
     <select id="getDuringM" resultMap="patTemp">
-        SELECT *
+        SELECT DATE_FORMAT(TEMP_DATE, '%H:%i:%S') AS TEMP_DATE, TEMP
         FROM pat_temp
         WHERE TEMP_DATE BETWEEN #{tempDate} - INTERVAL 30 MINUTE
         AND #{tempDate} - INTERVAL 0 MINUTE;
+    </select>
+
+    <!--전체 진료일 자를 하루 씩 받아 옴-->
+    <select id="getAllDateByWeek" resultMap="patTemp">
+        SELECT DATE_FORMAT(TEMP_DATE, '%Y-%m-%d') AS DATE, ROUND(AVG(TEMP), 2) AS TEMP
+        FROM pat_temp
+        WHERE TEMP_DATE BETWEEN DATE_SUB(STR_TO_DATE( #{tempDate}, '%Y-%m-%d'), INTERVAL 3 DAY)
+        AND DATE_ADD(STR_TO_DATE( #{tempDate}, '%Y-%m-%d'), INTERVAL 3 DAY)
+        GROUP BY DATE_FORMAT(TEMP_DATE, '%Y-%m-%d');
     </select>
 </mapper>
 
