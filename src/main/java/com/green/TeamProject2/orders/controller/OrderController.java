@@ -1,11 +1,10 @@
 package com.green.TeamProject2.orders.controller;
 
 import com.green.TeamProject2.orders.service.CustomerServiceImpl;
-import com.green.TeamProject2.orders.service.ItemServiceImpl;
+import com.green.TeamProject2.orders.service.SupplyServiceImpl;
 import com.green.TeamProject2.orders.vo.CustomerVO;
-import com.green.TeamProject2.orders.vo.ItemVO;
+import com.green.TeamProject2.orders.vo.SupplyVO;
 import jakarta.annotation.Resource;
-import org.springframework.boot.autoconfigure.pulsar.PulsarAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,28 +12,35 @@ import java.util.List;
 @RequestMapping("/order")
 @RestController
 public class OrderController {
-    @Resource(name = "itemService")
-    private ItemServiceImpl itemService;
 
     @Resource(name = "customerService")
     private CustomerServiceImpl customerService;
 
-    //아이템 등록
-    @PostMapping("/regItem")
-    public void regItem(@RequestBody ItemVO itemVO){
-        itemService.regItem(itemVO);
+    @Resource(name = "supplyService")
+    private SupplyServiceImpl supplyService;
+
+    //상품 등록
+    @PostMapping("/regSupply")
+    public void regSupply(@RequestBody SupplyVO supplyVO){
+        supplyService.regSupply(supplyVO);
     }
 
-    //아이템 리스트
-    @GetMapping("/getItemList")
-    public List<ItemVO> getItemList(){
-        return itemService.getItemList();
+    //상품 리스트
+    @GetMapping("/getSupplyList")
+    public List<SupplyVO> getSupplyList(){
+        return supplyService.getSupplyList();
     }
 
-    //아이템 삭제
-    @DeleteMapping("/deleteItem/{data}")
-    public void deleteItem(@PathVariable(name = "data") int itemNum){
-        itemService.deleteItem(itemNum);
+    //상품 삭제
+    @DeleteMapping("/deleteSupply/{data}")
+    public void deleteSupply(@PathVariable(name = "data") int supplyNum){
+        supplyService.deleteSupply(supplyNum);
+    }
+
+    //상품 수정
+    @PutMapping("/updateSupply")
+    public void updateSupply(@RequestBody SupplyVO supplyVO){
+        supplyService.updateSupply(supplyVO);
     }
 
     //거래처 등록
@@ -53,4 +59,12 @@ public class OrderController {
     public void deleteCustomer(@PathVariable(name = "data") int customerNum){
         customerService.deleteCustomer(customerNum);
     }
+
+    //거래처 수정
+    @PutMapping("/updateCustomer")
+    public void updateCustomer(@RequestBody CustomerVO customerVO){
+        customerService.updateCustomer(customerVO);
+    }
+
+    //발주된 주문서 리스트
 }

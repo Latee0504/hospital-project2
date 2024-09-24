@@ -3,15 +3,59 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="orderMapper">
+
     <!--상품-->
-    <resultMap id="item" type="com.green.TeamProject2.orders.vo.ItemVO">
-        <id column="ITEM_NUM" property="itemNum"/>
-        <result column="ITEM_NAME" property="itemName"/>
-        <result column="ITEM_CNT" property="itemCnt"/>
-        <result column="ITEM_PRICE" property="itemPrice"/>
-        <result column="ITEM_HIRE_DATE" property="itemHireDate"/>
-        <result column="ITEM_PERIOD" property="itemPeriod"/>
+    <resultMap id="supply" type="com.green.TeamProject2.orders.vo.SupplyVO">
+        <id column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="SUPPLY_NAME" property="supplyName"/>
+        <result column="SUPPLY_PRICE" property="supplyPrice"/>
+        <result column="SUPPLY_STANDARD" property="supplyStandard"/>
+        <result column="SUPPLIER" property="supplier"/>
+        <result column="SUPPLY_CAUTION" property="supplyCaution"/>
     </resultMap>
+
+    <!--상품 등록-->
+    <insert id="regSupply">
+        INSERT INTO SUPPLY
+        (SUPPLY_NAME
+        , SUPPLY_PRICE
+        , SUPPLY_STANDARD
+        , SUPPLIER
+        , SUPPLY_CAUTION
+        )
+        VALUES
+        (#{supplyName}
+        , #{supplyPrice}
+        , #{supplyStandard}
+        , #{supplier}
+        , #{supplyCaution}
+        )
+    </insert>
+
+    <!--상품 리스트-->
+    <select id="getSupplyList" resultMap="supply">
+        SELECT *
+        FROM SUPPLY
+    </select>
+
+    <!--상품 삭제-->
+    <delete id="deleteSupply">
+        DELETE
+        FROM SUPPLY
+        WHERE SUPPLY_NUM = #{supplyNum}
+    </delete>
+
+    <!--상품 수정-->
+    <update id="updateSupply">
+        UPDATE SUPPLY
+        SET SUPPLY_NAME = #{supplyName}
+        , SUPPLY_PRICE = #{supplyPrice}
+        , SUPPLY_STANDARD = #{supplyStandard}
+        , SUPPLIER = #{supplier}
+        , SUPPLY_CAUTION = #{supplyCaution}
+        WHERE SUPPLY_NUM = #{supplyNum}
+    </update>
+
 
     <!--거래처-->
     <resultMap id="customer" type="com.green.TeamProject2.orders.vo.CustomerVO">
@@ -24,37 +68,6 @@
         <result column="CUSTOMER_EMAIL" property="customerEmail"/>
         <result column="CUSTOMER_ETC" property="customerEtc"/>
     </resultMap>
-
-    <!--상품 등록-->
-    <insert id="regItem">
-        INSERT INTO ITEM
-        (ITEM_NAME
-        , ITEM_CNT
-        , ITEM_PRICE
-        , ITEM_HIRE_DATE
-        , ITEM_PERIOD
-        )
-        VALUES
-        (#{itemName}
-        , #{itemCnt}
-        , #{itemPrice}
-        , #{itemHireDate}
-        , #{itemPeriod}
-        )
-    </insert>
-
-    <!--상품 리스트-->
-    <select id="getItemList" resultMap="item">
-        SELECT *
-        FROM ITEM
-    </select>
-
-    <!--상품 삭제-->
-    <delete id="deleteItem">
-        DELETE
-        FROM ITEM
-        WHERE ITEM_NUM = #{itemNum}
-    </delete>
 
     <!--거래처 등록-->
     <insert id="regCustomer">
@@ -91,6 +104,28 @@
         WHERE CUSTOMER_NUM = #{customerNum}
     </delete>
 
+    <!--거래처 수정-->
+    <update id="updateCustomer">
+        UPDATE CUSTOMER
+        SET CUSTOMER_LI = #{customerLi}
+        , CUSTOMER_NAME = #{customerName}
+        , CUSTOMER_HEAD_NAME = #{customerHeadName}
+        , CUSTOMER_ADDRESS = #{customerAddress}
+        , CUSTOMER_TEL = #{customerTel}
+        , CUSTOMER_EMAIL = #{customerEmail}
+        , CUSTOMER_ETC = #{customerEtc}
+        WHERE CUSTOMER_NUM = #{customerNum}
+    </update>
+
+    <!--발주된 주문서 리스트-->
+
+
+    <!--발주 처리 진행-->
+    <!--발주된 주문서를 선택하면 처리된 주문서 리스트에 등록하고
+    그 주문서에서 상품을 찾고 재고를 찾고 -->
+    <select id="">
+
+    </select>
 </mapper>
 
 

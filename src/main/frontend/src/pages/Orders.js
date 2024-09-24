@@ -19,7 +19,7 @@ const Orders = () => {
           </p>
           <p>
             <span onClick={(e)=>{navigate(`/orders/item`)}}>제품 관리</span>
-          </p>  
+          </p>    
         </div>
         <h3>수주 처리</h3>
         <div>

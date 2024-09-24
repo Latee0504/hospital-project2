@@ -11,4 +11,6 @@ public interface CustomerService {
     public List<CustomerVO> getCustomerList();
     //거래처 삭제
     public void deleteCustomer(int customerNum);
+    //거래처 수정
+    public void updateCustomer(CustomerVO customerVO);
 }

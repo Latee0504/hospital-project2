@@ -26,4 +26,9 @@ public class CustomerServiceImpl implements CustomerService{
     public void deleteCustomer(int customerNum) {
         sqlSession.delete("orderMapper.deleteCustomer", customerNum);
     }
+
+    @Override
+    public void updateCustomer(CustomerVO customerVO) {
+        sqlSession.update("orderMapper.updateCustomer", customerVO);
+    }
 }

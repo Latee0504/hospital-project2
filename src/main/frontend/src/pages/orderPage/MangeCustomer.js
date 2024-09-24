@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import './MangeCustomer.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import EditCustomerModal from '../utils/EditCustomerModal'
 
 const MangeCustomer = () => {
 
   // 화면 새로 고침용 변수
   const[cnt, setCnt] = useState(0)
-
-  const navigate = useNavigate()
 
   //전체 거래처 목록 리스트를 담을 변수
   const [customerList, setCustomerList] = useState([])
@@ -28,17 +27,23 @@ const MangeCustomer = () => {
     , customerEtc: ''
   })
 
+  //모달 오픈 관리 변수
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  // 선택된 거래처 데이터
+  const [selectedCustomer, setSelectedCustomer] = useState(null);  
+
    // 입력받은 데이터로 바꾸는 함수
    function changeData(e) {
-    const { name, value } = e.target;
+    
 
     // 이메일 입력 처리
-    if (name == 'customerEmail') {
+    if (e.target.name == 'customerEmail') {
       const emailFront = emailF.current.value;
       const emailBack = emailB.current.value;
-      setRegData({ ...regData, customerEmail: emailFront + emailBack });
+      setRegData({...regData, customerEmail: emailFront + emailBack});
     } else {
-      setRegData({ ...regData, [name]: value });
+      setRegData({...regData, [e.target.name]: e.target.value});
     }
 
     console.log(regData);
@@ -81,6 +86,26 @@ const MangeCustomer = () => {
     })
     setCnt(cnt-1)
   }
+
+  // 거래처 수정 모달 열기
+  const openEditModal = (customer) => {
+    setSelectedCustomer(customer);  // 선택한 거래처 정보 저장
+    setIsOpenModal(customer);  // 모달 열기
+  };
+
+  // 거래처 수정 저장 처리
+  const saveCustomer = (updatedCustomer) => {
+    axios
+      .put(`/order/updateCustomer`, updatedCustomer)
+      .then((res) => {
+        alert('수정 성공');
+        setCustomerList(customerList.map(c => c.customerNum == selectedCustomer.customerNum ? updatedCustomer : c));  // 수정된 데이터 반영
+        setIsOpenModal(false);
+      })
+      .catch((error) => {
+        console.log('거래처 수정 실패', error);
+      });
+  };
 
   return (
     <div className='customer-div'>
@@ -193,7 +218,7 @@ const MangeCustomer = () => {
                     <td>
                       <button type='button' className='btn' onClick={(e)=>{deleteCutomer(customer.customerNum)}}>삭제</button>
                       <button type='button' className='btn' onClick={(e)=>{
-                      navigate()
+                      openEditModal(customer)
                       }}>수정</button>
                     </td>
                   </tr>
@@ -202,6 +227,13 @@ const MangeCustomer = () => {
             }
           </tbody>
         </table>
+      {/* 거래처 수정 모달 */}
+      <EditCustomerModal
+        show={isOpenModal}
+        onClose={() => setIsOpenModal(false)}
+        onSave={saveCustomer}
+        customer={selectedCustomer}
+      />
       </div>
     </div>
   )

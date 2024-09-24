@@ -2,39 +2,46 @@ import React, { useEffect, useState } from 'react'
 import './MangeItem.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import EditItemModal from '../utils/EditItemModal'
+import ItemDetailModal from '../utils/ItemDetailModal'
 
 const MangeItem = () => {
 
-  const navigate = useNavigate()
+ 
 
   // 화면 새로 고침용 변수
   const[cnt, setCnt] = useState(0)
 
   // 등록할 아이템 정보 객체
-  const[itemData, setItemData] = useState({
-    itemName:''
-    , itemCnt:0
-    , itemHireDate:''
-    , itemPrice:0
-    , itemPeriod:''
+  const[supplyData, setSupplyData] = useState({
+    supplyName:''
+    , supplyPrice:0
+    , supplyStandard:''
+    , supplier:''
+    , supplyCaution:''
+  })
+
+  // 아이템 상세 정보 객체
+  const [detailDate, setDetailData] = useState({
+    ...supplyData,
+    contractInventoryAmount:0
   })
 
   // 등록된 아이템 리스트
-  const[itemList, setItemList] = useState([])
+  const[supplyList, setSupplyList] = useState([])
 
   // 체인지 데이터
   function changeData(e){
-    setItemData({
-      ...itemData,
+    setSupplyData({
+      ...supplyData,
       [e.target.name]:e.target.value
     })
-    console.log(itemData)
   }
 
   // 아이템 등록 함수
   function regData(){
     axios
-    .post(`/order/regItem`, itemData)
+    .post(`/order/regSupply`, supplyData)
     .then((res)=>{
       console.log('등록 성공')
     })
@@ -47,7 +54,7 @@ const MangeItem = () => {
   // 아이템 삭제 함수
   function deleteItem(num){
     axios
-    .delete(`/order/deleteItem/${num}`)
+    .delete(`/order/deleteSupply/${num}`)
     .then((res)=>{
       alert('삭제 성공')
     })
@@ -60,14 +67,63 @@ const MangeItem = () => {
   //화면 그리기용
   useEffect(()=>{
     axios
-    .get(`/order/getItemList`)
+    .get(`/order/getSupplyList`)
     .then((res)=>{
-      setItemList(res.data)
+      setSupplyList(res.data)
     })
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
   }, [cnt])
+
+  //모달 오픈 관리 변수(수정)
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  // 선택된 상품 데이터
+  const [selectedSupply, setSelectedSupply] = useState(null);  
+
+   // 상품 수정 모달 열기
+   const openEditModal = (supply) => {
+    setSelectedSupply(supply);  // 선택한 상품 정보 저장
+    setIsOpenModal(supply);  // 모달 열기
+  };
+
+  // 상품 수정 저장 처리
+  const saveCustomer = (updateSupply) => {
+    axios
+      .put(`/order/updateSupply`, updateSupply)
+      .then((res) => {
+        alert('수정 성공');
+        setSupplyList(supplyList.map(c => c.supplyNum == selectedSupply.supplyNum ? updateSupply : c));  // 수정된 데이터 반영
+        setIsOpenModal(false);
+      })
+      .catch((error) => {
+        console.log('상품 수정 실패', error);
+      });
+  };
+
+  //상품 상세 정보 모달창 오픈 여부
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false)
+
+  // 아이템 상세정보 모달 열기
+  const openDetailModal = (supply) => {
+    setSelectedSupply(supply)
+    setIsOpenDetailModal(supply)
+  }
+
+  // 상품 상세 정보 수정 저장 처리
+  const saveDetail = (updateDetailSupply)=>{
+    axios
+    .put(`/order/updateDetailSupply`, updateDetailSupply)
+    .then((res)=>{
+      alert('상세 수정 성공')
+      setDetailData()
+      setIsOpenDetailModal(false)
+    })
+    .catch((error)=>{
+      console.log('상세 수정 에러', error)
+    })
+  }
 
   return (
     <div className='item-div'>
@@ -77,28 +133,28 @@ const MangeItem = () => {
           <thead>
             <tr>
               <td>제품 명</td>
-              <td>재고 수</td>
-              <td>최근 입고일</td>
-              <td>보관 기한</td>
               <td>제품 가격</td>
+              <td>제품 규격</td>
+              <td>공급 사</td>
+              <td>주의 사항</td>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <input type='text' name='itemName' onChange={(e)=>{changeData(e)}} placeholder='제품명을 입력하세요'/>
+                <input type='text' name='supplyName' onChange={(e)=>{changeData(e)}} placeholder='제품명을 입력하세요'/>
               </td>
               <td>
-                <input type='number' name='itemCnt' onChange={(e)=>{changeData(e)}} placeholder='재고 수를 입력하세요'/>
+                <input type='number' name='supplyPrice' onChange={(e)=>{changeData(e)}} placeholder='제품 가격을 입력하세요'/>
               </td>
               <td>
-                <input type='text' name='itemHireDate' onChange={(e)=>{changeData(e)}} placeholder='최근 입고일을 입력하세요'/>
+                <input type='text' name='supplyStandard' onChange={(e)=>{changeData(e)}} placeholder='제품 규격을 입력하세요'/>
               </td>
               <td>
-                <input type='text' name='itemPeriod' onChange={(e)=>{changeData(e)}} placeholder='보관 기한을 입력하세요'/>
+                <input type='text' name='supplier' onChange={(e)=>{changeData(e)}} placeholder='공급사를 입력하세요'/>
               </td>
               <td>
-                <input type='number' name='itemPrice' onChange={(e)=>{changeData(e)}} placeholder='제품 가격을 입력하세요'/>
+                <input type='text' name='supplyCaution' onChange={(e)=>{changeData(e)}} placeholder='주의사항을 입력하세요'/>
               </td>
             </tr>
           </tbody>
@@ -115,29 +171,31 @@ const MangeItem = () => {
               <td>선택</td>
               <td>등록 넘버</td>
               <td>제품 명</td>
-              <td>재고 수</td>
-              <td>최근 입고일</td>
-              <td>보관 기한</td>
               <td>제품 가격</td>
+              <td>제품 규격</td>
+              <td>공급 사</td>
+              <td>주의 사항</td>
               <td></td>
             </tr>
           </thead>
           <tbody>
             {
-              itemList.map((item,i)=>{
+              supplyList.map((supply,i)=>{
                 return(
                 <tr key={i}>
                   <td><input type='checkbox'/></td>
                   <td>{i+1}</td>
-                  <td>{item.itemName}</td>
-                  <td>{item.itemCnt}</td>
-                  <td>{item.itemHireDate}</td>
-                  <td>{item.itemPeriod}</td>
-                  <td>{item.itemPrice}</td>
                   <td>
-                    <button type='button' className='btn' onClick={(e)=>{deleteItem(item.itemNum)}}>삭제</button>
+                    <span onClick={(e)=>{openDetailModal(supply)}}>{supply.supplyName}</span>
+                  </td>
+                  <td>{supply.supplyPrice}</td>
+                  <td>{supply.supplyStandard}</td>
+                  <td>{supply.supplier}</td>
+                  <td>{supply.supplyCaution}</td>
+                  <td>
+                    <button type='button' className='btn' onClick={(e)=>{deleteItem(supply.supplyNum)}}>삭제</button>
                     <button type='button' className='btn' onClick={(e)=>{
-                     navigate()
+                     openEditModal(supply)
                     }}>수정</button>
                   </td>
                 </tr>
@@ -147,6 +205,20 @@ const MangeItem = () => {
             
           </tbody>
         </table>
+        {/* 아이템 수정 모달 */}
+        <EditItemModal
+          show={isOpenModal}
+          onClose={() => setIsOpenModal(false)}
+          onSave={saveCustomer}
+          supply={selectedSupply}
+        />
+        {/* 아이템 상세 정보 모달 */}
+        <ItemDetailModal
+          show={isOpenDetailModal}
+          onClose={()=>{setIsOpenDetailModal(false)}}
+          onSave={saveDetail}
+          supply={selectedSupply}
+        />
       </div>
     </div>
   )
