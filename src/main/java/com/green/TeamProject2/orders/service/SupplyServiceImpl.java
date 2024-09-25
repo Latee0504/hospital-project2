@@ -1,11 +1,14 @@
 package com.green.TeamProject2.orders.service;
 
+import com.green.TeamProject2.orders.vo.ContractVO;
 import com.green.TeamProject2.orders.vo.SupplyVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("supplyService")
 public class SupplyServiceImpl implements SupplyService{
@@ -32,4 +35,20 @@ public class SupplyServiceImpl implements SupplyService{
     public void deleteSupply(int supplyNum) {
         sqlSession.delete("orderMapper.deleteSupply", supplyNum);
     }
+
+    @Override
+    public List<SupplyVO> getSupplyDate(int supplyNum) {
+        return sqlSession.selectList("orderMapper.getSupplyDate", supplyNum);
+    }
+
+
+    @Override
+    public ContractVO detailSupply(int supplyNum, String contractDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("supplyNum", supplyNum);
+        params.put("contractDate", contractDate);
+        return sqlSession.selectOne("orderMapper.detailSupply", params);
+    }
+
+
 }

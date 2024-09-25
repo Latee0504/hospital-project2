@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import './MangeItem.css'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import EditItemModal from '../utils/EditItemModal'
 import ItemDetailModal from '../utils/ItemDetailModal'
 
 const MangeItem = () => {
 
- 
+  const [isShow, setIsShow] = useState(false)
 
   // 화면 새로 고침용 변수
   const[cnt, setCnt] = useState(0)
+
+  // 날짜 목록 데이터
+  const[dateDataList, setDateDataList] = useState([])
+
+  // 변하는 날짜 데이터
+  const[dateChange, setDateChange] = useState('')
 
   // 등록할 아이템 정보 객체
   const[supplyData, setSupplyData] = useState({
@@ -22,10 +27,7 @@ const MangeItem = () => {
   })
 
   // 아이템 상세 정보 객체
-  const [detailDate, setDetailData] = useState({
-    ...supplyData,
-    contractInventoryAmount:0
-  })
+  const[detailData, setDetailData] = useState({})
 
   // 등록된 아이템 리스트
   const[supplyList, setSupplyList] = useState([])
@@ -40,6 +42,10 @@ const MangeItem = () => {
 
   // 아이템 등록 함수
   function regData(){
+    if(supplyData.supplyName==''){
+      alert('상품 명이 비었습니다')
+      return
+    }
     axios
     .post(`/order/regSupply`, supplyData)
     .then((res)=>{
@@ -70,11 +76,32 @@ const MangeItem = () => {
     .get(`/order/getSupplyList`)
     .then((res)=>{
       setSupplyList(res.data)
+      console.log(res.data)
     })
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
-  }, [cnt])
+  }, [cnt, dateChange, detailData])
+
+  // 날짜 목록 얻기
+  function getDateList(num){
+    axios
+    .get(`/order/getSupplyDate/${num}`)
+    .then((res)=>{
+      setDateDataList(res.data[0].contractList)
+      console.log(res.data)
+    })
+    .catch((error)=>{console.log(error)})
+  }
+  
+
+  // 상세 정보 얻기
+  function getDetail(num, date){
+    axios
+    .get(`/order/detailSupply/${num}/${date}`)
+    .then((res)=>{setDetailData(res.data)})
+    .catch((error)=>{console.log('상세정보얻기 에러', error)})
+  }
 
   //모달 오픈 관리 변수(수정)
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -117,12 +144,17 @@ const MangeItem = () => {
     .put(`/order/updateDetailSupply`, updateDetailSupply)
     .then((res)=>{
       alert('상세 수정 성공')
-      setDetailData()
       setIsOpenDetailModal(false)
     })
     .catch((error)=>{
       console.log('상세 수정 에러', error)
     })
+  }
+
+  // 날짜 변경
+  function changeDate(e){
+    setDateChange(e.target.value)
+    console.log(dateChange)
   }
 
   return (
@@ -159,67 +191,121 @@ const MangeItem = () => {
             </tr>
           </tbody>
         </table>
-        <div>
+        <div className='div-btn'>
           <button type='button' onClick={(e)=>{regData()}} className='btn'>등록</button>
         </div>
       </div>
-      <div className='item-list-div'>
-        <h4>아이템 리스트</h4>
-        <table>
-          <thead>
-            <tr>
-              <td>선택</td>
-              <td>등록 넘버</td>
-              <td>제품 명</td>
-              <td>제품 가격</td>
-              <td>제품 규격</td>
-              <td>공급 사</td>
-              <td>주의 사항</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              supplyList.map((supply,i)=>{
-                return(
-                <tr key={i}>
-                  <td><input type='checkbox'/></td>
-                  <td>{i+1}</td>
-                  <td>
-                    <span onClick={(e)=>{openDetailModal(supply)}}>{supply.supplyName}</span>
-                  </td>
-                  <td>{supply.supplyPrice}</td>
-                  <td>{supply.supplyStandard}</td>
-                  <td>{supply.supplier}</td>
-                  <td>{supply.supplyCaution}</td>
-                  <td>
-                    <button type='button' className='btn' onClick={(e)=>{deleteItem(supply.supplyNum)}}>삭제</button>
-                    <button type='button' className='btn' onClick={(e)=>{
-                     openEditModal(supply)
-                    }}>수정</button>
-                  </td>
-                </tr>
-                )
-              })
-            }
-            
-          </tbody>
-        </table>
-        {/* 아이템 수정 모달 */}
+      <div className='detail-div'>
+        <div className='item-list-div'>
+          <h4>아이템 리스트</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>선택</td>
+                <td>등록 넘버</td>
+                <td>제품 명</td>
+                <td>제품 가격</td>
+                <td>제품 규격</td>
+                <td>공급 사</td>
+                <td>주의 사항</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                supplyList.map((supply,i)=>{
+                  return(
+                  <tr key={i}>
+                    <td><input type='checkbox'/></td>
+                    <td>{i+1}</td>
+                    <td>
+                      <span onClick={(e)=>{
+                        setIsShow(true)
+                        setSelectedSupply(supply.supplyName)
+                        getDetail(supply.supplyNum, supply.contractList[0].contractDate)
+                        getDateList(supply.supplyNum)
+                        }}>{supply.supplyName}</span>
+                    </td>
+                    <td>{supply.supplyPrice}</td>
+                    <td>{supply.supplyStandard}</td>
+                    <td>{supply.supplier}</td>
+                    <td>{supply.supplyCaution}</td>
+                    <td>
+                      <button type='button' className='btn' onClick={(e)=>{deleteItem(supply.supplyNum)}}>삭제</button>
+                    </td>
+                    <td>
+                      <button type='button' className='btn' onClick={(e)=>{openEditModal(supply)}}>수정</button>
+                    </td>
+                  </tr>
+                  )
+                })
+              }
+              
+            </tbody>
+          </table>
+        </div> 
+        <div className='item-detail-div'>
+          {
+            !isShow
+            ?
+            <>
+              <h4>상세정보가 보임</h4>
+            </>
+            :
+            <>
+              <h4>{selectedSupply}의 상세 정보</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <td>총 재고 수</td>
+                    <td>입고 날짜</td>
+                    <td>날짜에 입고된 수</td>
+                    <td>출고 예정</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* 선택한 supply안의 contractList의 정보*/}
+                  <tr>
+                   <td></td>
+                   <td>
+                    <select name='contractDate' onChange={(e)=>{
+                      changeDate(e)
+                      
+                    }}>
+                      {
+                        dateDataList.map((data, i)=>{
+                          return(
+                            <option key={i} value={data.contractDate}>{data.contractDate}</option>
+                          )
+                        })
+                      }
+                      
+                    </select>
+                   </td>
+                   <td>{detailData.contractAmount}개</td>
+                   <td>{detailData.contractOutput}개</td>
+                  </tr>
+                </tbody>
+              </table>
+            </>
+          }
+        </div>
+      </div>
+      {/* 아이템 수정 모달 */}
         <EditItemModal
           show={isOpenModal}
           onClose={() => setIsOpenModal(false)}
           onSave={saveCustomer}
           supply={selectedSupply}
         />
-        {/* 아이템 상세 정보 모달 */}
+        {/* 아이템 상세 정보 수정 모달 */}
         <ItemDetailModal
           show={isOpenDetailModal}
           onClose={()=>{setIsOpenDetailModal(false)}}
           onSave={saveDetail}
           supply={selectedSupply}
         />
-      </div>
     </div>
   )
 }

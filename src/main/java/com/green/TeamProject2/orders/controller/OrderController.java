@@ -2,12 +2,14 @@ package com.green.TeamProject2.orders.controller;
 
 import com.green.TeamProject2.orders.service.CustomerServiceImpl;
 import com.green.TeamProject2.orders.service.SupplyServiceImpl;
+import com.green.TeamProject2.orders.vo.ContractVO;
 import com.green.TeamProject2.orders.vo.CustomerVO;
 import com.green.TeamProject2.orders.vo.SupplyVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/order")
 @RestController
@@ -41,6 +43,18 @@ public class OrderController {
     @PutMapping("/updateSupply")
     public void updateSupply(@RequestBody SupplyVO supplyVO){
         supplyService.updateSupply(supplyVO);
+    }
+
+    // 상품 상세
+    @GetMapping("/detailSupply/{data}/{date}")
+    public ContractVO detailSupply(@PathVariable(name = "data") int supplyNum, @PathVariable(name = "date") String contractDate){
+        return supplyService.detailSupply(supplyNum, contractDate);
+    }
+
+    // 상품 별 날짜 목록
+    @GetMapping("/getSupplyDate/{data}")
+    public List<SupplyVO> getSupplyDate(@PathVariable(name = "data") int supplyNum){
+        return supplyService.getSupplyDate(supplyNum);
     }
 
     //거래처 등록

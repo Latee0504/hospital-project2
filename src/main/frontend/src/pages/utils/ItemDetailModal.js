@@ -44,18 +44,13 @@ const ItemDetailModal = ({show, onClose, onSave, item}) => {
 
   if (!show) return null
 
-
   return (
     <div className='modal-overlay'>
       <div className='modal'>
         <button className='modal-close' onClick={(e)=>{onClose()}}>×</button>
         <h2>아이템 상세 수정</h2>
         <div className='modal-content'>
-          <input type='text' name='supplyName' value={formData.supplyName} onChange={(e)=>{handleChange(e)}} placeholder='상품 명'/>
-          <input type='text' name='supplyPrice' value={formData.supplyPrice} onChange={(e)=>{handleChange(e)}} placeholder='상품 가격'/>
-          <input type='text' name='supplyStandard' value={formData.supplyStandard} onChange={(e)=>{handleChange(e)}} placeholder='상품 규격'/>
-          <input type='text' name='supplier' value={formData.supplier} onChange={(e)=>{handleChange(e)}} placeholder='공급자'/>
-          <input type='text' name='supplyCaution' value={formData.supplyCaution} onChange={(e)=>{handleChange(e)}} placeholder='주의 사항'/>
+         
         </div>
         <div className='modal-actions'>
           <button onClick={(e)=>{handleSave()}}>저장</button>
