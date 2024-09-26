@@ -254,7 +254,6 @@ const DetailChart = ({currentDate}) => {
             :
             <h1>정보가 없습니다</h1>
           }   
-          
         </div>
       </div>
       

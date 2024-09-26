@@ -50,5 +50,10 @@ public class SupplyServiceImpl implements SupplyService{
         return sqlSession.selectOne("orderMapper.detailSupply", params);
     }
 
+    @Override
+    public void regDetail(ContractVO contractVO) {
+        sqlSession.insert("orderMapper.regDetailContract", contractVO);
+    }
+
 
 }

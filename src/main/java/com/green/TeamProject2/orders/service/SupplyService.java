@@ -23,4 +23,7 @@ public interface SupplyService {
 
     //상세 정보 얻기
     public ContractVO detailSupply(int supplyNum, String contractDate);
+
+    //상세 정보 등록
+    public void regDetail(ContractVO contractVO);
 }

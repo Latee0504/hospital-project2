@@ -1,10 +1,10 @@
 package com.green.TeamProject2.orders.controller;
 
 import com.green.TeamProject2.orders.service.CustomerServiceImpl;
+import com.green.TeamProject2.orders.service.DoneFormServiceImpl;
+import com.green.TeamProject2.orders.service.OrderFormServiceImpl;
 import com.green.TeamProject2.orders.service.SupplyServiceImpl;
-import com.green.TeamProject2.orders.vo.ContractVO;
-import com.green.TeamProject2.orders.vo.CustomerVO;
-import com.green.TeamProject2.orders.vo.SupplyVO;
+import com.green.TeamProject2.orders.vo.*;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,12 @@ public class OrderController {
 
     @Resource(name = "supplyService")
     private SupplyServiceImpl supplyService;
+
+    @Resource(name = "orderFormService")
+    private OrderFormServiceImpl orderFormService;
+
+    @Resource(name = "doneFormService")
+    private DoneFormServiceImpl doneFormService;
 
     //상품 등록
     @PostMapping("/regSupply")
@@ -49,6 +55,12 @@ public class OrderController {
     @GetMapping("/detailSupply/{data}/{date}")
     public ContractVO detailSupply(@PathVariable(name = "data") int supplyNum, @PathVariable(name = "date") String contractDate){
         return supplyService.detailSupply(supplyNum, contractDate);
+    }
+
+    // 상품 상세 등록
+    @PostMapping("/regDetail")
+    public void regDetail(@RequestBody ContractVO contractVO){
+        supplyService.regDetail(contractVO);
     }
 
     // 상품 별 날짜 목록
@@ -81,4 +93,14 @@ public class OrderController {
     }
 
     //발주된 주문서 리스트
+    @GetMapping("/orderFormList")
+    public List<OrderFormVO> getOrderForm(){
+       return orderFormService.getOrderFormList();
+    }
+
+    //처리 중인 주문서 리스트
+    @GetMapping("/doneFormList")
+    public List<DoneFormVO> getDoneForm(){
+        return doneFormService.getDoneForm();
+    }
 }

@@ -46,8 +46,8 @@
     <select id="getSupplyList" resultMap="supply">
         SELECT *
         FROM SUPPLY
-        , CONTRACT
-        WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        LEFT JOIN CONTRACT
+        ON SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
     </select>
 
     <!--상품 삭제-->
@@ -70,17 +70,29 @@
 
     <!--상세 상품 정보 보기-->
     <select id="detailSupply" resultMap="contract">
-        SELECT SUPPLY.SUPPLY_NUM,
-            CONTRACT_NUM,
-            CONTRACT_DATE,
-            CONTRACT_AMOUNT,
-            CONTRACT_OUTPUT
+        SELECT *
         FROM SUPPLY, CONTRACT
         WHERE SUPPLY.SUPPLY_NUM = #{supplyNum}
         AND CONTRACT.CONTRACT_DATE = #{contractDate}
         AND SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
         ORDER BY CONTRACT_DATE
     </select>
+
+    <!--상품 상세 정보 추가-->
+    <insert id="regDetailContract">
+        INSERT INTO CONTRACT
+        (CONTRACT_DATE
+        , SUPPLY_NUM
+        , CONTRACT_AMOUNT
+        , CONTRACT_OUTPUT
+        )
+        VALUES
+        (#{contractDate}
+        , #{supplyNum}
+        , #{contractAmount}
+        , #{contractOutput}
+        )
+    </insert>
 
     <!--상품의 주문된 날짜만 뽑아 오기-->
     <select id="getSupplyDate" resultMap="supply">
@@ -152,7 +164,51 @@
     </update>
 
     <!--발주된 주문서 리스트-->
+    <resultMap id="orderForm" type="com.green.TeamProject2.orders.vo.OrderFormVO">
+        <id column="ORDER_NUM" property="orderNum"/>
+        <result column="ORDER_DATE" property="orderDate"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="CUSTOMER_NUM" property="customerNum"/>
+        <result column="ORDER_MANGER" property="orderManger"/>
+        <association property="customerVO" resultMap="customer"/>
+        <collection property="supplyList" resultMap="supply"/>
+    </resultMap>
 
+    <!--주문서 얻기-->
+    <select id="getOrderForm" resultMap="orderForm">
+        SELECT *
+        FROM ORDER_FORM, CUSTOMER, SUPPLY
+        WHERE ORDER_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
+    </select>
+
+    <!--처리 중 주문서 얻기-->
+    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
+        <id column="DONE_NUM" property="doneNum"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="DONE_MANGER" property="doneManger"/>
+        <association property="orderFormVO" resultMap="orderForm"/>
+    </resultMap>
+
+    <!--처리 중 주문서 얻기-->
+    <select id="getDoneForm" resultMap="doneForm">
+        SELECT *
+        FROM ORDER_FORM, DONE_FORM, supply, customer
+        WHERE ORDER_FORM.ORDER_NUM = DONE_FORM.ORDER_NUM
+        AND order_form.SUPPLY_NUM = supply.SUPPLY_NUM
+        AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
+    </select>
+
+<!--    &lt;!&ndash;처리 주문서 등록&ndash;&gt;-->
+<!--    <insert id="regDoneForm">-->
+<!--        INSERT INTO DONE_FORM-->
+<!--        (-->
+<!--        )-->
+<!--        VALUES-->
+<!--        (-->
+<!--        )-->
+<!--    </insert>-->
 
     <!--발주 처리 진행-->
     <!--발주된 주문서를 선택하면 처리된 주문서 리스트에 등록하고
