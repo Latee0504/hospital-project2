@@ -51,16 +51,28 @@ public class OrderController {
         supplyService.updateSupply(supplyVO);
     }
 
-    // 상품 상세
-    @GetMapping("/detailSupply/{data}/{date}")
-    public ContractVO detailSupply(@PathVariable(name = "data") int supplyNum, @PathVariable(name = "date") String contractDate){
-        return supplyService.detailSupply(supplyNum, contractDate);
+//    // 상품 상세
+//    @GetMapping("/detailSupply/{data}/{date}")
+//    public ContractVO detailSupply(@PathVariable(name = "data") int supplyNum, @PathVariable(name = "date") String contractDate){
+//        return supplyService.detailSupply(supplyNum, contractDate);
+//    }
+
+    //상품 상세
+    @GetMapping("/detailList/{num}")
+    public List<ContractVO> detailList(@PathVariable(name = "num") int supplyNum){
+        return supplyService.detailList(supplyNum);
     }
 
     // 상품 상세 등록
     @PostMapping("/regDetail")
     public void regDetail(@RequestBody ContractVO contractVO){
         supplyService.regDetail(contractVO);
+    }
+
+    // 상품 상세 수정
+    @PutMapping("/updateDetail")
+    public void updateDetail(@RequestBody ContractVO contractVO){
+        supplyService.updateDetail(contractVO);
     }
 
     // 상품 별 날짜 목록

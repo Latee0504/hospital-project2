@@ -68,13 +68,22 @@
         WHERE SUPPLY_NUM = #{supplyNum}
     </update>
 
-    <!--상세 상품 정보 보기-->
-    <select id="detailSupply" resultMap="contract">
+<!--    &lt;!&ndash;상세 상품 정보 보기&ndash;&gt;-->
+<!--    <select id="detailSupply" resultMap="contract">-->
+<!--        SELECT *-->
+<!--        FROM SUPPLY, CONTRACT-->
+<!--        WHERE SUPPLY.SUPPLY_NUM = #{supplyNum}-->
+<!--        AND CONTRACT.CONTRACT_DATE = #{contractDate}-->
+<!--        AND SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM-->
+<!--        ORDER BY CONTRACT_DATE-->
+<!--    </select>-->
+
+    <!--상세 정보 리스트-->
+    <select id="detailList" resultMap="supply">
         SELECT *
         FROM SUPPLY, CONTRACT
-        WHERE SUPPLY.SUPPLY_NUM = #{supplyNum}
-        AND CONTRACT.CONTRACT_DATE = #{contractDate}
-        AND SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        AND SUPPLY.SUPPLY_NUM = #{supplyNum}
         ORDER BY CONTRACT_DATE
     </select>
 
@@ -92,7 +101,17 @@
         , #{contractAmount}
         , #{contractOutput}
         )
+
     </insert>
+
+    <!--상품 상세 정보 수정-->
+    <update id="updateDetailContract">
+        UPDATE CONTRACT
+        SET
+        CONTRACT_DATE = #{contractDate}
+        , CONTRACT_AMOUNT = #{contractAmount}
+        WHERE CONTRACT_NUM = #{contractNum}
+    </update>
 
     <!--상품의 주문된 날짜만 뽑아 오기-->
     <select id="getSupplyDate" resultMap="supply">

@@ -11,6 +11,9 @@ const MangeItem = () => {
   //상세 데이터가 있는지 확인 할 변수
   const [inputDetail, setInputDetail] = useState(false)
 
+  //상세 데이터를 업데이트할 수 것인가?
+  const [updateDetail, setUpdateDetail] = useState(false)
+
   // 화면 새로 고침용 변수
   const[cnt, setCnt] = useState(0)
 
@@ -31,7 +34,8 @@ const MangeItem = () => {
 
   // 새로 등록할 상세 정보 객체
   const [contractData, setContractData] = useState({
-    contractDate:''
+    contractNum:0
+    , contractDate:''
     , supplyNum:0
     , contractAmount:0
     , contractOutput:0
@@ -39,6 +43,9 @@ const MangeItem = () => {
 
   // 아이템 상세 정보 객체
   const[detailData, setDetailData] = useState({})
+
+  // 상세 정보 리스트
+  const[detailList, setDetailList] = useState([])
 
   // 등록된 아이템 리스트
   const[supplyList, setSupplyList] = useState([])
@@ -92,18 +99,15 @@ const MangeItem = () => {
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
-  }, [cnt, detailData])
+  }, [cnt, detailData, contractData])
 
   // 날짜 목록 얻기
   function getDateList(num){
     axios
     .get(`/order/getSupplyDate/${num}`)
-    .then((res)=>{
-      
+    .then((res)=>{     
         setDateDataList(res.data[0].contractList)
-        console.log(res.data)
-     
-      
+        console.log(res.data)   
     })
     .catch((error)=>{
       console.log('날짜목록 얻기 에러', error)
@@ -111,26 +115,37 @@ const MangeItem = () => {
     })
   }
   
-
-  // 상세 정보 얻기
-  function getDetail(num, date){
-    axios
-    .get(`/order/detailSupply/${num}/${date}`)
-    .then((res)=>{
-      if(date==null){
-        alert('데이터가 없다')
-        setInputDetail(true)
-        setCnt(cnt-1)
-      }
-      else{
-        setDetailData(res.data)
-        setCnt(cnt+1)
-        setInputDetail(false)
-      }
+  // // 상세 정보 얻기
+  // function getDetail(num, date){
+  //   axios
+  //   .get(`/order/detailSupply/${num}/${date}`)
+  //   .then((res)=>{
+  //     if(date==null){
+  //       alert('데이터가 없다')
+  //       setInputDetail(true)
+  //       setCnt(cnt-1)
+  //     }
+  //     else{
+  //       setDetailData(res.data)
+  //       setCnt(cnt+1)
+  //       setInputDetail(false)
+  //     }
       
-    }
-      )
-    .catch((error)=>{console.log('상세정보얻기 에러', error)})
+  //   }
+  //     )
+  //   .catch((error)=>{console.log('상세정보얻기 에러', error)})
+  // }
+
+  //상세 정보 리스트 얻기
+  function getDetailList(num){
+    axios
+    .get(`/order/detailList/${num}`)
+    .then((res)=>{
+      setDetailList(res.data[0].contractList)
+    })
+    .catch((error)=>{
+      console.log('상세 정보 리스트 에러', error)
+    })
   }
 
   //모달 오픈 관리 변수(수정)
@@ -184,11 +199,6 @@ const MangeItem = () => {
     })
   }
 
-  // 날짜 변경
-  function changeDate(e){
-    setChangeInfoDate(e.target.value)
-  }
-
   //데이터 변경
   function changeDetail(e){
     setContractData({
@@ -206,6 +216,18 @@ const MangeItem = () => {
     })
     .catch((error)=>{
       console.log('상세 정보 등록 에러', error)
+    })
+  }
+
+  //상세 정보 수정
+  function updateContract(){
+    axios
+    .put(`/order/updateDetail`, contractData)
+    .then((res)=>{
+      alert('상세 정보 수정 성공')
+    })
+    .catch((error)=>{
+      console.log('상세 정보 수정 에러', error)
     })
   }
 
@@ -279,7 +301,8 @@ const MangeItem = () => {
                           supplyName:supply.supplyName,
                           supplyNum:supply.supplyNum
                         })
-                        getDetail(supply.supplyNum, supply.contractList[0].contractDate)
+                        // getDetail(supply.supplyNum, supply.contractList[0].contractDate)
+                        getDetailList(supply.supplyNum)
                         getDateList(supply.supplyNum)
                         setContractData({
                           ...contractData,
@@ -287,7 +310,7 @@ const MangeItem = () => {
                         })
                         }}>{supply.supplyName}</span>
                     </td>
-                    <td>{supply.supplyPrice}</td>
+                    <td>{supply.supplyPrice}원</td>
                     <td>{supply.supplyStandard}</td>
                     <td>{supply.supplier}</td>
                     <td>{supply.supplyCaution}</td>
@@ -315,9 +338,12 @@ const MangeItem = () => {
             :
             <>
               <h4>{selectedSupply.supplyName}의 상세 정보</h4>
-              <table>
+              <table className='table-detail'>
                 <thead>
                   <tr>
+                    <td>
+                      <input type='checkbox'/>
+                    </td>
                     <td>총 재고 수</td>
                     <td>입고 날짜</td>
                     <td>날짜에 입고된 수</td>
@@ -328,46 +354,72 @@ const MangeItem = () => {
                   {/* 선택한 supply안의 contractList의 정보*/}
                   
                    {
-                      inputDetail != false
+                      inputDetail != false || updateDetail != false
                       ?
-                     <>
-                        <tr>
-                          <td></td>
-                          <td><input type='text' name='contractDate' onChange={(e)=>{changeDetail(e)}} placeholder='입고 날짜를 입력하세요'/></td>
-                          <td><input type='text' name='contractAmount' onChange={(e)=>{changeDetail(e)}} placeholder='입고 갯수를 입력하세요'/></td>
-                          <td></td>
-                        </tr>
-                        <button type='button' className='btn' onClick={(e)=>{
-                          setInputDetail(false)
-                          regContract()
-                        }}>등록 하기</button>
-                     </>
+                      <tr>
+                        {
+                          updateDetail == false
+                          ?
+                          <>
+                            <td></td>
+                            <td><input type='text' name='contractDate' onChange={(e)=>{changeDetail(e)}} placeholder='입고 날짜를 입력하세요'/></td>
+                            <td><input type='text' name='contractAmount' onChange={(e)=>{changeDetail(e)}} placeholder='입고 갯수를 입력하세요'/></td>
+                            <td></td>
+                          </>
+                          :
+                          <>
+                            <td></td>
+                            <td><input type='text' name='contractDate' onChange={(e)=>{changeDetail(e)}} placeholder='수정 날짜를 입력하세요'/></td>
+                            <td><input type='text' name='contractAmount' onChange={(e)=>{changeDetail(e)}} placeholder='수정 갯수를 입력하세요'/></td>
+                            <td></td>
+                          </>
+                        }
+                        
+                      </tr>  
                       :
                       <>
-                        <tr>
-                          <td>{ dateDataList.reduce((total, data) => total + (data.contractAmount || 0), 0)}개</td>
-                          <td>
-                            <select name='contractDate' onChange={(e)=>{
-                              getDetail(selectedSupply.supplyNum, e.target.value)
-                            }}>
-                              {
-                                dateDataList.map((data, j)=>{
-                                  return (
-                                    <option key={j} value={data.contractDate}>{data.contractDate}</option>
-                                  )
-                                })
-                              }
-                            </select>
-                          </td>
-                          <td>{detailData.contractAmount}개</td>
-                          <td>{detailData.contractOutput}개</td>
-                        </tr>
-                        <button type='button' className='btn' onClick={(e)=>{setInputDetail(true)}}>새로 등록</button>
+                        {
+                          detailList.map((detail, i)=>{
+                            return(
+                              <tr>
+                                <td>
+                                  <input type='checkbox'/>
+                                </td>
+                                <td></td>
+                                <td>{detail.contractDate}</td>
+                                <td>{detail.contractAmount}개</td>
+                                <td>{detail.contractOutput}개</td>
+                              </tr>
+                            )
+                          })
+                        }
                       </>
                    }
                 </tbody>
               </table>
-              
+               {
+                inputDetail != false || updateDetail != false
+                ?
+                <div className='control-button'>
+                  {
+                    updateDetail == false
+                    ?
+                    <button type='button' className='btn' onClick={(e)=>{
+                      setInputDetail(false)
+                      regContract()
+                    }}>등록 하기</button>
+                    :
+                    <button type='button' className='btn' onClick={(e)=>{
+                      setUpdateDetail(false)
+                      updateContract()
+                    }}>수정 하기</button>
+                  }
+                </div>
+                :
+                <div className='control-button'>
+                  <button type='button' className='btn' onClick={(e)=>{setInputDetail(true)}}>새로 등록</button>
+                  <button type='button' className='btn' onClick={(e)=>{setUpdateDetail(true)}}>수정</button>
+                </div>}
             </>
           }
         </div>

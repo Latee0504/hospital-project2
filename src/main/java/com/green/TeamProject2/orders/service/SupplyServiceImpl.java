@@ -41,18 +41,29 @@ public class SupplyServiceImpl implements SupplyService{
         return sqlSession.selectList("orderMapper.getSupplyDate", supplyNum);
     }
 
-
     @Override
-    public ContractVO detailSupply(int supplyNum, String contractDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("supplyNum", supplyNum);
-        params.put("contractDate", contractDate);
-        return sqlSession.selectOne("orderMapper.detailSupply", params);
+    public List<ContractVO> detailList(int supplyNum) {
+        return sqlSession.selectList("orderMapper.detailList", supplyNum);
     }
+
+
+//    @Override
+//    public ContractVO detailSupply(int supplyNum, String contractDate) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("supplyNum", supplyNum);
+//        params.put("contractDate", contractDate);
+//        return sqlSession.selectOne("orderMapper.detailSupply", params);
+//    }
+
 
     @Override
     public void regDetail(ContractVO contractVO) {
         sqlSession.insert("orderMapper.regDetailContract", contractVO);
+    }
+
+    @Override
+    public void updateDetail(ContractVO contractVO) {
+        sqlSession.update("orderMapper.updateDetailContract", contractVO);
     }
 
 

@@ -21,9 +21,15 @@ public interface SupplyService {
     //각 상품의 날짜 리스트
     public List<SupplyVO> getSupplyDate(int supplyNum);
 
+//    //상세 정보 얻기
+//    public ContractVO detailSupply(int supplyNum, String contractDate);
+
     //상세 정보 얻기
-    public ContractVO detailSupply(int supplyNum, String contractDate);
+    public List<ContractVO> detailList(int supplyNum);
 
     //상세 정보 등록
     public void regDetail(ContractVO contractVO);
+
+    //상세 정보 수정
+    public void updateDetail(ContractVO contractVO);
 }
