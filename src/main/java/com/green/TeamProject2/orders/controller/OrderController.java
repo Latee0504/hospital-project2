@@ -51,12 +51,6 @@ public class OrderController {
         supplyService.updateSupply(supplyVO);
     }
 
-//    // 상품 상세
-//    @GetMapping("/detailSupply/{data}/{date}")
-//    public ContractVO detailSupply(@PathVariable(name = "data") int supplyNum, @PathVariable(name = "date") String contractDate){
-//        return supplyService.detailSupply(supplyNum, contractDate);
-//    }
-
     //상품 상세
     @GetMapping("/detailList/{num}")
     public List<ContractVO> detailList(@PathVariable(name = "num") int supplyNum){
@@ -73,6 +67,12 @@ public class OrderController {
     @PutMapping("/updateDetail")
     public void updateDetail(@RequestBody ContractVO contractVO){
         supplyService.updateDetail(contractVO);
+    }
+
+    // 상품 상세 삭제
+    @DeleteMapping("/deleteDetail/{data}")
+    public void deleteDetail(@PathVariable(name = "data") int contractNum){
+        supplyService.deleteDetail(contractNum);
     }
 
     // 상품 별 날짜 목록
@@ -114,5 +114,11 @@ public class OrderController {
     @GetMapping("/doneFormList")
     public List<DoneFormVO> getDoneForm(){
         return doneFormService.getDoneForm();
+    }
+
+    //주문서 처리 등록
+    @PostMapping("/regDone")
+    public void regDone(@RequestBody DoneFormVO doneFormVO){
+        orderFormService.regDone(doneFormVO);
     }
 }

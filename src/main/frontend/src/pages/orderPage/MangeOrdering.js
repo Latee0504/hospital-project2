@@ -12,13 +12,19 @@ const MangeOrdering = () => {
   // 선택된 주문서를 담을 리스트
   const [selectedOrders, setSelectedOrders] = useState([])
 
+  // 처리된 목록에 추가될 객체
+  const [orderOne, setOrderOne] = useState({
+    orderNum:0
+    , doneDate:''
+    , doneManger:''
+  })
+
   // 화면 그리기(상부 리스트)
   useEffect(()=>{
     axios
     .get(`/order/orderFormList`)
     .then((res)=>{
       setOrderFormList(res.data)
-      console.log(res.data)
     })
     .catch((error)=>{
       console.log('발주 리스트 에러', error)
@@ -31,7 +37,6 @@ const MangeOrdering = () => {
     .get(`/order/doneFormList`)
     .then((res)=>{
       setDoneList(res.data)
-      console.log(res.data)
     })
     .catch((error)=>{
       console.log('발주 리스트 에러', error)
@@ -54,7 +59,7 @@ const MangeOrdering = () => {
   //발주 리스트를 처리 중 리스트로 옮길 함수
   function regDone(){
     axios
-    .post(`/order/regDone`,)
+    .post(`/order/regDone`, orderOne)
     .then((res)=>{
       alert('처리 중 입니다')
     })
@@ -69,7 +74,12 @@ const MangeOrdering = () => {
     <div className='order-div'>
       <div className='order-list-div'>
         <h4>들어온 주문서 리스트</h4>
-        <input type='text' placeholder='처리자 이름을 입력하세요'/>
+        <input type='text' placeholder='처리자 이름을 입력하세요' onChange={(e)=>{
+          setOrderOne({...orderOne,
+            doneManger:e.target.value
+        })
+        console.log(orderOne)
+        }}/>
         <table>
           <thead>
             <tr>
@@ -89,11 +99,18 @@ const MangeOrdering = () => {
                 return(
                   <tr key={i}>
                     <td>
-                      <input type='checkbox' onChange={(e)=>{handleCheckboxChange(order)}} checked={selectedOrders.includes(order)}/>
+                      <input type='checkbox' onChange={(e)=>{handleCheckboxChange(order) 
+                        setOrderOne({...orderOne,
+                          orderNum:order.orderNum})
+                          console.log(orderOne)}} checked={selectedOrders.includes(order)}/>
                     </td>
                     <td>{order.orderNum}</td>
                     <td>{order.customerVO.customerName}</td>
-                    <td>{}</td>
+                    <td>{order.supplyList.map((list,i)=>{
+                      return(
+                        <span>{list.supplyName}</span>
+                      )
+                    })}</td>
                     <td>{order.orderAmount}개</td>
                     <td>{order.orderDate}</td>
                     <td>{order.orderManger}</td>
@@ -116,28 +133,31 @@ const MangeOrdering = () => {
               <td>주문번호</td>
               <td>주문 회사명</td>
               <td>상품명</td>
-              <td>구매 갯수</td>
+              <td>구매 요청 갯수</td>
               <td>처리 일자</td>
+              <td>발주자 명</td>
               <td>처리자 명</td>
             </tr>
           </thead>
           <tbody>
             {/* 처리 등록된 주문서 리스트를 받아서 그려줄 것 */}
-            {doneList.map((order, i) => (
-              <tr key={i}>
-                <td>{order.doneNum}</td>
-                <td>{order.orderFormVO.orderNum}</td>
-                <td>{order.orderFormVO.customerVO.customerName}</td>
-                <td></td>
-                <td>{order.orderFormVO.orderAmount}개</td>
-                <td>
-                  {order.doneDate}
-                </td>
-                <td>
-                  {order.doneManger}
-                </td>
-              </tr>
-            ))}
+            {
+              doneList.map((done, i)=>{
+                return(
+                  <tr key={i}>
+                    <td>{doneList.length-i}</td>
+                    <td>{done.doneNum}</td>
+                    <td>{done.orderFormVO.customerVO.customerName}</td>
+                    <td>{done.orderFormVO.supplyList[0].supplyName+` 외 ${done.orderFormVO.supplyList.length-1}`}</td>
+                    <td>{done.orderFormVO.orderAmount}개</td>
+                    <td>{done.doneDate}</td>
+                    <td>{done.orderFormVO.orderManger}</td>
+                    <td>{done.doneManger}</td>
+                  </tr>
+                )
+              })
+            }
+            
           </tbody>
         </table>
       </div>

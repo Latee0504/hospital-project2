@@ -12,6 +12,7 @@
         <result column="SUPPLY_STANDARD" property="supplyStandard"/>
         <result column="SUPPLIER" property="supplier"/>
         <result column="SUPPLY_CAUTION" property="supplyCaution"/>
+        <result column="TOTAL_SUPPLY_CNT" property="totalSupplyCnt"/>
         <collection property="contractList" resultMap="contract"/>
     </resultMap>
 
@@ -68,16 +69,6 @@
         WHERE SUPPLY_NUM = #{supplyNum}
     </update>
 
-<!--    &lt;!&ndash;상세 상품 정보 보기&ndash;&gt;-->
-<!--    <select id="detailSupply" resultMap="contract">-->
-<!--        SELECT *-->
-<!--        FROM SUPPLY, CONTRACT-->
-<!--        WHERE SUPPLY.SUPPLY_NUM = #{supplyNum}-->
-<!--        AND CONTRACT.CONTRACT_DATE = #{contractDate}-->
-<!--        AND SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM-->
-<!--        ORDER BY CONTRACT_DATE-->
-<!--    </select>-->
-
     <!--상세 정보 리스트-->
     <select id="detailList" resultMap="supply">
         SELECT *
@@ -101,7 +92,8 @@
         , #{contractAmount}
         , #{contractOutput}
         )
-
+        ON DUPLICATE KEY UPDATE
+        CONTRACT_AMOUNT = CONTRACT_AMOUNT + VALUES(CONTRACT_AMOUNT)
     </insert>
 
     <!--상품 상세 정보 수정-->
@@ -112,6 +104,13 @@
         , CONTRACT_AMOUNT = #{contractAmount}
         WHERE CONTRACT_NUM = #{contractNum}
     </update>
+
+    <!--상품 상세 정보 삭제-->
+    <delete id="deleteDetail">
+        DELETE
+        FROM CONTRACT
+        WHERE CONTRACT_NUM = #{contractNum}
+    </delete>
 
     <!--상품의 주문된 날짜만 뽑아 오기-->
     <select id="getSupplyDate" resultMap="supply">
@@ -190,8 +189,18 @@
         <result column="ORDER_AMOUNT" property="orderAmount"/>
         <result column="CUSTOMER_NUM" property="customerNum"/>
         <result column="ORDER_MANGER" property="orderManger"/>
+        <result column="ORDER_STATUS" property="orderStatus"/>
         <association property="customerVO" resultMap="customer"/>
         <collection property="supplyList" resultMap="supply"/>
+    </resultMap>
+
+    <!--완료된 주문서 리스트-->
+    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
+        <id column="DONE_NUM" property="doneNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="DONE_MANGER" property="doneManger"/>
+        <association property="orderFormVO" resultMap="orderForm"/>
     </resultMap>
 
     <!--주문서 얻기-->
@@ -200,34 +209,52 @@
         FROM ORDER_FORM, CUSTOMER, SUPPLY
         WHERE ORDER_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
         AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
+        AND ORDER_FORM.ORDER_STATUS = 'NONE'
     </select>
 
-    <!--처리 중 주문서 얻기-->
-    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
-        <id column="DONE_NUM" property="doneNum"/>
-        <result column="DONE_DATE" property="doneDate"/>
-        <result column="DONE_MANGER" property="doneManger"/>
-        <association property="orderFormVO" resultMap="orderForm"/>
-    </resultMap>
-
-    <!--처리 중 주문서 얻기-->
+    <!--처리 된 주문서 얻기-->
     <select id="getDoneForm" resultMap="doneForm">
         SELECT *
         FROM ORDER_FORM, DONE_FORM, supply, customer
         WHERE ORDER_FORM.ORDER_NUM = DONE_FORM.ORDER_NUM
         AND order_form.SUPPLY_NUM = supply.SUPPLY_NUM
         AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
+        AND ORDER_FORM.ORDER_STATUS = 'DONE'
+        ORDER BY DONE_NUM DESC
     </select>
 
-<!--    &lt;!&ndash;처리 주문서 등록&ndash;&gt;-->
-<!--    <insert id="regDoneForm">-->
-<!--        INSERT INTO DONE_FORM-->
-<!--        (-->
-<!--        )-->
-<!--        VALUES-->
-<!--        (-->
-<!--        )-->
-<!--    </insert>-->
+    <!--처리 주문서 등록 후 -->
+    <insert id="regDoneForm">
+        INSERT INTO DONE_FORM
+        (ORDER_NUM
+        , DONE_MANGER
+        )
+        VALUES
+        (#{orderNum}
+        , #{doneManger}
+        )
+    </insert>
+
+    <!--상태 'DONE'으로 업데이트-->
+    <update id="regDoneAfter">
+        UPDATE ORDER_FORM
+        SET ORDER_STATUS = 'DONE'
+        WHERE ORDER_NUM = #{orderNum}
+    </update>
+
+    <!--리스트 옮기면 재고에서 제품을 빼주는 업데이트-->
+    <update id="regDoneMange">
+        UPDATE CONTRACT
+        SET CONTRACT.CONTRACT_AMOUNT = CONTRACT.CONTRACT_AMOUNT -
+        (
+            <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
+            SELECT CONTRACT_NUM, CONTRACT_AMOUNT
+            FROM CONTRACT
+            WHERE SUPPLY_NUM = #{supplyNum}
+            ORDER BY CONTRACT_DATE
+        )
+        WHERE CONTRACT.SUPPLY_NUM = #{supplyNum}
+    </update>
 
     <!--발주 처리 진행-->
     <!--발주된 주문서를 선택하면 처리된 주문서 리스트에 등록하고

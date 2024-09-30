@@ -32,6 +32,9 @@ const MangeItem = () => {
     , supplyCaution:''
   })
 
+  //체크 박스의 번호
+  const [checkNum, setCheckNum] = useState(0)
+
   // 새로 등록할 상세 정보 객체
   const [contractData, setContractData] = useState({
     contractNum:0
@@ -40,6 +43,22 @@ const MangeItem = () => {
     , contractAmount:0
     , contractOutput:0
   })
+
+  // 선택된 주문서를 담을 리스트
+  const [selectedDetail, setSelectedDetail] = useState([])
+
+  // 선택한 상세정보를 리스트에 담을 함수
+  function handleCheckboxChange(order){
+    setSelectedDetail((prevSelected) => {
+      if (prevSelected.includes(order)) {
+        return prevSelected.filter((item) => item !== order) // 이미 선택된 경우 해제
+      } else {
+        return [...prevSelected, order] // 선택한 주문 추가
+      }
+    })
+    console.log(order)
+  }
+
 
   // 아이템 상세 정보 객체
   const[detailData, setDetailData] = useState({})
@@ -114,27 +133,6 @@ const MangeItem = () => {
       
     })
   }
-  
-  // // 상세 정보 얻기
-  // function getDetail(num, date){
-  //   axios
-  //   .get(`/order/detailSupply/${num}/${date}`)
-  //   .then((res)=>{
-  //     if(date==null){
-  //       alert('데이터가 없다')
-  //       setInputDetail(true)
-  //       setCnt(cnt-1)
-  //     }
-  //     else{
-  //       setDetailData(res.data)
-  //       setCnt(cnt+1)
-  //       setInputDetail(false)
-  //     }
-      
-  //   }
-  //     )
-  //   .catch((error)=>{console.log('상세정보얻기 에러', error)})
-  // }
 
   //상세 정보 리스트 얻기
   function getDetailList(num){
@@ -231,6 +229,18 @@ const MangeItem = () => {
     })
   }
 
+  //상세 정보 삭제
+  function deleteDetail(data){
+    axios
+    .delete(`/order/deleteDetail/${data}`)
+    .then((res)=>{
+      alert('선택한 상세 정보 삭제 성공')
+    })
+    .catch((error)=>{
+      console.log('상세 정보 삭제 에러', error)
+    })
+  }
+
   return (
     <div className='item-div'>
       <div className='item-reg-div'>
@@ -291,7 +301,7 @@ const MangeItem = () => {
                 supplyList.map((supply,i)=>{
                   return(
                   <tr key={i}>
-                    <td><input type='checkbox'/></td>
+                    <td><input type='checkbox' onChange={(e)=>{handleCheckboxChange(e)}}/></td>
                     <td>{i+1}</td>
                     <td>
                       <span onClick={(e)=>{
@@ -301,7 +311,6 @@ const MangeItem = () => {
                           supplyName:supply.supplyName,
                           supplyNum:supply.supplyNum
                         })
-                        // getDetail(supply.supplyNum, supply.contractList[0].contractDate)
                         getDetailList(supply.supplyNum)
                         getDateList(supply.supplyNum)
                         setContractData({
@@ -342,12 +351,12 @@ const MangeItem = () => {
                 <thead>
                   <tr>
                     <td>
-                      <input type='checkbox'/>
+                      선택
                     </td>
                     <td>총 재고 수</td>
                     <td>입고 날짜</td>
                     <td>날짜에 입고된 수</td>
-                    <td>출고 예정</td>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -362,6 +371,7 @@ const MangeItem = () => {
                           ?
                           <>
                             <td></td>
+                            <td>총 재고수</td>
                             <td><input type='text' name='contractDate' onChange={(e)=>{changeDetail(e)}} placeholder='입고 날짜를 입력하세요'/></td>
                             <td><input type='text' name='contractAmount' onChange={(e)=>{changeDetail(e)}} placeholder='입고 갯수를 입력하세요'/></td>
                             <td></td>
@@ -380,15 +390,15 @@ const MangeItem = () => {
                       <>
                         {
                           detailList.map((detail, i)=>{
+                            const totalAmount = detailList.reduce((sum, item) => sum + item.contractAmount, 0);
                             return(
-                              <tr>
+                              <tr key={i}>
                                 <td>
-                                  <input type='checkbox'/>
+                                  <input type='checkbox' onChange={(e)=>{setCheckNum(detail.contractNum)}}/>
                                 </td>
-                                <td></td>
+                                <td>{totalAmount}개</td>
                                 <td>{detail.contractDate}</td>
                                 <td>{detail.contractAmount}개</td>
-                                <td>{detail.contractOutput}개</td>
                               </tr>
                             )
                           })
@@ -419,6 +429,7 @@ const MangeItem = () => {
                 <div className='control-button'>
                   <button type='button' className='btn' onClick={(e)=>{setInputDetail(true)}}>새로 등록</button>
                   <button type='button' className='btn' onClick={(e)=>{setUpdateDetail(true)}}>수정</button>
+                  <button type='button' className='btn' onClick={(e)=>{deleteDetail(checkNum)}}>삭제</button>
                 </div>}
             </>
           }

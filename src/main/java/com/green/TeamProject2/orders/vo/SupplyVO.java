@@ -12,5 +12,6 @@ public class SupplyVO {
     private String supplyStandard;
     private String supplier;
     private String supplyCaution;
+    private int totalSupplyCnt;
     private List<ContractVO> contractList;
 }
