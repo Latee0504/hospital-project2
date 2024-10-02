@@ -15,6 +15,7 @@ const MangeOrdering = () => {
   // 처리된 목록에 추가될 객체
   const [orderOne, setOrderOne] = useState({
     orderNum:0
+    , supplyNum:0
     , doneDate:''
     , doneManger:''
   })
@@ -58,6 +59,10 @@ const MangeOrdering = () => {
 
   //발주 리스트를 처리 중 리스트로 옮길 함수
   function regDone(){
+    if(orderOne.doneManger==''){
+      alert('처리자명을 입력해주세요')
+      return
+    }
     axios
     .post(`/order/regDone`, orderOne)
     .then((res)=>{
@@ -101,7 +106,11 @@ const MangeOrdering = () => {
                     <td>
                       <input type='checkbox' onChange={(e)=>{handleCheckboxChange(order) 
                         setOrderOne({...orderOne,
-                          orderNum:order.orderNum})
+                          orderNum:order.orderNum
+                        })
+                        setOrderOne({...orderOne,
+                          supplyNum:order.orderFormVO.supplyNum
+                        })
                           console.log(orderOne)}} checked={selectedOrders.includes(order)}/>
                     </td>
                     <td>{order.orderNum}</td>
@@ -146,7 +155,7 @@ const MangeOrdering = () => {
                 return(
                   <tr key={i}>
                     <td>{doneList.length-i}</td>
-                    <td>{done.doneNum}</td>
+                    <td>{done.orderFormVO.orderNum}</td>
                     <td>{done.orderFormVO.customerVO.customerName}</td>
                     <td>{done.orderFormVO.supplyList[0].supplyName+` 외 ${done.orderFormVO.supplyList.length-1}`}</td>
                     <td>{done.orderFormVO.orderAmount}개</td>
@@ -157,7 +166,6 @@ const MangeOrdering = () => {
                 )
               })
             }
-            
           </tbody>
         </table>
       </div>

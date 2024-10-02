@@ -360,8 +360,6 @@ const MangeItem = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* 선택한 supply안의 contractList의 정보*/}
-                  
                    {
                       inputDetail != false || updateDetail != false
                       ?
@@ -392,6 +390,12 @@ const MangeItem = () => {
                           detailList.map((detail, i)=>{
                             const totalAmount = detailList.reduce((sum, item) => sum + item.contractAmount, 0);
                             return(
+                              detailList.length==0
+                              ?
+                              <tr>
+                                <td>재고가 없어요</td>
+                              </tr>
+                              :
                               <tr key={i}>
                                 <td>
                                   <input type='checkbox' onChange={(e)=>{setCheckNum(detail.contractNum)}}/>

@@ -245,20 +245,25 @@
     <!--리스트 옮기면 재고에서 제품을 빼주는 업데이트-->
     <update id="regDoneMange">
         UPDATE CONTRACT
-        SET CONTRACT.CONTRACT_AMOUNT = CONTRACT.CONTRACT_AMOUNT -
+        SET CONTRACT_AMOUNT = CONTRACT_AMOUNT -
         (
-            <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
-            SELECT CONTRACT_NUM, CONTRACT_AMOUNT
-            FROM CONTRACT
-            WHERE SUPPLY_NUM = #{supplyNum}
-            ORDER BY CONTRACT_DATE
+        <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
+        SELECT CONTRACT_AMOUNT
+        FROM CONTRACT
+        WHERE SUPPLY_NUM = #{supplyNum}
+        ORDER BY CONTRACT_DATE
+        LIMIT 1
         )
-        WHERE CONTRACT.SUPPLY_NUM = #{supplyNum}
+        WHERE CONTRACT_NUM =
+        (
+        <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
+        SELECT CONTRACT_NUM
+        FROM CONTRACT
+        WHERE SUPPLY_NUM = #{supplyNum}
+        ORDER BY CONTRACT_DATE
+        LIMIT 1
+        )
     </update>
-
-    <!--발주 처리 진행-->
-    <!--발주된 주문서를 선택하면 처리된 주문서 리스트에 등록하고
-    그 주문서에서 상품을 찾고 재고를 찾고 -->
 
 </mapper>
 

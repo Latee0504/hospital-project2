@@ -24,5 +24,10 @@ public class OrderFormServiceImpl implements OrderFormService{
         sqlSession.update("orderMapper.regDoneAfter", doneFormVO);
     }
 
+    @Override
+    public void regDoneMange(OrderFormVO orderFormVO) {
+        sqlSession.update("orderMapper.regDoneMange", orderFormVO);
+    }
+
 
 }

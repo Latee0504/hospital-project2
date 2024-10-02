@@ -120,5 +120,6 @@ public class OrderController {
     @PostMapping("/regDone")
     public void regDone(@RequestBody DoneFormVO doneFormVO){
         orderFormService.regDone(doneFormVO);
+        orderFormService.regDoneMange(doneFormVO.getOrderFormVO());
     }
 }
