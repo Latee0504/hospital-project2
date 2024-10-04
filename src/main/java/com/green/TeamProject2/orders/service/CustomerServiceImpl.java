@@ -31,4 +31,5 @@ public class CustomerServiceImpl implements CustomerService{
     public void updateCustomer(CustomerVO customerVO) {
         sqlSession.update("orderMapper.updateCustomer", customerVO);
     }
+
 }

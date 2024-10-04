@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './MangeOrdering.css'
 import axios from 'axios'
+import OrderDetailModal from '../utils/OrderDetailModal'
 
 const MangeOrdering = () => {
   //발주 리스트를 담을 리스트
@@ -15,10 +16,18 @@ const MangeOrdering = () => {
   // 처리된 목록에 추가될 객체
   const [orderOne, setOrderOne] = useState({
     orderNum:0
-    , supplyNum:0
+    , orderFormVO:
+    {
+      orderAmount:0
+      , supplyNum:0
+    }
     , doneDate:''
     , doneManger:''
   })
+
+  // 모달 상태 변수
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   // 화면 그리기(상부 리스트)
   useEffect(()=>{
@@ -83,7 +92,6 @@ const MangeOrdering = () => {
           setOrderOne({...orderOne,
             doneManger:e.target.value
         })
-        console.log(orderOne)
         }}/>
         <table>
           <thead>
@@ -106,18 +114,22 @@ const MangeOrdering = () => {
                     <td>
                       <input type='checkbox' onChange={(e)=>{handleCheckboxChange(order) 
                         setOrderOne({...orderOne,
-                          orderNum:order.orderNum
+                          orderNum:order.orderNum,
+                          orderFormVO:{
+                            supplyNum:order.supplyNum,
+                            orderAmount:order.orderAmount
+                          }
                         })
-                        setOrderOne({...orderOne,
-                          supplyNum:order.orderFormVO.supplyNum
-                        })
-                          console.log(orderOne)}} checked={selectedOrders.includes(order)}/>
+                        console.log(orderOne)
+                        setIsOpenModal(true)
+                        }} 
+                        checked={selectedOrders.includes(order)}/>
                     </td>
                     <td>{order.orderNum}</td>
                     <td>{order.customerVO.customerName}</td>
-                    <td>{order.supplyList.map((list,i)=>{
+                    <td>{order.supplyList.map((list,j)=>{
                       return(
-                        <span>{list.supplyName}</span>
+                        <span key={j}>{list.supplyName}</span>
                       )
                     })}</td>
                     <td>{order.orderAmount}개</td>
@@ -157,7 +169,16 @@ const MangeOrdering = () => {
                     <td>{doneList.length-i}</td>
                     <td>{done.orderFormVO.orderNum}</td>
                     <td>{done.orderFormVO.customerVO.customerName}</td>
-                    <td>{done.orderFormVO.supplyList[0].supplyName+` 외 ${done.orderFormVO.supplyList.length-1}`}</td>
+                    <td>
+                      {
+                        done.orderFormVO.supplyList.length-1==0
+                        ?
+                        done.orderFormVO.supplyList[0].supplyName
+                        :
+                        done.orderFormVO.supplyList[0].supplyName
+                        + ` 외 ${done.orderFormVO.supplyList.length-1}`
+                      }
+                    </td>
                     <td>{done.orderFormVO.orderAmount}개</td>
                     <td>{done.doneDate}</td>
                     <td>{done.orderFormVO.orderManger}</td>
@@ -169,7 +190,16 @@ const MangeOrdering = () => {
           </tbody>
         </table>
       </div>
+      {/* 주문서 상세 정보 모달 */}
+      <OrderDetailModal
+      show={isOpenModal}
+      onClose={()=> setIsOpenModal(false)}
+      selectedOrder={selectedOrders}
+     
+      />
     </div>
+    
+
   )
 }
 

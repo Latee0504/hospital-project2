@@ -119,7 +119,19 @@ public class OrderController {
     //주문서 처리 등록
     @PostMapping("/regDone")
     public void regDone(@RequestBody DoneFormVO doneFormVO){
+        // CONTRACRT 에서 재고가 0이 아닌 데이터들의 재고 수를 조회()
+        //0 0 0 50 100
+
+
+
+
         orderFormService.regDone(doneFormVO);
+
+        //VO{CNT:0, supplyNum : 1, offset=0}
+        //VO{CNT:20, supplyNum : 1, offset=1}
+        //VO{CNT:30, supplyNum : 1, offset=2}
+        //List<VO>
+
         orderFormService.regDoneMange(doneFormVO.getOrderFormVO());
     }
 }

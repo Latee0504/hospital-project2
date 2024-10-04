@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class DoneFormVO {
     private int doneNum;
+//    private int supplyNum;//임시로
+//    private int orderAmount;//임시로
     private int orderNum;
     private String doneDate;
     private String doneManger;
