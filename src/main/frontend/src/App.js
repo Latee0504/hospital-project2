@@ -9,6 +9,9 @@ import Orders from './pages/Orders';
 import MangeCustomer from './pages/orderPage/MangeCustomer';
 import MangeItem from './pages/orderPage/MangeItem';
 import MangeOrdering from './pages/orderPage/MangeOrdering';
+import SalesPage from './pages/otherFunctionPage/SalesPage';
+import RequiresPage from './pages/otherFunctionPage/RequiresPage';
+
 
 function App() {
   // 현재 날짜를 선언한 변수
@@ -27,6 +30,8 @@ function App() {
             <Route path='' element={<MangeCustomer/>}/>
             <Route path='ordering' element={<MangeOrdering/>}/>
             <Route path='item' element={<MangeItem/>}/>
+            <Route path='sales' element={<SalesPage/>}/>
+            <Route path='requires' element={<RequiresPage/>}/>
           </Route>
         </Routes>
       </div>

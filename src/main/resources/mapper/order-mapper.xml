@@ -3,15 +3,125 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="orderMapper">
+
     <!--상품-->
-    <resultMap id="item" type="com.green.TeamProject2.orders.vo.ItemVO">
-        <id column="ITEM_NUM" property="itemNum"/>
-        <result column="ITEM_NAME" property="itemName"/>
-        <result column="ITEM_CNT" property="itemCnt"/>
-        <result column="ITEM_PRICE" property="itemPrice"/>
-        <result column="ITEM_HIRE_DATE" property="itemHireDate"/>
-        <result column="ITEM_PERIOD" property="itemPeriod"/>
+    <resultMap id="supply" type="com.green.TeamProject2.orders.vo.SupplyVO">
+        <id column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="SUPPLY_NAME" property="supplyName"/>
+        <result column="SUPPLY_PRICE" property="supplyPrice"/>
+        <result column="SUPPLY_STANDARD" property="supplyStandard"/>
+        <result column="SUPPLIER" property="supplier"/>
+        <result column="SUPPLY_CAUTION" property="supplyCaution"/>
+        <result column="TOTAL_SUPPLY_CNT" property="totalSupplyCnt"/>
+        <collection property="contractList" resultMap="contract"/>
     </resultMap>
+
+    <!--상품 상세 정보-->
+    <resultMap id="contract" type="com.green.TeamProject2.orders.vo.ContractVO">
+        <id column="CONTRACT_NUM" property="contractNum"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="CONTRACT_DATE" property="contractDate"/>
+        <result column="CONTRACT_AMOUNT" property="contractAmount"/>
+        <result column="CONTRACT_OUTPUT" property="contractOutput"/>
+    </resultMap>
+
+    <!--상품 등록-->
+    <insert id="regSupply">
+        INSERT INTO SUPPLY
+        (SUPPLY_NAME
+        , SUPPLY_PRICE
+        , SUPPLY_STANDARD
+        , SUPPLIER
+        , SUPPLY_CAUTION
+        )
+        VALUES
+        (#{supplyName}
+        , #{supplyPrice}
+        , #{supplyStandard}
+        , #{supplier}
+        , #{supplyCaution}
+        )
+    </insert>
+
+    <!--상품 리스트-->
+    <select id="getSupplyList" resultMap="supply">
+        SELECT *
+        FROM SUPPLY
+        LEFT JOIN CONTRACT
+        ON SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+    </select>
+
+    <!--상품 삭제-->
+    <delete id="deleteSupply">
+        DELETE
+        FROM SUPPLY
+        WHERE SUPPLY_NUM = #{supplyNum}
+    </delete>
+
+    <!--상품 수정-->
+    <update id="updateSupply">
+        UPDATE SUPPLY
+        SET SUPPLY_NAME = #{supplyName}
+        , SUPPLY_PRICE = #{supplyPrice}
+        , SUPPLY_STANDARD = #{supplyStandard}
+        , SUPPLIER = #{supplier}
+        , SUPPLY_CAUTION = #{supplyCaution}
+        WHERE SUPPLY_NUM = #{supplyNum}
+    </update>
+
+    <!--상세 정보 리스트-->
+    <select id="detailList" resultMap="supply">
+        SELECT *
+        FROM SUPPLY, CONTRACT
+        WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        AND SUPPLY.SUPPLY_NUM = #{supplyNum}
+        AND CONTRACT_AMOUNT >= 0
+        ORDER BY CONTRACT_DATE
+    </select>
+
+    <!--상품 상세 정보 추가-->
+    <insert id="regDetailContract">
+        INSERT INTO CONTRACT
+        (CONTRACT_DATE
+        , SUPPLY_NUM
+        , CONTRACT_AMOUNT
+        , CONTRACT_OUTPUT
+        )
+        VALUES
+        (#{contractDate}
+        , #{supplyNum}
+        , #{contractAmount}
+        , #{contractOutput}
+        )
+        <!--동일 날짜에 들어온 재고는 하나로 만들어라-->
+        ON DUPLICATE KEY UPDATE
+        CONTRACT_AMOUNT = CONTRACT_AMOUNT + VALUES(CONTRACT_AMOUNT)
+    </insert>
+
+    <!--상품 상세 정보 수정-->
+    <update id="updateDetailContract">
+        UPDATE CONTRACT
+        SET
+        CONTRACT_DATE = #{contractDate}
+        , CONTRACT_AMOUNT = #{contractAmount}
+        WHERE CONTRACT_NUM = #{contractNum}
+    </update>
+
+    <!--상품 상세 정보 삭제-->
+    <delete id="deleteDetail">
+        DELETE
+        FROM CONTRACT
+        WHERE CONTRACT_NUM = #{contractNum}
+    </delete>
+
+    <!--상품의 주문된 날짜만 뽑아 오기-->
+    <select id="getSupplyDate" resultMap="supply">
+        SELECT *
+        FROM supply, CONTRACT
+        WHERE supply.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        AND supply.SUPPLY_NUM = #{supplyNum}
+        ORDER BY CONTRACT_DATE
+    </select>
 
     <!--거래처-->
     <resultMap id="customer" type="com.green.TeamProject2.orders.vo.CustomerVO">
@@ -25,38 +135,152 @@
         <result column="CUSTOMER_ETC" property="customerEtc"/>
     </resultMap>
 
-    <!--상품 등록-->
-    <insert id="regItem">
-        INSERT INTO ITEM
-        (ITEM_NAME
-        , ITEM_CNT
-        , ITEM_PRICE
-        , ITEM_HIRE_DATE
-        , ITEM_PERIOD
+    <!--거래처 등록-->
+    <insert id="regCustomer">
+        INSERT INTO CUSTOMER
+        (CUSTOMER_LI
+        , CUSTOMER_NAME
+        , CUSTOMER_HEAD_NAME
+        , CUSTOMER_ADDRESS
+        , CUSTOMER_TEL
+        , CUSTOMER_EMAIL
+        , CUSTOMER_ETC
         )
         VALUES
-        (#{itemName}
-        , #{itemCnt}
-        , #{itemPrice}
-        , #{itemHireDate}
-        , #{itemPeriod}
+        (#{customerLi}
+        , #{customerName}
+        , #{customerHeadName}
+        , #{customerAddress}
+        , #{customerTel}
+        , #{customerEmail}
+        , #{customerEtc}
         )
     </insert>
 
-    <!--상품 리스트-->
-    <select id="getItemList" resultMap="item">
+    <!--거래처 리스트-->
+    <select id="getCustomerList" resultMap="customer">
         SELECT *
-        FROM ITEM
+        FROM CUSTOMER
     </select>
 
-    <!--상품 삭제-->
-    <delete id="deleteItem">
+    <!--거래처 삭제-->
+    <delete id="deleteCustomer">
         DELETE
-        FROM ITEM
-        WHERE ITEM_NUM = #{itemNum}
+        FROM CUSTOMER
+        WHERE CUSTOMER_NUM = #{customerNum}
     </delete>
 
+    <!--거래처 수정-->
+    <update id="updateCustomer">
+        UPDATE CUSTOMER
+        SET CUSTOMER_LI = #{customerLi}
+        , CUSTOMER_NAME = #{customerName}
+        , CUSTOMER_HEAD_NAME = #{customerHeadName}
+        , CUSTOMER_ADDRESS = #{customerAddress}
+        , CUSTOMER_TEL = #{customerTel}
+        , CUSTOMER_EMAIL = #{customerEmail}
+        , CUSTOMER_ETC = #{customerEtc}
+        WHERE CUSTOMER_NUM = #{customerNum}
+    </update>
 
+    <!--발주된 주문서 리스트-->
+    <resultMap id="orderForm" type="com.green.TeamProject2.orders.vo.OrderFormVO">
+        <id column="ORDER_NUM" property="orderNum"/>
+        <result column="ORDER_DATE" property="orderDate"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="CUSTOMER_NUM" property="customerNum"/>
+        <result column="ORDER_MANGER" property="orderManger"/>
+        <result column="ORDER_STATUS" property="orderStatus"/>
+        <association property="customerVO" resultMap="customer"/>
+        <collection property="supplyList" resultMap="supply"/>
+    </resultMap>
+
+    <!--완료된 주문서 리스트-->
+    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
+        <id column="DONE_NUM" property="doneNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="DONE_MANGER" property="doneManger"/>
+        <association property="orderFormVO" resultMap="orderForm"/>
+    </resultMap>
+
+    <!--주문서 얻기-->
+    <select id="getOrderForm" resultMap="orderForm">
+        SELECT *
+        FROM ORDER_FORM, CUSTOMER, SUPPLY
+        WHERE ORDER_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
+        AND ORDER_FORM.ORDER_STATUS = 'NONE'
+    </select>
+
+    <!--처리 된 주문서 얻기-->
+    <select id="getDoneForm" resultMap="doneForm">
+        SELECT *
+        FROM ORDER_FORM, DONE_FORM, supply, customer
+        WHERE ORDER_FORM.ORDER_NUM = DONE_FORM.ORDER_NUM
+        AND order_form.SUPPLY_NUM = supply.SUPPLY_NUM
+        AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
+        AND ORDER_FORM.ORDER_STATUS = 'DONE'
+        ORDER BY DONE_NUM DESC
+    </select>
+
+    <!--처리 주문서 등록 후 -->
+    <insert id="regDoneForm">
+        INSERT INTO DONE_FORM
+        (ORDER_NUM
+        , DONE_MANGER
+        )
+        VALUES
+        (#{orderNum}
+        , #{doneManger}
+        )
+    </insert>
+
+    <!--상태 'DONE'으로 업데이트-->
+    <update id="regDoneAfter">
+        UPDATE ORDER_FORM
+        SET ORDER_STATUS = 'DONE'
+        WHERE ORDER_NUM = #{orderNum}
+    </update>
+
+  <!--  &lt;!&ndash;리스트 옮기면 재고에서 제품을 빼주는 업데이트-->
+    <update id="regDoneMange">
+        UPDATE CONTRACT
+        SET CONTRACT_AMOUNT = #{cnt}
+        WHERE CONTRACT_NUM = (
+            <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
+            SELECT CONTRACT_NUM
+            FROM CONTRACT
+            WHERE SUPPLY_NUM = #{supplyNum}
+            ORDER BY CONTRACT_DATE
+            LIMIT 1  offset #{offset}
+        )
+    </update>
+
+    <!--전체 재고 목록에서 리스트-->
+    <select id="getOneRemain" resultMap="contract">
+        SELECT *
+        FROM CONTRACT
+        WHERE SUPPLY_NUM = #{supplyNum}
+        AND CONTRACT_AMOUNT != 0
+        ORDER BY CONTRACT_DATE
+    </select>
+
+    <!--전체 재고 목록에서 각각의 재고를 하나씩 리스트로-->
+    <select id="getOneCnt" resultType="int">
+        SELECT CONTRACT_AMOUNT
+        FROM CONTRACT
+        WHERE SUPPLY_NUM = #{supplyNum}
+        ORDER BY CONTRACT_DATE
+    </select>
+
+    <!--반복 관련 result-->
+    <resultMap id="repeat" type="com.green.TeamProject2.orders.vo.RepeatVO">
+        <id column="CNT" property="cnt"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="OFF_SET" property="offset"/>
+    </resultMap>
 </mapper>
 
 

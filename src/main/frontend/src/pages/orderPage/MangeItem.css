@@ -9,11 +9,12 @@
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item-reg-div>table{
-  margin: 0 auto;
-  margin-top: 20px;
   width: 100%;
 }
 .item-reg-div>h4{
@@ -23,17 +24,25 @@
   padding: 20px;
   background-color: gray;
   color: white;
-  
 }
 .item-reg-div>table>tbody>tr>td{
   padding: 20px;
 }
+.div-btn{
+  margin-bottom: 20px;
+}
+
+
+.detail-div{
+  height: 60%;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
 
 .item-list-div{
   background-color: white;
-  height: 60%;
-  width: 80%;
-  margin: 0 auto;
+  width: 50%;
   margin-top: 20px;
   border-radius: 15px;
 }
@@ -49,11 +58,45 @@
 }
 
 .item-list-div>table>thead>tr>td{
+  padding: 10px;
+  color: white;
+  background-color: gray;
+}
+
+.item-list-div td{
+  padding: 5px;
+}
+
+.item-detail-div{
+  background-color: white;
+  width: 40%;
+  margin-top: 20px;
+  border-radius: 15px;
+ 
+}
+
+.item-detail-div>table{
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.item-detail-div>h4{
+  padding-top: 30px;
+}
+
+.item-detail-div>table>thead>tr>td{
   padding: 20px;
   color: white;
   background-color: gray;
 }
 
-.item-list-div>table>tbody>tr{
+.item-detail-div>table>tbody>tr{
   margin: 20px;
+}
+
+.control-button{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
 }
