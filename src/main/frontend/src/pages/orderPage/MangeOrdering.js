@@ -195,7 +195,6 @@ const MangeOrdering = () => {
       show={isOpenModal}
       onClose={()=> setIsOpenModal(false)}
       selectedOrder={selectedOrders}
-     
       />
     </div>
     

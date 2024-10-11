@@ -9,7 +9,6 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping("/order")
 @RestController
@@ -86,6 +85,7 @@ public class OrderController {
     public void regCustomer(@RequestBody CustomerVO customerVO){
         customerService.regCustomer(customerVO);
     }
+
     //거래처 리스트
     @GetMapping("/getCustomerList")
     public List<CustomerVO> getCustomerList(){
@@ -121,17 +121,10 @@ public class OrderController {
     public void regDone(@RequestBody DoneFormVO doneFormVO){
         // CONTRACRT 에서 재고가 0이 아닌 데이터들의 재고 수를 조회()
         //0 0 0 50 100
-
-
-
-
         orderFormService.regDone(doneFormVO);
 
-        //VO{CNT:0, supplyNum : 1, offset=0}
-        //VO{CNT:20, supplyNum : 1, offset=1}
-        //VO{CNT:30, supplyNum : 1, offset=2}
-        //List<VO>
-
         orderFormService.regDoneMange(doneFormVO.getOrderFormVO());
+
+
     }
 }

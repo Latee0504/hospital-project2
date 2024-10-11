@@ -27,7 +27,7 @@ const Orders = () => {
             <span onClick={(e)=>{navigate(`/orders/sales`)}}>매출</span>
           </p>
           <p>
-            <span></span>
+            <span onClick={(e)=>{navigate(`/orders/requires`)}}>자사 재고 발주</span>
           </p>
         </div>
       </div>

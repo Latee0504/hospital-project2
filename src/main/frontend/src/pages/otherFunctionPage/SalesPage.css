@@ -1,0 +1,19 @@
+.sales-div{
+  height: 100%;
+}
+
+.sales-list-div{
+  background-color: white;
+  height: 30%;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h4{
+  margin-top: 20px;
+}

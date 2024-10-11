@@ -75,6 +75,7 @@
         FROM SUPPLY, CONTRACT
         WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
         AND SUPPLY.SUPPLY_NUM = #{supplyNum}
+        AND CONTRACT_AMOUNT >= 0
         ORDER BY CONTRACT_DATE
     </select>
 
@@ -92,6 +93,7 @@
         , #{contractAmount}
         , #{contractOutput}
         )
+        <!--동일 날짜에 들어온 재고는 하나로 만들어라-->
         ON DUPLICATE KEY UPDATE
         CONTRACT_AMOUNT = CONTRACT_AMOUNT + VALUES(CONTRACT_AMOUNT)
     </insert>
@@ -245,17 +247,8 @@
   <!--  &lt;!&ndash;리스트 옮기면 재고에서 제품을 빼주는 업데이트-->
     <update id="regDoneMange">
         UPDATE CONTRACT
-        SET CONTRACT_AMOUNT = (
-            <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
-            SELECT CONTRACT_AMOUNT
-            FROM CONTRACT
-            WHERE SUPPLY_NUM = #{supplyNum}
-            ORDER BY CONTRACT_DATE
-            LIMIT 1 offset #{offset}
-        )
-        - #{orderAmount}
-        WHERE CONTRACT_NUM =
-        (
+        SET CONTRACT_AMOUNT = #{cnt}
+        WHERE CONTRACT_NUM = (
             <!--먼저 오래된 순서부터 재고 수를 찾아야함-->
             SELECT CONTRACT_NUM
             FROM CONTRACT
@@ -263,7 +256,6 @@
             ORDER BY CONTRACT_DATE
             LIMIT 1  offset #{offset}
         )
-
     </update>
 
     <!--전체 재고 목록에서 리스트-->
@@ -271,9 +263,24 @@
         SELECT *
         FROM CONTRACT
         WHERE SUPPLY_NUM = #{supplyNum}
+        AND CONTRACT_AMOUNT != 0
         ORDER BY CONTRACT_DATE
-        LIMIT 1
     </select>
+
+    <!--전체 재고 목록에서 각각의 재고를 하나씩 리스트로-->
+    <select id="getOneCnt" resultType="int">
+        SELECT CONTRACT_AMOUNT
+        FROM CONTRACT
+        WHERE SUPPLY_NUM = #{supplyNum}
+        ORDER BY CONTRACT_DATE
+    </select>
+
+    <!--반복 관련 result-->
+    <resultMap id="repeat" type="com.green.TeamProject2.orders.vo.RepeatVO">
+        <id column="CNT" property="cnt"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="OFF_SET" property="offset"/>
+    </resultMap>
 </mapper>
 
 

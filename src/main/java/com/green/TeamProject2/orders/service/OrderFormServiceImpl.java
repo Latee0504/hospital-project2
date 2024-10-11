@@ -1,5 +1,6 @@
 package com.green.TeamProject2.orders.service;
 
+import com.green.TeamProject2.orders.vo.ContractVO;
 import com.green.TeamProject2.orders.vo.DoneFormVO;
 import com.green.TeamProject2.orders.vo.OrderFormVO;
 import com.green.TeamProject2.orders.vo.RepeatVO;
@@ -36,35 +37,50 @@ public class OrderFormServiceImpl implements OrderFormService{
     // 반복을 돌릴 경우 횟수는 List<Contract>의 길이 만큼 돌려야한다.
     public void regDoneMange(OrderFormVO orderFormVO) {
 
-        int  = sqlSession.selectList(" ");
-       //객체를 구성한 값들을 구해야하는데
-        for(int i = 1; i<; i++){
+        // 반복돌려 생성한 객체를 담을 리스트
+        List<RepeatVO> repeatList = new ArrayList<>();
 
+        //반복할 횟수
+        List<ContractVO> contractList = sqlSession.selectList("orderMapper.getOneRemain", orderFormVO.getSupplyNum());
+
+        // 반복되는 반복횟수 cnt를 담아 주기 위해 만들어준 배열
+        int [] amountArray = new int[contractList.size()];
+
+        // 반복하는 횟수 변수 정하기(음수가 되면 정지)
+        int repeatCnt = 1;
+        // 구매요청된 갯수의 변수
+        int buyCnt = orderFormVO.getOrderAmount();
+        //전체 상세정보의 목록
+        for(int i = 0; i<contractList.size(); i++){
+            // 만약 해당 날짜의 재고수가 구매요청 수 보다 작다면 반복횟수를 증가시키고 구매요청수에서 재고수를 빼 재고수를 배열 cnt의 값을 0으로 만들어 줌
+            if(contractList.get(i).getContractAmount()<buyCnt){
+                repeatCnt++;
+                amountArray[i] = 0;
+                buyCnt = buyCnt - contractList.get(i).getContractAmount();
+            }
+            // 구매요청 수 가 재고 수 보다 작다면 배열에 해당 날짜의 배열에서 구매요청수를 빼준 값을 넣어줌()
+            // 과요청 시 어떻게 해결할지 생각해보자
+            else {
+                amountArray[i] = contractList.get(i).getContractAmount()-buyCnt;
+                break;
+            }
         }
 
-
-
-
-        // 반복을 돌려 객체를 만듬(실행 횟수만큼)
-        for(int i = 0;  i < /*실행한 횟수*/; i++){
-            // 반복문을 돌릴 객체(남은수, 물품번호, 반복수)
-            RepeatVO repeatVO = new RepeatVO();
-            repeatVO.setCnt(0+);
-            repeatVO.setSupplyNum(orderFormVO.getSupplyNum());
-            repeatVO.setOffset(0+i);
+        if(repeatCnt > 0 && contractList != null && !contractList.isEmpty()){
+            // 반복을 돌려 객체를 만듬(실행 횟수만큼)
+            for(int i = 0;  i < repeatCnt; i++){
+                // 반복문을 돌릴 객체(남은수, 물품번호, 반복수)
+                RepeatVO repeatVO = new RepeatVO();
+                repeatVO.setCnt(amountArray[i]);
+                repeatVO.setSupplyNum(orderFormVO.getSupplyNum());
+                repeatVO.setOffset(i);
+                repeatList.add(repeatVO);
+            }
         }
 
-
-
-
-        for(int i = 0; i<= ; i++){
-            sqlSession.update("orderMapper.regDoneMange", orderFormVO);
+        for(int i = 0; i< repeatList.size(); i++){
+            sqlSession.update("orderMapper.regDoneMange", repeatList.get(i));
         }
-
-
-
-
-        //완성본용에는 다른게 필요함 VO 정보를 담을 리스트 받아야함
     }
 
 

@@ -28,6 +28,12 @@
   margin-bottom: 20px;
 }
 
+.modal-content>table{
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+
 /* 모달 닫기 버튼 */
 .modal-close {
   position: absolute;

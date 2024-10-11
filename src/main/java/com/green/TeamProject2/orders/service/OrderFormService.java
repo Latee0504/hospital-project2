@@ -1,5 +1,6 @@
 package com.green.TeamProject2.orders.service;
 
+import com.green.TeamProject2.orders.vo.ContractVO;
 import com.green.TeamProject2.orders.vo.DoneFormVO;
 import com.green.TeamProject2.orders.vo.OrderFormVO;
 

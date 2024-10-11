@@ -10,6 +10,7 @@ import MangeCustomer from './pages/orderPage/MangeCustomer';
 import MangeItem from './pages/orderPage/MangeItem';
 import MangeOrdering from './pages/orderPage/MangeOrdering';
 import SalesPage from './pages/otherFunctionPage/SalesPage';
+import RequiresPage from './pages/otherFunctionPage/RequiresPage';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path='ordering' element={<MangeOrdering/>}/>
             <Route path='item' element={<MangeItem/>}/>
             <Route path='sales' element={<SalesPage/>}/>
+            <Route path='requires' element={<RequiresPage/>}/>
           </Route>
         </Routes>
       </div>
