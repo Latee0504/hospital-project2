@@ -187,13 +187,11 @@
     <resultMap id="orderForm" type="com.green.TeamProject2.orders.vo.OrderFormVO">
         <id column="ORDER_NUM" property="orderNum"/>
         <result column="ORDER_DATE" property="orderDate"/>
-        <result column="SUPPLY_NUM" property="supplyNum"/>
-        <result column="ORDER_AMOUNT" property="orderAmount"/>
         <result column="CUSTOMER_NUM" property="customerNum"/>
         <result column="ORDER_MANGER" property="orderManger"/>
         <result column="ORDER_STATUS" property="orderStatus"/>
         <association property="customerVO" resultMap="customer"/>
-        <collection property="supplyList" resultMap="supply"/>
+        <collection property="detailOrderList" resultMap="detailOrderForm"/>
     </resultMap>
 
     <!--완료된 주문서 리스트-->
@@ -208,18 +206,19 @@
     <!--주문서 얻기-->
     <select id="getOrderForm" resultMap="orderForm">
         SELECT *
-        FROM ORDER_FORM, CUSTOMER, SUPPLY
-        WHERE ORDER_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        FROM ORDER_FORM, CUSTOMER, DETAIL_ORDER_FORM, SUPPLY
+        WHERE ORDER_FORM.ORDER_NUM = DETAIL_ORDER_FORM.ORDER_NUM
         AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
+        AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'NONE'
     </select>
 
     <!--처리 된 주문서 얻기-->
     <select id="getDoneForm" resultMap="doneForm">
         SELECT *
-        FROM ORDER_FORM, DONE_FORM, supply, customer
+        FROM ORDER_FORM, DONE_FORM, DETAIL_ORDER_FORM, customer
         WHERE ORDER_FORM.ORDER_NUM = DONE_FORM.ORDER_NUM
-        AND order_form.SUPPLY_NUM = supply.SUPPLY_NUM
+        AND order_form.ORDER_NUM = DETAIL_ORDER_FORM.ORDER_NUM
         AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
         AND ORDER_FORM.ORDER_STATUS = 'DONE'
         ORDER BY DONE_NUM DESC
@@ -275,11 +274,14 @@
         ORDER BY CONTRACT_DATE
     </select>
 
-    <!--반복 관련 result-->
-    <resultMap id="repeat" type="com.green.TeamProject2.orders.vo.RepeatVO">
-        <id column="CNT" property="cnt"/>
+    <!--주문서 상세 정보-->
+    <resultMap id="detailOrderForm" type="com.green.TeamProject2.orders.vo.DetailOrderFormVO">
+        <id column="DETAIL_ORDER_NUM" property="detailOrderNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
         <result column="SUPPLY_NUM" property="supplyNum"/>
-        <result column="OFF_SET" property="offset"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="TOTAL_PRICE" property="totalPrice"/>
+        <collection property="supplyVO" resultMap="supply"/>
     </resultMap>
 </mapper>
 

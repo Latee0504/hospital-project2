@@ -35,6 +35,7 @@ const MangeOrdering = () => {
     .get(`/order/orderFormList`)
     .then((res)=>{
       setOrderFormList(res.data)
+      console.log(res.data)
     })
     .catch((error)=>{
       console.log('발주 리스트 에러', error)
@@ -127,12 +128,10 @@ const MangeOrdering = () => {
                     </td>
                     <td>{order.orderNum}</td>
                     <td>{order.customerVO.customerName}</td>
-                    <td>{order.supplyList.map((list,j)=>{
-                      return(
-                        <span key={j}>{list.supplyName}</span>
-                      )
-                    })}</td>
-                    <td>{order.orderAmount}개</td>
+                    <td>{order.detailOrderList[0].supplyVO.supplyName}외 {order.detailOrderList.length-1}개</td>
+                    <td>
+                      {order.detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개
+                    </td>
                     <td>{order.orderDate}</td>
                     <td>{order.orderManger}</td>
                   </tr>

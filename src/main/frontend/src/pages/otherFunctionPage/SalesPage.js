@@ -35,6 +35,7 @@ const SalesPage = () => {
           <thead>
             <tr>
               <td>처리 번호</td>
+              <td>발주 사</td>
               <td>처리 날짜</td>
               <td>상품 명</td>
               <td>총 상품 수</td>
@@ -45,12 +46,14 @@ const SalesPage = () => {
           <tbody>
             {
               doneList.map((done,i)=>{
+                const eachCnt = 0;
                 return(
                   <tr>
                     <td>{done.doneNum}</td>
+                    <td>{done.orderFormVO.customerVO.customerName}</td>
                     <td>{done.doneDate}</td>
                     <td>{done.orderFormVO.supplyList[0].supplyName}</td>
-                    <td>{}</td>
+                    <td>{done}</td>
                     <td>
                     {
                     (done.orderFormVO.supplyList[0].supplyPrice) *(done.orderFormVO.orderAmount)
