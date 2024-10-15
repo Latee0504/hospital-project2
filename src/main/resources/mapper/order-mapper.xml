@@ -75,7 +75,7 @@
         FROM SUPPLY, CONTRACT
         WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
         AND SUPPLY.SUPPLY_NUM = #{supplyNum}
-        AND CONTRACT_AMOUNT >= 0
+        AND CONTRACT_AMOUNT > 0
         ORDER BY CONTRACT_DATE
     </select>
 
@@ -200,7 +200,7 @@
         <result column="ORDER_NUM" property="orderNum"/>
         <result column="DONE_DATE" property="doneDate"/>
         <result column="DONE_MANAGER" property="doneManager"/>
-        <association property="orderFormVO" resultMap="orderForm"/>
+        <association property="orderFormList" resultMap="orderForm"/>
     </resultMap>
 
     <!--주문서 얻기-->
@@ -264,7 +264,7 @@
         SELECT *
         FROM CONTRACT
         WHERE SUPPLY_NUM = #{supplyNum}
-        AND CONTRACT_AMOUNT != 0
+        AND CONTRACT_AMOUNT > 0
         ORDER BY CONTRACT_DATE
     </select>
 

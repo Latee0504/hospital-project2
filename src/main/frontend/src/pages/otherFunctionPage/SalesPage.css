@@ -14,6 +14,12 @@
   justify-content: space-between;
 }
 
+.sales-list-div>table>thead>tr>td{
+  background-color: gray;
+  color: white;
+  padding: 20px;
+}
+
 h4{
   margin-top: 20px;
 }

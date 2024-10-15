@@ -21,7 +21,7 @@ const SalesPage = () => {
       console.log(res)
       // 총 매출 계산
       const total = res.data.reduce((acc, done) => {
-        return acc + done.orderFormVO.detailOrderList.reduce((totalPrice, price) => totalPrice + (price.supplyVO.supplyPrice * price.orderAmount), 0)
+        return acc + done.orderFormList[0].detailOrderList.reduce((totalPrice, price) => totalPrice + (price.supplyVO.supplyPrice * price.orderAmount), 0)
       }, 0)
       setTotalSales(total)
 
@@ -29,7 +29,7 @@ const SalesPage = () => {
       const topSupply = {}
 
       res.data.forEach((done, i) => {
-        done.orderFormVO.detailOrderList.forEach((item, j)=>{
+        done.orderFormList[0].detailOrderList.forEach((item, j)=>{
           // 주문 상세목록에서 상품명과 주문수량 뽑기
           const topSupplyName = item.supplyVO.supplyName
           const topSupplyAmount = item.orderAmount
@@ -87,17 +87,24 @@ const SalesPage = () => {
           <tbody>
             {
               doneList.map((done,i)=>{
-                
                 return(
                   <tr key={i}>
                     <td>{done.doneNum}</td>
-                    <td>{done.orderFormVO.customerVO.customerName}</td>
+                    <td>{done.orderFormList[0].customerVO.customerName}</td>
                     <td>{done.doneDate}</td>
-                    <td>{done.orderFormVO.detailOrderList[0].supplyVO.supplyName}외{done.orderFormVO.detailOrderList.length-1}개</td>
-                    <td>{done.orderFormVO.detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개</td>
                     <td>
                       {
-                        done.orderFormVO.detailOrderList.reduce((totalPrice, price)=> totalPrice + (price.supplyVO.supplyPrice * price.orderAmount), 0)
+                        done.orderFormList[0].detailOrderList.length==1
+                        ?
+                        done.orderFormList[0].detailOrderList[0].supplyVO.supplyName
+                        :
+                        (done.orderFormList[0].detailOrderList[0].supplyVO.supplyName)+' 외 ' +(done.orderFormList[0].detailOrderList.length-1)+'개'
+                      }
+                    </td>
+                    <td>{done.orderFormList[0].detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개</td>
+                    <td>
+                      {
+                        done.orderFormList[0].detailOrderList.reduce((totalPrice, price)=> totalPrice + (price.supplyVO.supplyPrice * price.orderAmount), 0)
                       }
                       원
                     </td>
