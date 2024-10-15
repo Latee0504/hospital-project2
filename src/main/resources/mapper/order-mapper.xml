@@ -188,7 +188,7 @@
         <id column="ORDER_NUM" property="orderNum"/>
         <result column="ORDER_DATE" property="orderDate"/>
         <result column="CUSTOMER_NUM" property="customerNum"/>
-        <result column="ORDER_MANGER" property="orderManger"/>
+        <result column="ORDER_MANAGER" property="orderManager"/>
         <result column="ORDER_STATUS" property="orderStatus"/>
         <association property="customerVO" resultMap="customer"/>
         <collection property="detailOrderList" resultMap="detailOrderForm"/>
@@ -199,7 +199,7 @@
         <id column="DONE_NUM" property="doneNum"/>
         <result column="ORDER_NUM" property="orderNum"/>
         <result column="DONE_DATE" property="doneDate"/>
-        <result column="DONE_MANGER" property="doneManger"/>
+        <result column="DONE_MANAGER" property="doneManager"/>
         <association property="orderFormVO" resultMap="orderForm"/>
     </resultMap>
 
@@ -211,28 +211,30 @@
         AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
         AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'NONE'
+        ORDER BY ORDER_FORM.ORDER_NUM
     </select>
 
     <!--처리 된 주문서 얻기-->
     <select id="getDoneForm" resultMap="doneForm">
         SELECT *
-        FROM ORDER_FORM, DONE_FORM, DETAIL_ORDER_FORM, customer
+        FROM ORDER_FORM, DONE_FORM, DETAIL_ORDER_FORM, customer, SUPPLY
         WHERE ORDER_FORM.ORDER_NUM = DONE_FORM.ORDER_NUM
         AND order_form.ORDER_NUM = DETAIL_ORDER_FORM.ORDER_NUM
         AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
+        AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'DONE'
-        ORDER BY DONE_NUM DESC
+        ORDER BY DONE_NUM DESC, SUPPLY.SUPPLY_NUM DESC
     </select>
 
     <!--처리 주문서 등록 후 -->
     <insert id="regDoneForm">
         INSERT INTO DONE_FORM
         (ORDER_NUM
-        , DONE_MANGER
+        , DONE_MANAGER
         )
         VALUES
         (#{orderNum}
-        , #{doneManger}
+        , #{doneManager}
         )
     </insert>
 

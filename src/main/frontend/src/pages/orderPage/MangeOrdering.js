@@ -22,7 +22,7 @@ const MangeOrdering = () => {
       , supplyNum:0
     }
     , doneDate:''
-    , doneManger:''
+    , doneManager:''
   })
 
   // 모달 상태 변수
@@ -47,6 +47,7 @@ const MangeOrdering = () => {
     axios
     .get(`/order/doneFormList`)
     .then((res)=>{
+      console.log(res.data)
       setDoneList(res.data)
     })
     .catch((error)=>{
@@ -69,7 +70,7 @@ const MangeOrdering = () => {
 
   //발주 리스트를 처리 중 리스트로 옮길 함수
   function regDone(){
-    if(orderOne.doneManger==''){
+    if(orderOne.doneManager==''){
       alert('처리자명을 입력해주세요')
       return
     }
@@ -84,16 +85,15 @@ const MangeOrdering = () => {
     setSelectedOrders([]) // 선택된 리스트 초기화
   }
 
+  // 모달에서 취소를 누르면 선택을 해제해줄 함수
+  function clearCheck() {
+    setSelectedOrders([]); 
+  }
 
   return (
     <div className='order-div'>
       <div className='order-list-div'>
         <h4>들어온 주문서 리스트</h4>
-        <input type='text' placeholder='처리자 이름을 입력하세요' onChange={(e)=>{
-          setOrderOne({...orderOne,
-            doneManger:e.target.value
-        })
-        }}/>
         <table>
           <thead>
             <tr>
@@ -117,8 +117,8 @@ const MangeOrdering = () => {
                         setOrderOne({...orderOne,
                           orderNum:order.orderNum,
                           orderFormVO:{
-                            supplyNum:order.supplyNum,
-                            orderAmount:order.orderAmount
+                            supplyNum:order.detailOrderList[i].supplyVO.supplyNum,
+                            orderAmount:order.detailOrderList[i].orderAmount
                           }
                         })
                         console.log(orderOne)
@@ -128,12 +128,18 @@ const MangeOrdering = () => {
                     </td>
                     <td>{order.orderNum}</td>
                     <td>{order.customerVO.customerName}</td>
-                    <td>{order.detailOrderList[0].supplyVO.supplyName}외 {order.detailOrderList.length-1}개</td>
+                    <td>{
+                      order.detailOrderList.length==1
+                      ?
+                      (order.detailOrderList[0].supplyVO.supplyName)
+                      :
+                      (order.detailOrderList[0].supplyVO.supplyName) + ' 외 ' + (order.detailOrderList.length-1)+'개'
+                    }</td>
                     <td>
                       {order.detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개
                     </td>
                     <td>{order.orderDate}</td>
-                    <td>{order.orderManger}</td>
+                    <td>{order.orderManager}</td>
                   </tr>
                 )
               })
@@ -141,11 +147,9 @@ const MangeOrdering = () => {
           </tbody>
         </table>
       </div>
-      <div className='btn-div'>
-        <button type='button' className='btn' onClick={(e)=>{regDone()}}>등록</button>
-      </div>
+     
       <div className='order-start-div'>
-        <h4>처리 시작한 주문서 리스트</h4>
+        <h4>처리된 주문서 리스트</h4>
         <table>
           <thead>
             <tr>
@@ -169,19 +173,18 @@ const MangeOrdering = () => {
                     <td>{done.orderFormVO.orderNum}</td>
                     <td>{done.orderFormVO.customerVO.customerName}</td>
                     <td>
-                      {
-                        done.orderFormVO.supplyList.length-1==0
-                        ?
-                        done.orderFormVO.supplyList[0].supplyName
-                        :
-                        done.orderFormVO.supplyList[0].supplyName
-                        + ` 외 ${done.orderFormVO.supplyList.length-1}`
-                      }
+                     {
+                      done.orderFormVO.detailOrderList.length==1
+                      ?
+                      done.orderFormVO.detailOrderList[0].supplyVO.supplyName
+                      :
+                     (done.orderFormVO.detailOrderList[0].supplyVO.supplyName)+' 외 ' +(done.orderFormVO.detailOrderList.length-1)+'개'
+                     } 
                     </td>
-                    <td>{done.orderFormVO.orderAmount}개</td>
+                    <td>{done.orderFormVO.detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개</td>
                     <td>{done.doneDate}</td>
-                    <td>{done.orderFormVO.orderManger}</td>
-                    <td>{done.doneManger}</td>
+                    <td>{done.orderFormVO.orderManager}</td>
+                    <td>{done.doneManager}</td>
                   </tr>
                 )
               })
@@ -194,6 +197,11 @@ const MangeOrdering = () => {
       show={isOpenModal}
       onClose={()=> setIsOpenModal(false)}
       selectedOrder={selectedOrders}
+      clearCheck={clearCheck}
+      setSelectedOrder={setSelectedOrders}
+      setOrderOne={setOrderOne}  
+      orderOne={orderOne}   
+      regDone={regDone}     
       />
     </div>
     

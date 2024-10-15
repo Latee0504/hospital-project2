@@ -118,7 +118,7 @@ const MangeItem = () => {
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
-  }, [cnt, detailData, contractData])
+  }, [cnt, detailData, contractData, dateDataList])
 
   // 날짜 목록 얻기
   function getDateList(num){
@@ -139,7 +139,14 @@ const MangeItem = () => {
     axios
     .get(`/order/detailList/${num}`)
     .then((res)=>{
-      setDetailList(res.data[0].contractList)
+      if(res.data.length==0){
+        alert('로딩 실패')
+      }
+      else{
+        console.log(res.data)
+        setDetailList(res.data[0].contractList)
+      }
+      
     })
     .catch((error)=>{
       console.log('상세 정보 리스트 에러', error)
