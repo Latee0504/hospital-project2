@@ -122,7 +122,6 @@ public class OrderController {
         // CONTRACRT 에서 재고가 0이 아닌 데이터들의 재고 수를 조회()
         //0 0 0 50 100
         orderFormService.regDone(doneFormVO);
-
         orderFormService.regDoneMange(doneFormVO.getOrderFormVO());
 
 

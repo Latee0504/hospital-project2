@@ -40,8 +40,11 @@ public class OrderFormServiceImpl implements OrderFormService{
         // 반복돌려 생성한 객체를 담을 리스트
         List<RepeatVO> repeatList = new ArrayList<>();
 
-        //반복할 횟수
-        List<ContractVO> contractList = sqlSession.selectList("orderMapper.getOneRemain", orderFormVO.getSupplyNum());
+    // 주문 상세 목록 만큼 반복 시켜야함
+    for(int j = 0; j<orderFormVO.getDetailOrderList().size(); j++){
+
+        // 반복할 횟수
+        List<ContractVO> contractList = sqlSession.selectList("orderMapper.getOneRemain", orderFormVO.getDetailOrderList().get(j).getSupplyNum());
 
         // 반복되는 반복횟수 cnt를 담아 주기 위해 만들어준 배열
         int [] amountArray = new int[contractList.size()];
@@ -49,7 +52,7 @@ public class OrderFormServiceImpl implements OrderFormService{
         // 반복하는 횟수 변수 정하기(음수가 되면 정지)
         int repeatCnt = 1;
         // 구매요청된 갯수의 변수
-        int buyCnt = orderFormVO.getOrderAmount();
+        int buyCnt = orderFormVO.getDetailOrderList().get(j).getOrderAmount();
         //전체 상세정보의 목록
         for(int i = 0; i<contractList.size(); i++){
             // 만약 해당 날짜의 재고수가 구매요청 수 보다 작다면 반복횟수를 증가시키고 구매요청수에서 재고수를 빼 재고수를 배열 cnt의 값을 0으로 만들어 줌
@@ -72,7 +75,7 @@ public class OrderFormServiceImpl implements OrderFormService{
                 // 반복문을 돌릴 객체(남은수, 물품번호, 반복수)
                 RepeatVO repeatVO = new RepeatVO();
                 repeatVO.setCnt(amountArray[i]);
-                repeatVO.setSupplyNum(orderFormVO.getSupplyNum());
+                repeatVO.setSupplyNum(orderFormVO.getDetailOrderList().get(0).getSupplyNum());
                 repeatVO.setOffset(i);
                 repeatList.add(repeatVO);
             }
@@ -82,6 +85,5 @@ public class OrderFormServiceImpl implements OrderFormService{
             sqlSession.update("orderMapper.regDoneMange", repeatList.get(i));
         }
     }
-
-
+    }
 }

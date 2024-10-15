@@ -33,6 +33,13 @@
   margin-top: 20px;
 }
 
+.modal-content>table td{
+  padding: 10px;
+}
+.modal-content>table tt{
+  padding: 10px;
+}
+
 
 /* 모달 닫기 버튼 */
 .modal-close {

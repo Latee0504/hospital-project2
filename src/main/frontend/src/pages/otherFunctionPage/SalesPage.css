@@ -17,3 +17,11 @@
 h4{
   margin-top: 20px;
 }
+
+.simple-notice{
+  margin: 0 auto;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
