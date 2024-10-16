@@ -14,8 +14,6 @@ public interface OrderFormService {
     void regDone(DoneFormVO doneFormVO);
 
     //처리 주문서로 옮기면서 재고 처리하는 기능
-    void regDoneMange(OrderFormVO orderFormVO);
-
-    //처리 주문서로 옮기면서 재고 처리 기능(매개변수 리스트로)
+    void regDoneMange(List<OrderFormVO> orderFormList);
 
 }

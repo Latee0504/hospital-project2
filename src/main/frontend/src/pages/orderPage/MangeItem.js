@@ -124,13 +124,18 @@ const MangeItem = () => {
   function getDateList(num){
     axios
     .get(`/order/getSupplyDate/${num}`)
-    .then((res)=>{     
-        setDateDataList(res.data[0].contractList)
-        console.log(res.data)   
+    .then((res)=>{
+        if(res.data.length==1){
+          
+        } 
+        else{
+          setDateDataList(res.data[0].contractList)
+          console.log(res.data)  
+        }    
+         
     })
     .catch((error)=>{
       console.log('날짜목록 얻기 에러', error)
-      
     })
   }
 
@@ -397,7 +402,7 @@ const MangeItem = () => {
                           detailList.map((detail, i)=>{
                             const totalAmount = detailList.reduce((sum, item) => sum + item.contractAmount, 0);
                             return(
-                              detailList.length==0
+                              detail == null
                               ?
                               <tr>
                                 <td>재고가 없어요</td>

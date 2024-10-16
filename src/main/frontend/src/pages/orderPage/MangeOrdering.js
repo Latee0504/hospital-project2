@@ -16,14 +16,17 @@ const MangeOrdering = () => {
   // 처리된 목록에 추가될 객체
   const [orderOne, setOrderOne] = useState({
     orderNum:0
-    , orderFormVO:
-    {
-      orderAmount:0
-      , supplyNum:0
-    }
+    , orderFormList:
+    [
+      {
+        supplyNum:0
+        , orderAmount:0
+      }
+    ]
     , doneDate:''
     , doneManager:''
   })
+
 
   // 모달 상태 변수
 
@@ -51,25 +54,49 @@ const MangeOrdering = () => {
       setDoneList(res.data)
     })
     .catch((error)=>{
-      console.log('발주 리스트 에러', error)
+      console.log('완료 발주 리스트 에러', error)
     })
   }, [])
 
-  // 선택한 주문서를 리스트에 담을 함수
-  function handleCheckboxChange(order){
+  // 체크 됫을 때 실행하는 함수
+  function handleCheckboxChange(order) {
     setSelectedOrders((prevSelected) => {
       if (prevSelected.includes(order)) {
-        return prevSelected.filter((item) => item !== order) // 이미 선택된 경우 해제
+        return prevSelected.filter((item) => item !== order); // 이미 선택된 경우 해제
       } else {
-        return [...prevSelected, order] // 선택한 주문 추가
+        return [...prevSelected, order]; // 선택한 주문 추가
       }
     })
-    console.log(order)
+  
+    if (order.detailOrderList && order.detailOrderList.length > 0) {
+      // `orderFormList` 배열에 각 `orderFormVO`를 추가
+      const orderFormList = [];
+      order.detailOrderList.forEach(detail => {
+        orderFormList.push({
+          supplyNum: detail.supplyVO.supplyNum,
+          orderAmount: detail.orderAmount
+        });  
+      })
+  
+      // `orderOne`에 정보 설정
+      setOrderOne({
+        ...orderOne,
+        orderNum: order.orderNum,  // 주문 번호 설정
+        orderFormList: orderFormList,  // 각 상세 정보를 배열로 설정
+      })
+  
+      setIsOpenModal(true)
+      console.log(orderOne)
+    } else {
+      console.error("detailOrderList가 비어 있거나 없습니다.")
+    }
   }
-
+  
+  
 
   //발주 리스트를 처리 중 리스트로 옮길 함수
   function regDone(){
+    console.log(orderOne)
     if(orderOne.doneManager==''){
       alert('처리자명을 입력해주세요')
       return
@@ -80,6 +107,7 @@ const MangeOrdering = () => {
       alert('처리 중 입니다')
     })
     .catch((error)=>{
+      console.log(orderOne)
       console.log('리스트 옮기다 에러', error)
     })
     setSelectedOrders([]) // 선택된 리스트 초기화
@@ -114,14 +142,6 @@ const MangeOrdering = () => {
                   <tr key={i}>
                     <td>
                       <input type='checkbox' onChange={(e)=>{handleCheckboxChange(order) 
-                        setOrderOne({...orderOne,
-                          orderNum:order.orderNum,
-                          orderFormVO:{
-                            supplyNum:order.detailOrderList[i].supplyVO.supplyNum,
-                            orderAmount:order.detailOrderList[i].orderAmount
-                          }
-                        })
-                        console.log(orderOne)
                         setIsOpenModal(true)
                         }} 
                         checked={selectedOrders.includes(order)}/>
@@ -170,20 +190,20 @@ const MangeOrdering = () => {
                 return(
                   <tr key={i}>
                     <td>{doneList.length-i}</td>
-                    <td>{done.orderFormVO.orderNum}</td>
-                    <td>{done.orderFormVO.customerVO.customerName}</td>
+                    <td>{done.orderFormList[0].orderNum}</td>
+                    <td>{done.orderFormList[0].customerVO.customerName}</td>
                     <td>
                      {
-                      done.orderFormVO.detailOrderList.length==1
+                      done.orderFormList[0].detailOrderList.length==1
                       ?
-                      done.orderFormVO.detailOrderList[0].supplyVO.supplyName
+                      done.orderFormList[0].detailOrderList[0].supplyVO.supplyName
                       :
-                     (done.orderFormVO.detailOrderList[0].supplyVO.supplyName)+' 외 ' +(done.orderFormVO.detailOrderList.length-1)+'개'
+                     (done.orderFormList[0].detailOrderList[0].supplyVO.supplyName)+' 외 ' +(done.orderFormList[0].detailOrderList.length-1)+'개'
                      } 
                     </td>
-                    <td>{done.orderFormVO.detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개</td>
+                    <td>{done.orderFormList[0].detailOrderList.reduce((total, item) => total + item.orderAmount, 0)}개</td>
                     <td>{done.doneDate}</td>
-                    <td>{done.orderFormVO.orderManager}</td>
+                    <td>{done.orderFormList[0].orderManager}</td>
                     <td>{done.doneManager}</td>
                   </tr>
                 )

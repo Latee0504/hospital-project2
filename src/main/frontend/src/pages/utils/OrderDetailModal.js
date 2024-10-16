@@ -1,13 +1,13 @@
 import React from 'react'
 import './OrderDetailModal.css'
-const OrderDetailModal = ({show, onClose, selectedOrder, clearCheck, setSelectedOrder, setOrderOne, orderOne, regDone}) => {
+const OrderDetailModal = ({show, onClose, selectedOrder, clearCheck,  setOrderOne, orderOne, regDone}) => {
 
   if(!show) return null
 
   const handleDoneManagerChange = (e) => {
     setOrderOne({
       ...orderOne,
-      doneManager: e.target.value,
+      doneManager:e.target.value,
     });
   };
 

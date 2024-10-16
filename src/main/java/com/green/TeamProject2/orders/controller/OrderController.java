@@ -110,7 +110,7 @@ public class OrderController {
        return orderFormService.getOrderFormList();
     }
 
-    //처리 중인 주문서 리스트
+    //처리된 주문서 리스트
     @GetMapping("/doneFormList")
     public List<DoneFormVO> getDoneForm(){
         return doneFormService.getDoneForm();
@@ -119,11 +119,10 @@ public class OrderController {
     //주문서 처리 등록
     @PostMapping("/regDone")
     public void regDone(@RequestBody DoneFormVO doneFormVO){
+        System.out.println(doneFormVO);
         // CONTRACRT 에서 재고가 0이 아닌 데이터들의 재고 수를 조회()
         //0 0 0 50 100
         orderFormService.regDone(doneFormVO);
-        orderFormService.regDoneMange(doneFormVO.getOrderFormVO());
-
-
+        orderFormService.regDoneMange(doneFormVO.getOrderFormList());
     }
 }

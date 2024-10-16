@@ -21,3 +21,10 @@
 .done-table>thead>tr{
   padding: 20px;
 }
+
+.requries-functon-div{
+  margin: 0 auto;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+}

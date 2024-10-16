@@ -13,6 +13,8 @@ public class OrderFormVO {
     private String orderStatus;
     private CustomerVO customerVO;//고객 정보
     private List<DetailOrderFormVO> detailOrderList;//상품 상세 정보 리스트
+    private int supplyNum;
+    private int orderAmount;
 }
 
 
