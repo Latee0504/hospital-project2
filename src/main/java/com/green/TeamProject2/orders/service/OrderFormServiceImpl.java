@@ -66,7 +66,8 @@ public class OrderFormServiceImpl implements OrderFormService{
         if(eachTotalCnt<=orderFormList.get(j).getOrderAmount()){
             System.out.println("재고 수가 부족합니다");
         }
-        //전체 상세정보의 목록
+
+        //전체 상세정보의 목록에서
         for(int i = 0; i<contractList.size(); i++){
             // 만약 해당 날짜의 재고수가 구매요청 수 보다 작다면 반복횟수를 증가시키고 구매요청수에서 재고수를 빼 재고수를 배열 cnt의 값을 0으로 만들어 줌
             if(contractList.get(i).getContractAmount()<buyCnt){

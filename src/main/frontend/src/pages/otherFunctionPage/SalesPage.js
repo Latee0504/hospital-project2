@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './SalesPage.css'
 import axios from 'axios'
+import SalesDetailModal from '../utils/SalesDetailModal'
 
 const SalesPage = () => {
   // 처리된 리스트를 담을 변수
@@ -11,6 +12,32 @@ const SalesPage = () => {
 
   // 가장 많이 팔린 상품의 정보를 담을 변수
   const [topSales, setTopSales] = useState(null)
+
+  // 모달 오픈 여부
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  // 모달창으로 가져갈 객체
+  const [salesOne, setSalesOne] = useState({
+    doneNum:0
+    , orderFormList:
+    [
+      {
+        supplyNum:0
+        , orderAmount:0
+      }
+    ]
+    , doneDate:''
+    , doneManager:''
+  })
+
+  // 처리 번호를 눌렀을 때 사용할 함수
+  const passModal = (done) =>{
+    //모달에 가져갈 정보 세팅
+    setSalesOne(done)
+    //모달창 띄우기
+    setIsOpenModal(true)
+    console.log(salesOne)
+  }
 
   // 처리된 리스트를 가져옴
   useEffect(()=>{
@@ -89,7 +116,9 @@ const SalesPage = () => {
               doneList.map((done,i)=>{
                 return(
                   <tr key={i}>
-                    <td>{done.doneNum}</td>
+                    <td onClick={(e)=>{
+                      passModal(done)
+                      }}>{done.doneNum}</td>
                     <td>{done.orderFormList[0].customerVO.customerName}</td>
                     <td>{done.doneDate}</td>
                     <td>
@@ -116,7 +145,12 @@ const SalesPage = () => {
          </tbody>
         </table>
       </div>
-      
+      {/* 매출 상세 정보 모달 */}
+      <SalesDetailModal
+      show={isOpenModal}
+      onClose={()=>setIsOpenModal(false)}
+      salesOne={salesOne}
+      />
     </div>
   )
 }
