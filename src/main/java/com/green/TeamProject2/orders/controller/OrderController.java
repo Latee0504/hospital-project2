@@ -1,9 +1,6 @@
 package com.green.TeamProject2.orders.controller;
 
-import com.green.TeamProject2.orders.service.CustomerServiceImpl;
-import com.green.TeamProject2.orders.service.DoneFormServiceImpl;
-import com.green.TeamProject2.orders.service.OrderFormServiceImpl;
-import com.green.TeamProject2.orders.service.SupplyServiceImpl;
+import com.green.TeamProject2.orders.service.*;
 import com.green.TeamProject2.orders.vo.*;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +22,9 @@ public class OrderController {
 
     @Resource(name = "doneFormService")
     private DoneFormServiceImpl doneFormService;
+
+    @Resource(name = "needFormService")
+    private NeedFormServiceImpl needFormService;
 
     //상품 등록
     @PostMapping("/regSupply")
@@ -116,13 +116,34 @@ public class OrderController {
         return doneFormService.getDoneForm();
     }
 
+    // 모든 재고가 충분한지 확인하는 메서드
+    private boolean allStocksSufficient(boolean[] results) {
+        for (boolean res : results) {
+            if (!res) {
+                return false; // 하나라도 실패하면 false 반환
+            }
+        }
+        return true; // 모든 주문서가 성공하면 true 반환
+    }
+
     //주문서 처리 등록
     @PostMapping("/regDone")
-    public void regDone(@RequestBody DoneFormVO doneFormVO){
+    public boolean[] regDone(@RequestBody DoneFormVO doneFormVO){
         System.out.println(doneFormVO);
-        // CONTRACRT 에서 재고가 0이 아닌 데이터들의 재고 수를 조회()
-        //0 0 0 50 100
-        orderFormService.regDone(doneFormVO);
-        orderFormService.regDoneMange(doneFormVO.getOrderFormList());
+
+        //결과가 어떤지 담을 배열
+        boolean[] result = orderFormService.regDoneMange(doneFormVO);;
+
+        // 모든 재고가 충분해서 빼는데 성공했을 때 실행
+        if (allStocksSufficient(result)) { // 모든 주문서가 성공했는지 확인하는 메서드
+            orderFormService.regDone(doneFormVO);
+        }
+        return result;
     }
+
+    @GetMapping("/needFormList")
+    public List<NeedFormVO> getNeedForm(){
+        return needFormService.getNeedForm();
+    }
+
 }

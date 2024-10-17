@@ -7,8 +7,10 @@ const OrderDetailModal = ({show, onClose, selectedOrder, clearCheck,  setOrderOn
   const handleDoneManagerChange = (e) => {
     setOrderOne({
       ...orderOne,
+      
       doneManager:e.target.value,
     });
+    console.log(orderOne)
   };
 
   return (
