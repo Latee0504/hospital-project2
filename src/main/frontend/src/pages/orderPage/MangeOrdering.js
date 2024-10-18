@@ -113,7 +113,7 @@ const MangeOrdering = () => {
         alert('처리 중 입니다')
       } 
       else {
-        alert('보충 필요')
+        alert('재고가 부족합니다/ 재고 추가 페이지에서 처리해 주세요')
         navigate(`/orders/requires`)
       }
       setSelectedOrders([]) // 선택된 리스트 초기화

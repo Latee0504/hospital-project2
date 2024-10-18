@@ -132,18 +132,46 @@ public class OrderController {
         System.out.println(doneFormVO);
 
         //결과가 어떤지 담을 배열
-        boolean[] result = orderFormService.regDoneMange(doneFormVO);;
+        boolean[] result = orderFormService.regDoneMange(doneFormVO);
 
         // 모든 재고가 충분해서 빼는데 성공했을 때 실행
         if (allStocksSufficient(result)) { // 모든 주문서가 성공했는지 확인하는 메서드
             orderFormService.regDone(doneFormVO);
         }
+        else {
+            // 주문서 중 하나라도 실패했다면
+            orderFormService.regFailAfter(doneFormVO);
+        }
         return result;
     }
 
+    // 필요 상품 리스트 얻기
     @GetMapping("/needFormList")
     public List<NeedFormVO> getNeedForm(){
         return needFormService.getNeedForm();
     }
 
+    // 필요 상품인데 상태가 FALSE인 리스트 얻기
+    @GetMapping("/needFormFalseList")
+    public List<NeedFormVO> getFalseNeedFrom(){
+        return needFormService.getFalseNeedForm();
+    }
+
+    // False인 리스트의 정보로 contract채우기
+    @PostMapping("/pushContract")
+    public void pushContract(@RequestBody NeedFormVO needFormVO){
+        needFormService.pushContract(needFormVO);
+    }
+
+    // 필요 상품 상태 false로 만들기
+    @PutMapping("/updateFalse")
+    public void updateFalseAfter(){
+        needFormService.updateNeedForm();
+    }
+
+    // 처리 실패한 주문서 리스트 얻기
+    @GetMapping("/failFormList")
+    public List<OrderFormVO> getFailOrderForm(){
+        return orderFormService.getFailFormList();
+    }
 }

@@ -28,6 +28,16 @@ public class OrderFormServiceImpl implements OrderFormService{
         sqlSession.update("orderMapper.regDoneAfter", doneFormVO);
     }
 
+    @Override
+    public void regFailAfter(DoneFormVO doneFormVO) {
+        sqlSession.update("orderMapper.regFailAfter", doneFormVO);
+    }
+
+    @Override
+    public List<OrderFormVO> getFailFormList() {
+        return sqlSession.selectList("orderMapper.getFailOrderForm");
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     // 트랜지션을 위한 반복과 그 횟수를 담을 변수 추가, 반복문을 통한 결과를 담을 변수
@@ -122,15 +132,25 @@ public class OrderFormServiceImpl implements OrderFormService{
                     repeatList.add(repeatVO);
                 }
                 System.out.println(repeatList);
-
-                // 실제로 조건을 만족해서 재고의 변화를 주는 쿼리의 실행은 이 부분에서 한다
-                for(int i = 0; i< repeatList.size(); i++){
-                    sqlSession.update("orderMapper.regDoneMange", repeatList.get(i));
-
-                }
                 repeatResult[j] = true;
             }
 
+        }
+        boolean allTrue = true;
+        for (boolean value : repeatResult) {
+            if (!value) {
+                allTrue = false;
+                break;
+            }
+        }
+
+        if (allTrue) {
+            System.out.println("모든 값이 true이므로 기능을 실행합니다.");
+            // 실행할 기능 추가
+            // 실제로 조건을 만족해서 재고의 변화를 주는 쿼리의 실행은 이 부분에서 한다
+            for(int i = 0; i< repeatList.size(); i++){
+                sqlSession.update("orderMapper.regDoneMange", repeatList.get(i));
+            }
         }
         return repeatResult;
     }
