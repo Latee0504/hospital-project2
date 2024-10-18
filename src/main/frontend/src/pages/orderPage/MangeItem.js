@@ -87,11 +87,12 @@ const MangeItem = () => {
     .post(`/order/regSupply`, supplyData)
     .then((res)=>{
       console.log('등록 성공')
+      setCnt(cnt+1)
     })
     .catch((error)=>{
       console.log('등록에서 에러', console.log(error))
     })
-    setCnt(cnt+1)
+    
   }
 
   // 아이템 삭제 함수
@@ -118,15 +119,15 @@ const MangeItem = () => {
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
-  }, [cnt, detailData, contractData, dateDataList])
+  }, [cnt, detailData, contractData, dateDataList, ])
 
   // 날짜 목록 얻기
   function getDateList(num){
     axios
     .get(`/order/getSupplyDate/${num}`)
     .then((res)=>{
-        if(res.data.length==1){
-          
+        if(res.data.length==0){
+          setDateDataList(res.data)
         } 
         else{
           setDateDataList(res.data[0].contractList)
@@ -145,7 +146,10 @@ const MangeItem = () => {
     .get(`/order/detailList/${num}`)
     .then((res)=>{
       if(res.data.length==0){
-        alert('로딩 실패')
+        alert('상세 정보가 없습니다')
+        console.log(res.data)
+        setDetailList(res.data)
+        console.log(detailList)
       }
       else{
         console.log(res.data)
@@ -223,6 +227,7 @@ const MangeItem = () => {
     .post(`/order/regDetail`, contractData)
     .then((res)=>{
       alert('상세 정보 등록 성공')
+      setCnt(cnt+1)
     })
     .catch((error)=>{
       console.log('상세 정보 등록 에러', error)
@@ -298,7 +303,7 @@ const MangeItem = () => {
             <thead>
               <tr>
                 <td>선택</td>
-                <td>등록 넘버</td>
+                <td>제품 번호</td>
                 <td>제품 명</td>
                 <td>제품 가격</td>
                 <td>제품 규격</td>
@@ -314,7 +319,7 @@ const MangeItem = () => {
                   return(
                   <tr key={i}>
                     <td><input type='checkbox' onChange={(e)=>{handleCheckboxChange(e)}}/></td>
-                    <td>{i+1}</td>
+                    <td>{supply.supplyNum}</td>
                     <td>
                       <span onClick={(e)=>{
                         setIsShow(true)
@@ -399,15 +404,17 @@ const MangeItem = () => {
                       :
                       <>
                         {
+                          detailList.length==0
+                          ?
+                          <tr>
+                           
+                            <td colSpan={4}>상세정보 없음</td>
+                            
+                          </tr>
+                          :
                           detailList.map((detail, i)=>{
                             const totalAmount = detailList.reduce((sum, item) => sum + item.contractAmount, 0);
                             return(
-                              detail == null
-                              ?
-                              <tr>
-                                <td>재고가 없어요</td>
-                              </tr>
-                              :
                               <tr key={i}>
                                 <td>
                                   <input type='checkbox' onChange={(e)=>{setCheckNum(detail.contractNum)}}/>

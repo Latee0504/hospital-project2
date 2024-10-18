@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './MangeOrdering.css'
 import axios from 'axios'
 import OrderDetailModal from '../utils/OrderDetailModal'
+import { useNavigate } from 'react-router-dom'
 
 const MangeOrdering = () => {
   //발주 리스트를 담을 리스트
@@ -27,9 +28,9 @@ const MangeOrdering = () => {
     , doneManager:''
   })
 
+  const navigate = useNavigate()
 
   // 모달 상태 변수
-
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   // 화면 그리기(상부 리스트)
@@ -96,7 +97,6 @@ const MangeOrdering = () => {
 
   //발주 리스트를 처리 중 리스트로 옮길 함수
   function regDone(){
-    console.log(orderOne)
     if(orderOne.doneManager==''){
       alert('처리자명을 입력해주세요')
       return
@@ -104,13 +104,24 @@ const MangeOrdering = () => {
     axios
     .post(`/order/regDone`, orderOne)
     .then((res)=>{
-      alert('처리 중 입니다')
+      // 배열형식으로 받아온 재고 존재 여부
+      console.log(orderOne)
+      console.log(res.data)
+      // every() : 전부 만족하면...
+      const allConfirm = res.data.every((rOne)=>rOne == true)
+      if (allConfirm) {
+        alert('처리 중 입니다')
+      } 
+      else {
+        alert('재고가 부족합니다/ 재고 추가 페이지에서 처리해 주세요')
+        navigate(`/orders/requires`)
+      }
+      setSelectedOrders([]) // 선택된 리스트 초기화
     })
     .catch((error)=>{
       console.log(orderOne)
       console.log('리스트 옮기다 에러', error)
     })
-    setSelectedOrders([]) // 선택된 리스트 초기화
   }
 
   // 모달에서 취소를 누르면 선택을 해제해줄 함수

@@ -22,7 +22,6 @@
         <result column="SUPPLY_NUM" property="supplyNum"/>
         <result column="CONTRACT_DATE" property="contractDate"/>
         <result column="CONTRACT_AMOUNT" property="contractAmount"/>
-        <result column="CONTRACT_OUTPUT" property="contractOutput"/>
     </resultMap>
 
     <!--상품 등록-->
@@ -69,15 +68,17 @@
         WHERE SUPPLY_NUM = #{supplyNum}
     </update>
 
-    <!--상세 정보 리스트-->
+
+    <!-- 상세 정보 리스트 -->
     <select id="detailList" resultMap="supply">
         SELECT *
-        FROM SUPPLY, CONTRACT
-        WHERE SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
-        AND SUPPLY.SUPPLY_NUM = #{supplyNum}
-        AND CONTRACT_AMOUNT > 0
-        ORDER BY CONTRACT_DATE
+        FROM SUPPLY
+        INNER JOIN CONTRACT ON SUPPLY.SUPPLY_NUM = CONTRACT.SUPPLY_NUM
+        WHERE SUPPLY.SUPPLY_NUM = #{supplyNum}
+        AND CONTRACT.CONTRACT_AMOUNT > 0
+        ORDER BY CONTRACT.CONTRACT_DATE
     </select>
+
 
     <!--상품 상세 정보 추가-->
     <insert id="regDetailContract">
@@ -85,15 +86,13 @@
         (CONTRACT_DATE
         , SUPPLY_NUM
         , CONTRACT_AMOUNT
-        , CONTRACT_OUTPUT
         )
         VALUES
         (#{contractDate}
         , #{supplyNum}
         , #{contractAmount}
-        , #{contractOutput}
         )
-        <!--동일 날짜에 들어온 재고는 하나로 만들어라-->
+        <!--동일 날짜에 들어온 동일 상품의 재고는 하나로 만들어라-->
         ON DUPLICATE KEY UPDATE
         CONTRACT_AMOUNT = CONTRACT_AMOUNT + VALUES(CONTRACT_AMOUNT)
     </insert>
@@ -211,8 +210,25 @@
         AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
         AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'NONE'
-        ORDER BY ORDER_FORM.ORDER_NUM
+        ORDER BY ORDER_FORM.ORDER_NUM, SUPPLY.SUPPLY_NUM
     </select>
+
+    <!--처리에 실패한 주문서 얻기-->
+    <select id="getFailOrderForm" resultMap="orderForm">
+        SELECT *
+        FROM ORDER_FORM, CUSTOMER, DETAIL_ORDER_FORM, SUPPLY
+        WHERE ORDER_FORM.ORDER_NUM = DETAIL_ORDER_FORM.ORDER_NUM
+        AND ORDER_FORM.CUSTOMER_NUM = CUSTOMER.CUSTOMER_NUM
+        AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
+        AND ORDER_FORM.ORDER_STATUS = 'FAIL'
+        ORDER BY ORDER_FORM.ORDER_NUM, SUPPLY.SUPPLY_NUM
+    </select>
+
+    <update id="regFailAfter">
+        UPDATE ORDER_FORM
+        SET ORDER_STATUS = 'FAIL'
+        WHERE ORDER_NUM = #{orderNum}
+    </update>
 
     <!--처리 된 주문서 얻기-->
     <select id="getDoneForm" resultMap="doneForm">
@@ -223,7 +239,7 @@
         AND order_form.CUSTOMER_NUM = customer.CUSTOMER_NUM
         AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'DONE'
-        ORDER BY DONE_NUM DESC, SUPPLY.SUPPLY_NUM DESC
+        ORDER BY DONE_NUM DESC, SUPPLY.SUPPLY_NUM
     </select>
 
     <!--처리 주문서 등록 후 -->
@@ -243,6 +259,17 @@
         UPDATE ORDER_FORM
         SET ORDER_STATUS = 'DONE'
         WHERE ORDER_NUM = #{orderNum}
+    </update>
+
+    <!--상태가 FAIL인 것 들을 다시 NONE으로 업데이트-->
+    <update id="failToNone">
+        UPDATE ORDER_FORM
+        SET ORDER_STATUS = 'NONE'
+        WHERE ORDER_NUM IN (
+            SELECT ORDER_NUM
+            FROM ORDER_FORM
+            WHERE ORDER_STATUS = 'FAIL'
+        )
     </update>
 
   <!--  &lt;!&ndash;리스트 옮기면 재고에서 제품을 빼주는 업데이트-->
@@ -285,6 +312,80 @@
         <result column="TOTAL_PRICE" property="totalPrice"/>
         <collection property="supplyVO" resultMap="supply"/>
     </resultMap>
+
+    <!--부족 수량 정보-->
+    <resultMap id="needForm" type="com.green.TeamProject2.orders.vo.NeedFormVO">
+        <id column="NEED_NUM" property="needNum"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="NEED_CNT" property="needCnt"/>
+        <result column="NEED_STATUS" property="needStatus"/>
+        <result column="TOTAL_CNT" property="totalCnt"/>
+        <association property="supplyVO" resultMap="supply"/>
+        <collection property="orderFormList" resultMap="orderForm"/>
+    </resultMap>
+
+    <!--부족 수량 리스트 얻기-->
+    <select id="getNeedForm" resultMap="needForm">
+        SELECT *
+        FROM NEED_FORM, SUPPLY, ORDER_FORM
+        WHERE NEED_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        AND NEED_FORM.ORDER_NUM = ORDER_FORM.ORDER_NUM
+        AND NEED_FORM.NEED_STATUS = 'TRUE'
+    </select>
+
+    <!--부족 수량 상태가 FALSE 인 리스트 얻기-->
+    <select id="getNeedFalseForm" resultMap="needForm">
+        SELECT NEED_FORM.SUPPLY_NUM, SUM(NEED_FORM.NEED_CNT) AS TOTAL_CNT, SUPPLY.SUPPLY_NAME
+        FROM NEED_FORM, SUPPLY, ORDER_FORM
+        WHERE NEED_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        AND NEED_FORM.ORDER_NUM = ORDER_FORM.ORDER_NUM
+        AND NEED_FORM.NEED_STATUS = 'FALSE'
+        GROUP BY NEED_FORM.SUPPLY_NUM;
+    </select>
+
+    <!--부족한 수량의 상태 FALSE 변경-->
+    <update id="updateFalseAfter">
+        UPDATE NEED_FORM
+        SET NEED_STATUS = 'FALSE'
+    </update>
+
+    <!--부족한 수량의 상태 변경-->
+    <update id="updateNoneAfter">
+        UPDATE NEED_FORM
+        SET NEED_STATUS = 'NONE'
+    </update>
+
+    <!--false인 부족 수량 정보를 토대로 상세 등록-->
+    <insert id="needToContract">
+        INSERT INTO CONTRACT
+        (
+        SUPPLY_NUM
+        , CONTRACT_AMOUNT
+        )
+        VALUES
+        (
+        #{supplyNum}
+        , #{totalCnt}
+        )
+    </insert>
+
+    <!--부족 수량 저장-->
+    <insert id="regNeedForm">
+        INSERT INTO NEED_FORM
+        (
+        NEED_CNT
+        , SUPPLY_NUM
+        , ORDER_NUM
+        )
+        VALUES
+        (
+        #{needCnt}
+        , #{supplyNum}
+        , #{orderNum}
+        )
+    </insert>
+
 </mapper>
 
 

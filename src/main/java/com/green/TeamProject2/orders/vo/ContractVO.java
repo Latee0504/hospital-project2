@@ -9,5 +9,4 @@ public class ContractVO {
     private int supplyNum;
     private String contractDate;
     private int contractAmount;
-    private int contractOutput;
 }
