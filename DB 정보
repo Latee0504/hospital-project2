@@ -82,3 +82,40 @@ CREATE TABLE PLUS_FORM(
 	, DUE_DATE VARCHAR(50) NOT NULL
 );
 
+// 주문서 등록 쿼리
+
+INSERT INTO order_form
+(CUSTOMER_NUM
+, ORDER_DATE
+, ORDER_MANAGER)
+VALUES
+(4
+, '2024-07-21'
+, '232'
+);
+
+// 주문서 상세 정보 등록 쿼리
+
+INSERT INTO detail_order_form
+(ORDER_NUM
+, SUPPLY_NUM
+, ORDER_AMOUNT
+)
+VALUES
+(69
+, 1
+, 100
+);
+
+INSERT INTO detail_order_form
+(ORDER_NUM
+, SUPPLY_NUM
+, ORDER_AMOUNT
+)
+VALUES
+(69
+, 3
+, 150
+);
+
+
