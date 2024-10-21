@@ -64,12 +64,13 @@ CREATE TABLE done_form(
 );
 
 
--- 재고가 부족한 상품을 담을 테이블(PK, FK(상품번호, 부족했던 주문에 대한 주문번호), 상태, 얼마나 부족한지 담을 변수, 총 얼마가 부족한지 담을 변수)
+-- 재고가 부족한 상품을 담을 테이블(PK, FK(상품번호, 부족했던 주문에 대한 주문번호), 필요 상태, 주문 상태, 얼마나 부족한지 담을 변수, 총 얼마가 부족한지 담을 변수)
 CREATE TABLE NEED_FORM(
 	NEED_NUM INT PRIMARY KEY AUTO_INCREMENT NOT NULL
 	, SUPPLY_NUM INT REFERENCES supply(SUPPLY_NUM) ON DELETE CASCADE
 	, ORDER_NUM INT REFERENCES order_form(ORDER_NUM) ON DELETE CASCADE
 	, NEED_STATUS VARCHAR(50) NOT NULL DEFAULT 'TRUE'
+	, RE_STATUS VARCHAR(50) NOT NULL DEFAULT 'NONE'
 	, NEED_CNT INT NOT NULL
 	, TOTAL_CNT INT 
 );
