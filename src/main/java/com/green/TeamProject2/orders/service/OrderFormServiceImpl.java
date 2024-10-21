@@ -154,4 +154,26 @@ public class OrderFormServiceImpl implements OrderFormService{
         }
         return repeatResult;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void regContractMange(List<NeedFormVO> needFormList) {
+
+        // 반복 횟수를 담을 리스트
+        List<RepeatVO> repeatOne = new ArrayList<>();
+
+
+        //매개변수로 받은 리스트만큼 반복할 반복문
+        for(int i=0; i<needFormList.size(); i++){
+            // 매개변수로 받은 리스트의 정보를 새로 담을 객체
+            ContractVO contractOne = new ContractVO();
+            // 새로운 객체에 매개변수의 값을 세팅해줌
+           contractOne.setSupplyNum(needFormList.get(i).getSupplyNum());
+           contractOne.setContractAmount(needFormList.get(i).getTotalCnt());
+           //sql문 실행
+            sqlSession.insert("orderMapper.needToContract", contractOne);
+        }
+        sqlSession.update("orderMapper.updateNoneAfter");
+        sqlSession.update("orderMapper.failToNone");
+    }
 }
