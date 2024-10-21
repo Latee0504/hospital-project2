@@ -159,8 +159,8 @@ public class OrderController {
 
     // False인 리스트의 정보로 contract채우기
     @PostMapping("/pushContract")
-    public void pushContract(@RequestBody NeedFormVO needFormVO){
-        needFormService.pushContract(needFormVO);
+    public void pushContract(@RequestBody List<NeedFormVO> needFormList){
+        needFormService.pushContract(needFormList);
     }
 
     // 필요 상품 상태 false로 만들기
@@ -173,5 +173,11 @@ public class OrderController {
     @GetMapping("/failFormList")
     public List<OrderFormVO> getFailOrderForm(){
         return orderFormService.getFailFormList();
+    }
+
+    // contract 채우기
+    @PostMapping("/regContractMange")
+    public void regContactMange(@RequestBody List<NeedFormVO> needFormList){
+        orderFormService.regContractMange(needFormList);
     }
 }

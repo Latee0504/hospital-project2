@@ -83,7 +83,7 @@ const RequiresPage = () => {
     }
 
     axios
-    .post(`/order/pushContract`, plusList)
+    .post(`/order/regContractMange`, plusList)
     .then((res)=>{
       alert('재고 보충 성공')
       navigate(`/orders/item`)

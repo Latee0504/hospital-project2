@@ -15,8 +15,5 @@ public interface NeedFormService {
     void updateNeedForm();
 
     // 정보를 토대로 상품 시키기
-    void pushContract(NeedFormVO needFormVO);
-
-    // 정보를 토대로 상품 시키기
-    void pushContract2(List<NeedFormVO> needFormList);
+    void pushContract(List<NeedFormVO> needFormList);
 }
