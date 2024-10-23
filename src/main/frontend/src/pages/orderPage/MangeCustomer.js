@@ -49,6 +49,7 @@ const MangeCustomer = () => {
     console.log(regData);
   }
 
+
   //거래처 리스트 받아오기
   useEffect(()=>{
     axios

@@ -18,6 +18,9 @@ const MainLayout = () => {
           <p onClick={(e)=>{navigate(`/detail`)}}>상세 정보</p>
         </li>
         <li>
+          <p onClick={(e)=>{navigate(`/sendOrder`)}}>발주</p>
+        </li>
+        <li>
           <p onClick={(e)=>{navigate(`/orders`)}}>수주</p>
         </li>
       </ul>

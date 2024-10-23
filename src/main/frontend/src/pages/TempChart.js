@@ -36,7 +36,6 @@ const TemperChart = ({currentDate}) => {
 
   const[isShow, setIsShow] = useState(false)
 
-  //1번 박스에서 사용할 선택 변수
   const[isDuring, setIsDuring] = useState(0)
 
   //2번 박스에서 사용할 선택 변수
@@ -62,6 +61,7 @@ const TemperChart = ({currentDate}) => {
     max: 0
     , min: 0
   })
+  
 
   //셀렉트 데이트의 어제의온도와 오늘의 데이터 비교
   const [yesterdayData, setYesterdayData] = useState([]);
@@ -81,7 +81,7 @@ const TemperChart = ({currentDate}) => {
     labels: [],
     datasets: [
       {
-        label: `${DateFormat(selectDate)}의 데이터`,
+        label: '실시간 환자 체온 변화',
         data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
@@ -93,7 +93,7 @@ const TemperChart = ({currentDate}) => {
       },
     ],
   };
-  //실시간 차트 옵션
+
   const options = {
     responsive: true,
     plugins: {
@@ -218,7 +218,6 @@ const TemperChart = ({currentDate}) => {
       setTempChangeRecord(`어느 한쪽의 값이 비었습니다`)
     }
   }, [yesterdayData, todayData]);
-
 
   // 시간 간격에 따라 차트를 다시 그릴 함수
   function reChartWhenTime(selectDate, isDuring){
