@@ -1,56 +1,76 @@
-.item-div{
-  height: 100%;
-}
 
 .item-reg-div{
+  width: 90%;
+  height: 38%;
   background-color: white;
-  height: 30%;
-  width: 80%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.item-reg-div>table{
-  width: 100%;
+.itemT {
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid lightgray;
 }
-.item-reg-div>h4{
+
+.item-reg-div > h4{
+  font-size: 22px;
   padding-top: 30px;
-}
-.item-reg-div>table>thead>tr>td{
-  padding: 20px;
-  background-color: gray;
-  color: white;
-}
-.item-reg-div>table>tbody>tr>td{
-  padding: 20px;
-}
-.div-btn{
-  margin-bottom: 20px;
+  font-weight: bold;
 }
 
+.item-reg-div>table>thead>tr>td{
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #F9FBFC;
+  color: #3E3E3E;
+}
+
+.item-reg-div>table>tbody>tr>td{
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+
+.item-reg-div input {
+  border: none;
+  width: 270px;
+  height: 40px;
+  padding-left: 10px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.div-btn{
+  margin-top: 20px;
+}
 
 .detail-div{
+  width: 90%;
   height: 60%;
-  width: 80%;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
 
 .item-list-div{
   background-color: white;
-  width: 50%;
+  width: 65%;
+  height: 500px;
   margin-top: 20px;
   border-radius: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
 
-.item-list-div>table{
+.item-list-div > table{
+  width: 95%;
+  height: auto;
   margin: 0 auto;
-  margin-top: 20px;
-  width: 100%;
+  margin-top: 30px;
+  font-size: 13px;
 }
 
 .item-list-div>h4{
@@ -59,20 +79,28 @@
 
 .item-list-div>table>thead>tr>td{
   padding: 10px;
-  color: white;
-  background-color: gray;
+  color: rgb(71, 71, 141);
+  font-weight: bold;
+  font-size: 16px;
+  border-top: 1px solid #7496bd;
+  border-bottom: 1px solid #7496bd;
+  /* background: #E5E5E5; */
 }
 
-.item-list-div td{
-  padding: 5px;
+.item-list-div > table> tbody >tr td{
+
+  border-bottom: 1px solid lightgrey;
 }
 
 .item-detail-div{
   background-color: white;
-  width: 40%;
+  width: 34%;
+  height: 500px;
   margin-top: 20px;
+  padding: 20px;
   border-radius: 15px;
- 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+
 }
 
 .item-detail-div>table{
@@ -81,22 +109,76 @@
   width: 100%;
 }
 
-.item-detail-div>h4{
+.item-detail-div > h4{
   padding-top: 30px;
 }
 
 .item-detail-div>table>thead>tr>td{
-  padding: 20px;
   color: white;
-  background-color: gray;
+  background: #7496bd;
 }
 
-.item-detail-div>table>tbody>tr{
-  margin: 20px;
+.item-detail-div>table>tbody>tr, td{
+
+  cursor: pointer;
 }
+
 
 .control-button{
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
+}
+
+.btnN{
+  width: 42px;
+  height: 25px;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  margin: 2px;
+  background: #508CE0;
+  border-radius: 3px;
+}
+
+.btnD{
+  width: 42px;
+  height: 25px;
+  cursor: pointer;
+  color: #3E3E3E;
+  border: 1px solid lightgray;
+  margin: 2px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.btnP{
+  width: 120px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  color: #508CE0;
+  background: #fff;
+  font-weight: 500;
+}
+
+.btnP:hover{
+  background: #508CE0;
+  color: #fff;
+}
+
+.table-detail input{
+  margin-top: 10px;
+  height: 30px;
+  border: none;
+  outline: none;
+}
+
+.table-detail{
+  border: 1px solid #7496bd;
+}
+
+.table-detai > tbody {
+  width: 100%;
+  font-size: 13px;
 }

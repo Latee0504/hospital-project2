@@ -3,21 +3,26 @@
 }
 
 .sales-list-div{
-  background-color: white;
-  height: 30%;
+  background: white;
   width: 80%;
+  height: 50%;
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .sales-list-div>table>thead>tr>td{
-  background-color: gray;
-  color: white;
-  padding: 20px;
+
+  padding: 10px;
+  font-weight: bold;
+  color: #3E3E3E;
+  border-bottom: 1px solid;
+  font-size: 16px;
+  font-family: 'Pretendard-Regular';
 }
 
 h4{
@@ -26,8 +31,15 @@ h4{
 
 .simple-notice{
   margin: 0 auto;
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #F9FBFC;
+}
+
+.done-table{
+  width: 90%;
+  height: 300px;
+  margin: 0 auto;
 }

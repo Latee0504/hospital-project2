@@ -8,7 +8,7 @@ const MainLayout = () => {
     <div className='admin-header'>
       <div className='logo'>
         <img className='adminLogo' src='http://localhost:8080/images/logo.png' />
-        <h1>그린대학교병원</h1>
+        <h1 onClick={(e)=>{navigate(`/orders`)}}>그린라이프</h1>
       </div>
       <ul className='admin-header-ul'>
         <li>

@@ -1,10 +1,11 @@
 .order-div{
+  padding-top: 30px;
   height: 100%;
 }
 
 .order-list-div{
   background-color: white;
-  height: 30%;
+  height: 40%;
   width: 80%;
   margin: 0 auto;
   margin-top: 20px;
@@ -12,23 +13,27 @@
 }
 
 .order-list-div>h4{
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
-.order-list-div>table{
-  width: 100%;
+.order-list-div > table{
+  width: 95%;
+  margin: 0 auto;
   margin-top: 20px;
 }
 
 .order-list-div>table>thead>tr>td{
-  background-color: gray;
-  color: white;
-  padding: 20px;
+  border-top: 1px solid #7496bd;
+  border-bottom: 1px solid #7496bd;
+  color: rgb(71, 71, 141);
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
 }
 
 .order-start-div{
   background-color: white;
-  height: 30%;
+  height: 40%;
   width: 80%;
   margin: 0 auto;
   
@@ -36,16 +41,28 @@
 }
 
 .order-start-div>h4{
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
 .order-start-div>table{
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   margin-top: 20px;
 }
 
 .order-start-div>table>thead>tr>td{
-  background-color: gray;
-  color: white;
-  padding: 20px;
+  background-color: #F9FBFC;
+  color: #3E3E3E;
+  font-size: 16px;
+  font-weight: bold;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+}
+
+.order-start-div>table>tbody>tr>td{
+  color: #3E3E3E;
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+  font-size: 14px;
 }

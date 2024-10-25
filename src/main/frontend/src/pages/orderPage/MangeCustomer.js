@@ -118,7 +118,7 @@ const MangeCustomer = () => {
               <tbody>
                 <tr>
                   <td>
-                    회사명:  
+                    회사명
                   </td>
                   <td>
                     <input type='text' name='customerName' placeholder='회사명을 입력하세요' onChange={(e)=>{changeData(e)}}/>
@@ -126,7 +126,7 @@ const MangeCustomer = () => {
                 </tr>
                 <tr>
                   <td>
-                    사업자 번호:
+                    사업자 번호
                   </td>
                   <td> 
                     <input type='text' name='customerLi' placeholder='사업자 번호를 입력하세요' onChange={(e)=>{changeData(e)}}/>
@@ -134,7 +134,7 @@ const MangeCustomer = () => {
                 </tr>
                 <tr>
                   <td>
-                    대표자명:
+                    대표자명
                   </td>
                   <td> 
                     <input type='text' name='customerHeadName' placeholder='대표자명을 입력하세요' onChange={(e)=>{changeData(e)}}/>
@@ -165,9 +165,7 @@ const MangeCustomer = () => {
                 <tr>
                   <td>이메일:</td>
                   <td> 
-                    <input ref={emailF} type='text' onChange={(e)=>{changeData(e)}} placeholder='이메일 앞자리를 입력하세요' name='customerEmail'/>
-                     @
-                    <select ref={emailB} onChange={(e)=>{changeData(e)}} name='customerEmail'>
+                    <input ref={emailF} type='text' onChange={(e)=>{changeData(e)}} placeholder='이메일 앞자리를 입력하세요' name='customerEmail'/> @ <select ref={emailB} onChange={(e)=>{changeData(e)}} name='customerEmail'>
                       <option value={'@gmail.com'}>gmail.com</option>
                       <option value={'@naver.com'}>naver.com</option>
                     </select>
@@ -184,9 +182,11 @@ const MangeCustomer = () => {
           </div>
         </div>
       </div>
+
       <div className='btn-div'>
-        <button type='button' className='btn' onClick={(e)=>{regCustomer()}}>등록</button>
+        <button type='button' className='btn9' onClick={(e)=>{regCustomer()}}>등록하기</button>
       </div>
+      
       <div className='customer-content'>
         <h4>거래처 목록</h4>
         <table>
@@ -217,8 +217,8 @@ const MangeCustomer = () => {
                     <td>{customer.customerEmail}</td>
                     <td>{customer.customerEtc}</td>
                     <td>
-                      <button type='button' className='btn' onClick={(e)=>{deleteCutomer(customer.customerNum)}}>삭제</button>
-                      <button type='button' className='btn' onClick={(e)=>{
+                      <button type='button' className='btnD' onClick={(e)=>{deleteCutomer(customer.customerNum)}}>삭제</button>
+                      <button type='button' className='btnN' onClick={(e)=>{
                       openEditModal(customer)
                       }}>수정</button>
                     </td>

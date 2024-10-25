@@ -262,14 +262,14 @@ const MangeItem = () => {
     <div className='item-div'>
       <div className='item-reg-div'>
         <h4>아이템 등록</h4>
-        <table>
+        <table className='itemT'>
           <thead>
             <tr>
-              <td>제품 명</td>
-              <td>제품 가격</td>
-              <td>제품 규격</td>
-              <td>공급 사</td>
-              <td>주의 사항</td>
+              <td>제품명</td>
+              <td>제품가격</td>
+              <td>제품규격</td>
+              <td>공급사</td>
+              <td>주의사항</td>
             </tr>
           </thead>
           <tbody>
@@ -278,10 +278,10 @@ const MangeItem = () => {
                 <input type='text' name='supplyName' onChange={(e)=>{changeData(e)}} placeholder='제품명을 입력하세요'/>
               </td>
               <td>
-                <input type='number' name='supplyPrice' onChange={(e)=>{changeData(e)}} placeholder='제품 가격을 입력하세요'/>
+                <input type='number' name='supplyPrice' onChange={(e)=>{changeData(e)}} placeholder='제품가격을 입력하세요'/>
               </td>
               <td>
-                <input type='text' name='supplyStandard' onChange={(e)=>{changeData(e)}} placeholder='제품 규격을 입력하세요'/>
+                <input type='text' name='supplyStandard' onChange={(e)=>{changeData(e)}} placeholder='제품규격을 입력하세요'/>
               </td>
               <td>
                 <input type='text' name='supplier' onChange={(e)=>{changeData(e)}} placeholder='공급사를 입력하세요'/>
@@ -293,23 +293,32 @@ const MangeItem = () => {
           </tbody>
         </table>
         <div className='div-btn'>
-          <button type='button' onClick={(e)=>{regData()}} className='btn'>등록</button>
+          <button type='button' onClick={(e)=>{regData()}} className='btn9'>등록하기</button>
         </div>
       </div>
       <div className='detail-div'>
         <div className='item-list-div'>
           <h4>아이템 리스트</h4>
           <table>
+            <colgroup>
+              <col width='6%'/>
+              <col width='9%'/>
+              <col width='17%'/>
+              <col width='10%'/>
+              <col width='30%'/>
+              <col width='10%'/>
+              <col width='*'/>
+              <col width='*'/>
+            </colgroup>
             <thead>
               <tr>
                 <td>선택</td>
-                <td>제품 번호</td>
-                <td>제품 명</td>
-                <td>제품 가격</td>
-                <td>제품 규격</td>
-                <td>공급 사</td>
-                <td>주의 사항</td>
-                <td></td>
+                <td>제품번호</td>
+                <td>제품명</td>
+                <td>제품가격</td>
+                <td>제품규격</td>
+                <td>공급사</td>
+                <td>주의사항</td>
                 <td></td>
               </tr>
             </thead>
@@ -341,10 +350,8 @@ const MangeItem = () => {
                     <td>{supply.supplier}</td>
                     <td>{supply.supplyCaution}</td>
                     <td>
-                      <button type='button' className='btn' onClick={(e)=>{deleteItem(supply.supplyNum)}}>삭제</button>
-                    </td>
-                    <td>
-                      <button type='button' className='btn' onClick={(e)=>{openEditModal(supply)}}>수정</button>
+                      <button type='button' className='btnD' onClick={(e)=>{deleteItem(supply.supplyNum)}}>삭제</button>
+                      <button type='button' className='btnN' onClick={(e)=>{openEditModal(supply)}}>수정</button>
                     </td>
                   </tr>
                   )
@@ -359,7 +366,7 @@ const MangeItem = () => {
             !isShow
             ?
             <>
-              <h4>상세정보가 보임</h4>
+              <h4>상세정보 페이지</h4>
             </>
             :
             <>
@@ -367,13 +374,10 @@ const MangeItem = () => {
               <table className='table-detail'>
                 <thead>
                   <tr>
-                    <td>
-                      선택
-                    </td>
-                    <td>총 재고 수</td>
+                    <td>선택</td>
+                    <td>총 재고</td>
                     <td>입고 날짜</td>
                     <td>날짜에 입고된 수</td>
-                    
                   </tr>
                 </thead>
                 <tbody>
@@ -416,7 +420,7 @@ const MangeItem = () => {
                             const totalAmount = detailList.reduce((sum, item) => sum + item.contractAmount, 0);
                             return(
                               <tr key={i}>
-                                <td>
+                                <td style={{paddingBottom:'25px'}}>
                                   <input type='checkbox' onChange={(e)=>{setCheckNum(detail.contractNum)}}/>
                                 </td>
                                 <td>{totalAmount}개</td>
@@ -437,22 +441,22 @@ const MangeItem = () => {
                   {
                     updateDetail == false
                     ?
-                    <button type='button' className='btn' onClick={(e)=>{
+                    <button type='button' className='btnP' onClick={(e)=>{
                       setInputDetail(false)
                       regContract()
-                    }}>등록 하기</button>
+                    }}>등록하기</button>
                     :
-                    <button type='button' className='btn' onClick={(e)=>{
+                    <button type='button' className='btnP' onClick={(e)=>{
                       setUpdateDetail(false)
                       updateContract()
-                    }}>수정 하기</button>
+                    }}>수정하기</button>
                   }
                 </div>
                 :
                 <div className='control-button'>
-                  <button type='button' className='btn' onClick={(e)=>{setInputDetail(true)}}>새로 등록</button>
-                  <button type='button' className='btn' onClick={(e)=>{setUpdateDetail(true)}}>수정</button>
-                  <button type='button' className='btn' onClick={(e)=>{deleteDetail(checkNum)}}>삭제</button>
+                  <button type='button' className='btnP' onClick={(e)=>{setInputDetail(true)}}>+ 등록</button>
+                  <button type='button' className='btnN' style={{width:'120px',height:'30px'}} onClick={(e)=>{setUpdateDetail(true)}}>수정</button>
+                  <button type='button' className='btnD' style={{width:'120px',height:'30px'}} onClick={(e)=>{deleteDetail(checkNum)}}>삭제</button>
                 </div>}
             </>
           }
