@@ -16,22 +16,20 @@
 }
 
 .sales-list-div>table>thead>tr>td{
-
   padding: 10px;
   font-weight: bold;
   color: #3E3E3E;
-  border-bottom: 1px solid;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
   font-size: 16px;
   font-family: 'Pretendard-Regular';
 }
 
-h4{
-  margin-top: 20px;
-}
-
 .simple-notice{
-  margin: 0 auto;
   width: 90%;
+  height: 60px;
+  margin: 0 auto;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
