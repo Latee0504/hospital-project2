@@ -31,7 +31,7 @@ public class NeedFormServiceImpl implements NeedFormService{
 
     @Override
     public void pushContract(List<NeedFormVO> needFormList) {
-        sqlSession.update("orderMapper.updateNoneAfter");
         sqlSession.update("orderMapper.failToNone");
+        sqlSession.update("orderMapper.updateNoneAfter");
     }
 }

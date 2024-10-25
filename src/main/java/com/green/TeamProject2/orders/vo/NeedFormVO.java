@@ -11,6 +11,7 @@ public class NeedFormVO {
     private int orderNum;
     private int needCnt;
     private String needStatus;
+    private String reStatus;
     private int totalCnt;
     private SupplyVO supplyVO;
     private List<OrderFormVO> orderFormList;

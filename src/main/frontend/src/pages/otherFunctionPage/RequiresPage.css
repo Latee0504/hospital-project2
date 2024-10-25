@@ -4,7 +4,6 @@
 
 .requires-list-div{
   background-color: white;
-  height: 30%;
   width: 80%;
   margin: 0 auto;
   margin-top: 20px;
@@ -27,4 +26,53 @@
   display: flex;
   width: 80%;
   justify-content: space-between;
+}
+.fail-table{
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.fail-table>thead>tr>td{
+  background-color: gray;
+  color: white;
+  padding: 30px;
+}
+.fail-table>tbody>tr>td{
+  padding: 30px;
+}
+
+.require-table{
+  margin-top: 20px;
+  width: 100%;
+}
+
+.require-table>thead>tr>td{
+  padding: 30px;
+  background-color: gray;
+  color: white;
+}
+.require-table>tbody>tr>td{
+  padding: 30px;
+}
+
+.need-table{
+  margin-top: 20px;
+  width: 100%;
+}
+
+.need-table>thead>tr>td{
+  padding: 30px;
+  background-color: gray;
+  color: white;
+}
+.need-table>tbody>tr>td{
+  padding: 30px;
+}
+
+.first-button-div>.btn{
+ margin-top: 80px;
+}
+
+.second-button-div>.btn{
+  margin-top: 80px;
 }

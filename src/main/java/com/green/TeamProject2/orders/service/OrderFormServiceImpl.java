@@ -1,6 +1,9 @@
 package com.green.TeamProject2.orders.service;
 
 import com.green.TeamProject2.orders.vo.*;
+import com.green.TeamProject2.orders.vo.receive.OrderVO;
+import com.green.TeamProject2.orders.vo.receive.OrderedSupplyVO;
+import com.green.TeamProject2.orders.vo.receive.SupplyVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,7 +85,7 @@ public class OrderFormServiceImpl implements OrderFormService{
                 eachTotalCnt = eachTotalCnt + contractList.get(i).getContractAmount();
             }
 
-            if(eachTotalCnt<=buyCnt){
+            if(eachTotalCnt<buyCnt){
                 // 이 정보는 필요 재고 테이블로 가져갈거임=>새 VO가 필요함
                 System.out.println(doneFormVO.getOrderFormList().get(j).getSupplyNum()+ "번 상품의 " + "재고 수가 부족합니다");
                 System.out.println("재고의 총 합은 "+ eachTotalCnt);
@@ -173,7 +176,19 @@ public class OrderFormServiceImpl implements OrderFormService{
            //sql문 실행
             sqlSession.insert("orderMapper.needToContract", contractOne);
         }
-        sqlSession.update("orderMapper.updateNoneAfter");
         sqlSession.update("orderMapper.failToNone");
+        sqlSession.update("orderMapper.updateNoneAfter");
+        sqlSession.update("orderMapper.updateReAfter");
+    }
+
+    // 밖에서 받아온걸 등록하는 기능 모음
+    @Override
+    public void regOrderForm(OrderVO orderVO) {
+        sqlSession.insert("orderMapper.regOrderForm", orderVO);
+    }
+
+    @Override
+    public void regDetailOrder(OrderedSupplyVO orderedSupplyVO) {
+        sqlSession.insert("orderMapper.regOrderDetail", orderedSupplyVO);
     }
 }
