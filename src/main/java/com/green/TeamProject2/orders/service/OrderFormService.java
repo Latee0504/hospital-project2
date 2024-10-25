@@ -3,6 +3,9 @@ package com.green.TeamProject2.orders.service;
 import com.green.TeamProject2.orders.vo.DoneFormVO;
 import com.green.TeamProject2.orders.vo.NeedFormVO;
 import com.green.TeamProject2.orders.vo.OrderFormVO;
+import com.green.TeamProject2.orders.vo.receive.OrderVO;
+import com.green.TeamProject2.orders.vo.receive.OrderedSupplyVO;
+import com.green.TeamProject2.orders.vo.receive.SupplyVO;
 
 import java.util.List;
 
@@ -24,4 +27,13 @@ public interface OrderFormService {
 
     // 부족 수량 종합을 토대로 반복 돌려서
     public void regContractMange(List<NeedFormVO> needFormList);
+
+    // 등록 기능
+    public void regOrderForm(OrderVO orderVO);
+
+    // 상세 등록 기능
+    public void regDetailOrder(OrderedSupplyVO orderedSupplyVO);
+
+    // 가져온 주문 정보로 만들어진 내 주문 번호 얻기
+    public int getMyOrderNum();
 }

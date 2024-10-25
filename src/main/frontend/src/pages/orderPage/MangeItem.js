@@ -101,6 +101,7 @@ const MangeItem = () => {
     .delete(`/order/deleteSupply/${num}`)
     .then((res)=>{
       alert('삭제 성공')
+      setSelectedDetail([])
     })
     .catch((error)=>{
       console.log('삭제 실패', console.log(error))
@@ -115,11 +116,12 @@ const MangeItem = () => {
     .then((res)=>{
       setSupplyList(res.data)
       console.log(res.data)
+      setCnt(cnt)
     })
     .catch((error)=>{
       console.log('리스트 받기 에러', error)
     })
-  }, [cnt, detailData, contractData, dateDataList, ])
+  }, [cnt, detailData, contractData, dateDataList])
 
   // 날짜 목록 얻기
   function getDateList(num){
@@ -240,6 +242,7 @@ const MangeItem = () => {
     .put(`/order/updateDetail`, contractData)
     .then((res)=>{
       alert('상세 정보 수정 성공')
+      setCnt(cnt+1)
     })
     .catch((error)=>{
       console.log('상세 정보 수정 에러', error)
@@ -252,6 +255,7 @@ const MangeItem = () => {
     .delete(`/order/deleteDetail/${data}`)
     .then((res)=>{
       alert('선택한 상세 정보 삭제 성공')
+      setCnt(cnt+1)
     })
     .catch((error)=>{
       console.log('상세 정보 삭제 에러', error)

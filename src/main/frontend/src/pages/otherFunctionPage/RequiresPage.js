@@ -27,11 +27,12 @@ const RequiresPage = () => {
     .then((res)=>{
       setNeedList(res.data)
       console.log(needList)
+      setCnt(cnt)
     })
     .catch((error)=>{
       console.log('부족한 재고 리스트 얻기 에러',error)
     })
-  }, [])
+  }, [cnt])
 
   // 실패한 주문서 리스트 불러오기
   useEffect(()=>{
@@ -39,11 +40,12 @@ const RequiresPage = () => {
     .get(`/order/failFormList`)
     .then((res)=>{
       setFailList(res.data)
+      setCnt(cnt)
     })
     .catch((error)=>{
       console.log('실패한 주문서 리스트 얻기 에러', error)
     })
-  }, [])
+  }, [cnt])
 
   // 추가 요청된 리스트 불러오기
   useEffect(()=>{
@@ -52,11 +54,12 @@ const RequiresPage = () => {
     .then((res)=>{
       setPlusList(res.data)
       console.log(res.data)
+      setCnt(cnt)
     })
     .catch((error)=>{
       console.log('추가 요청된 기록 리스트 얻기 에러', error)
     })
-  }, [])
+  }, [cnt])
 
   // 부족한 리스트에서 추가 리스트로 옮기는 함수
   const passPlus = ()=>{
@@ -68,6 +71,8 @@ const RequiresPage = () => {
     .put(`/order/updateFalse`)
     .then((res)=>{
       console.log(res.data)
+      setNeedList([])
+      setCnt(cnt+1)
     })
     .catch((error)=>{
       console.log('옮기기 에러', error)
@@ -99,7 +104,7 @@ const RequiresPage = () => {
      <div className='requires-list-div'>
         <div className='fail-order-div'>
           <h4>실패한 주문서 리스트</h4>
-          <table>
+          <table className='fail-table'>
             <thead>
               <tr>
                 <td>주문번호</td>
@@ -141,7 +146,7 @@ const RequiresPage = () => {
         <div className='requries-functon-div'>
           <div className='need-list-div'>
             <h4>부족한 재고 리스트</h4>
-            <table>
+            <table className='require-table'>
               <thead>
                 <tr>
                   <td>리스트번호</td>
@@ -167,12 +172,12 @@ const RequiresPage = () => {
               </tbody>
             </table>
           </div>
-          <div>
+          <div className='first-button-div'>
               <button type='button' className='btn' onClick={()=>{passPlus()}}>병합하기</button>
           </div>
           <div className='plus-list-div'>
             <h4>추가 요청 리스트</h4>
-            <table>
+            <table className='need-table'>
               <thead>
                 <tr>
                   <td>상품번호</td>
@@ -195,9 +200,11 @@ const RequiresPage = () => {
                 }
               </tbody>
             </table>
-            <button type='button' className='btn' onClick={(e)=>{
-              regContract()
-            }}>주문하기</button>
+            <div className='second-button-div'>
+              <button type='button' className='btn' onClick={(e)=>{
+                regContract()
+              }}>주문하기</button>
+            </div>
           </div>
         </div>
      </div>

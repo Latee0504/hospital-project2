@@ -24,6 +24,61 @@
         <result column="CONTRACT_AMOUNT" property="contractAmount"/>
     </resultMap>
 
+    <!--주문서 상세 정보-->
+    <resultMap id="detailOrderForm" type="com.green.TeamProject2.orders.vo.DetailOrderFormVO">
+        <id column="DETAIL_ORDER_NUM" property="detailOrderNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="TOTAL_PRICE" property="totalPrice"/>
+        <collection property="supplyVO" resultMap="supply"/>
+    </resultMap>
+
+    <!--부족 수량 정보-->
+    <resultMap id="needForm" type="com.green.TeamProject2.orders.vo.NeedFormVO">
+        <id column="NEED_NUM" property="needNum"/>
+        <result column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="NEED_CNT" property="needCnt"/>
+        <result column="NEED_STATUS" property="needStatus"/>
+        <result column="TOTAL_CNT" property="totalCnt"/>
+        <result column="RE_STATUS" property="reStatus"/>
+        <association property="supplyVO" resultMap="supply"/>
+        <collection property="orderFormList" resultMap="orderForm"/>
+    </resultMap>
+
+    <!--거래처-->
+    <resultMap id="customer" type="com.green.TeamProject2.orders.vo.CustomerVO">
+        <id column="CUSTOMER_NUM" property="customerNum"/>
+        <result column="CUSTOMER_LI" property="customerLi"/>
+        <result column="CUSTOMER_NAME" property="customerName"/>
+        <result column="CUSTOMER_HEAD_NAME" property="customerHeadName"/>
+        <result column="CUSTOMER_ADDRESS" property="customerAddress"/>
+        <result column="CUSTOMER_TEL" property="customerTel"/>
+        <result column="CUSTOMER_EMAIL" property="customerEmail"/>
+        <result column="CUSTOMER_ETC" property="customerEtc"/>
+    </resultMap>
+
+    <!--발주된 주문서 리스트-->
+    <resultMap id="orderForm" type="com.green.TeamProject2.orders.vo.OrderFormVO">
+        <id column="ORDER_NUM" property="orderNum"/>
+        <result column="ORDER_DATE" property="orderDate"/>
+        <result column="CUSTOMER_NUM" property="customerNum"/>
+        <result column="ORDER_MANAGER" property="orderManager"/>
+        <result column="ORDER_STATUS" property="orderStatus"/>
+        <association property="customerVO" resultMap="customer"/>
+        <collection property="detailOrderList" resultMap="detailOrderForm"/>
+    </resultMap>
+
+    <!--완료된 주문서 리스트-->
+    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
+        <id column="DONE_NUM" property="doneNum"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="DONE_MANAGER" property="doneManager"/>
+        <association property="orderFormList" resultMap="orderForm"/>
+    </resultMap>
+
     <!--상품 등록-->
     <insert id="regSupply">
         INSERT INTO SUPPLY
@@ -122,18 +177,6 @@
         ORDER BY CONTRACT_DATE
     </select>
 
-    <!--거래처-->
-    <resultMap id="customer" type="com.green.TeamProject2.orders.vo.CustomerVO">
-        <id column="CUSTOMER_NUM" property="customerNum"/>
-        <result column="CUSTOMER_LI" property="customerLi"/>
-        <result column="CUSTOMER_NAME" property="customerName"/>
-        <result column="CUSTOMER_HEAD_NAME" property="customerHeadName"/>
-        <result column="CUSTOMER_ADDRESS" property="customerAddress"/>
-        <result column="CUSTOMER_TEL" property="customerTel"/>
-        <result column="CUSTOMER_EMAIL" property="customerEmail"/>
-        <result column="CUSTOMER_ETC" property="customerEtc"/>
-    </resultMap>
-
     <!--거래처 등록-->
     <insert id="regCustomer">
         INSERT INTO CUSTOMER
@@ -182,25 +225,6 @@
         WHERE CUSTOMER_NUM = #{customerNum}
     </update>
 
-    <!--발주된 주문서 리스트-->
-    <resultMap id="orderForm" type="com.green.TeamProject2.orders.vo.OrderFormVO">
-        <id column="ORDER_NUM" property="orderNum"/>
-        <result column="ORDER_DATE" property="orderDate"/>
-        <result column="CUSTOMER_NUM" property="customerNum"/>
-        <result column="ORDER_MANAGER" property="orderManager"/>
-        <result column="ORDER_STATUS" property="orderStatus"/>
-        <association property="customerVO" resultMap="customer"/>
-        <collection property="detailOrderList" resultMap="detailOrderForm"/>
-    </resultMap>
-
-    <!--완료된 주문서 리스트-->
-    <resultMap id="doneForm" type="com.green.TeamProject2.orders.vo.DoneFormVO">
-        <id column="DONE_NUM" property="doneNum"/>
-        <result column="ORDER_NUM" property="orderNum"/>
-        <result column="DONE_DATE" property="doneDate"/>
-        <result column="DONE_MANAGER" property="doneManager"/>
-        <association property="orderFormList" resultMap="orderForm"/>
-    </resultMap>
 
     <!--주문서 얻기-->
     <select id="getOrderForm" resultMap="orderForm">
@@ -211,6 +235,42 @@
         AND SUPPLY.SUPPLY_NUM = DETAIL_ORDER_FORM.SUPPLY_NUM
         AND ORDER_FORM.ORDER_STATUS = 'NONE'
         ORDER BY ORDER_FORM.ORDER_NUM, SUPPLY.SUPPLY_NUM
+    </select>
+
+    <!--주문서 추가-->
+    <insert id="regOrderForm">
+        INSERT INTO ORDER_FORM
+        (CUSTOMER_NUM
+        , ORDER_DATE
+        , ORDER_MANAGER
+        )
+        VALUES
+        (4
+        , NOW()
+        , #{orderManager}
+        )
+    </insert>
+
+    <!--주문서 상세 내용 추가-->
+    <insert id="regOrderDetail">
+        INSERT INTO detail_order_form
+        ( ORDER_NUM
+        , SUPPLY_NUM
+        , ORDER_AMOUNT
+        )
+        VALUES(
+        #{orderNum}
+        , #{supplyNum}
+        , #{orderAmount}
+        )
+    </insert>
+
+    <!--가져온 주문 정보로 만들어진 내 주문 번호 얻기-->
+    <select id="getMyOrderNum" resultType="int">
+        SELECT ORDER_NUM
+        FROM ORDER_FORM
+        ORDER BY ORDER_DATE DESC
+        LIMIT 1
     </select>
 
     <!--처리에 실패한 주문서 얻기-->
@@ -303,27 +363,7 @@
         ORDER BY CONTRACT_DATE
     </select>
 
-    <!--주문서 상세 정보-->
-    <resultMap id="detailOrderForm" type="com.green.TeamProject2.orders.vo.DetailOrderFormVO">
-        <id column="DETAIL_ORDER_NUM" property="detailOrderNum"/>
-        <result column="ORDER_NUM" property="orderNum"/>
-        <result column="SUPPLY_NUM" property="supplyNum"/>
-        <result column="ORDER_AMOUNT" property="orderAmount"/>
-        <result column="TOTAL_PRICE" property="totalPrice"/>
-        <collection property="supplyVO" resultMap="supply"/>
-    </resultMap>
 
-    <!--부족 수량 정보-->
-    <resultMap id="needForm" type="com.green.TeamProject2.orders.vo.NeedFormVO">
-        <id column="NEED_NUM" property="needNum"/>
-        <result column="SUPPLY_NUM" property="supplyNum"/>
-        <result column="ORDER_NUM" property="orderNum"/>
-        <result column="NEED_CNT" property="needCnt"/>
-        <result column="NEED_STATUS" property="needStatus"/>
-        <result column="TOTAL_CNT" property="totalCnt"/>
-        <association property="supplyVO" resultMap="supply"/>
-        <collection property="orderFormList" resultMap="orderForm"/>
-    </resultMap>
 
     <!--부족 수량 리스트 얻기-->
     <select id="getNeedForm" resultMap="needForm">
@@ -332,6 +372,7 @@
         WHERE NEED_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
         AND NEED_FORM.ORDER_NUM = ORDER_FORM.ORDER_NUM
         AND NEED_FORM.NEED_STATUS = 'TRUE'
+        AND NEED_FORM.RE_STATUS = 'NONE'
     </select>
 
     <!--부족 수량 상태가 FALSE 인 리스트 얻기-->
@@ -341,6 +382,7 @@
         WHERE NEED_FORM.SUPPLY_NUM = SUPPLY.SUPPLY_NUM
         AND NEED_FORM.ORDER_NUM = ORDER_FORM.ORDER_NUM
         AND NEED_FORM.NEED_STATUS = 'FALSE'
+        AND NEED_FORM.RE_STATUS = 'NONE'
         GROUP BY NEED_FORM.SUPPLY_NUM;
     </select>
 
@@ -354,6 +396,12 @@
     <update id="updateNoneAfter">
         UPDATE NEED_FORM
         SET NEED_STATUS = 'NONE'
+    </update>
+
+    <!--주문 후에 RE_STATUS의 상태를 'DONE'-->
+    <update id="updateReAfter">
+        UPDATE NEED_FORM
+        SET RE_STATUS = 'DONE'
     </update>
 
     <!--false인 부족 수량 정보를 토대로 상세 등록-->
@@ -387,7 +435,6 @@
         , #{orderNum}
         )
     </insert>
-
 </mapper>
 
 

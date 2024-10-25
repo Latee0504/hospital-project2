@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="receiveMapper">
+    <resultMap id="supply" type="com.green.TeamProject2.orders.vo.receive.SupplyVO">
+        <id column="SUPPLY_NUM" property="supplyNum"/>
+        <result column="SUPPLY_NAME" property="supplyName"/>
+        <result column="SUPPLY_PRICE" property="supplyPrice"/>
+        <result column="SUPPLY_STANDARD" property="supplyStandard"/>
+        <result column="DELIVERY_DAY" property="deliveryDay"/>
+        <result column="SUPPLIER" property="supplier"/>
+        <result column="SUPPLY_MAKEDAY" property="supplyMakeday"/>
+        <result column="SUPPLY_CAUTION" property="supplyCaution"/>
+        <result column="SUPPLY_IMAGE" property="supplyImage"/>
+        <result column="SUPPLY_AMOUNT" property="supplyAmount"/>
+        <result column="SUPPLY_MIN_AMOUNT" property="supplyMinAmount"/>
+    </resultMap>
+
+    <resultMap id="order" type="com.green.TeamProject2.orders.vo.receive.OrderVO">
+        <id column="ORDER_NUM" property="orderNum"/>
+        <result column="ORDER_DATE" property="orderDate"/>
+        <result column="ORDER_MANAGER" property="orderManager"/>
+        <result column="DELIVERY_DATE" property="deliveryDate"/>
+        <result column="ORDER_NOTE" property="orderNote"/>
+        <result column="ORDER_STATUS" property="orderStatus"/>
+        <collection property="orderedSupplyList" resultMap="orderedSupply"/>
+    </resultMap>
+
+    <resultMap id="orderedSupply" type="com.green.TeamProject2.orders.vo.receive.OrderedSupplyVO">
+        <id column="ORDER_SUPPLY_NUM" property="orderSupplyNum"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+        <collection property="supply" resultMap="supply"/>
+    </resultMap>
+
+    <!--재고 조회 시 모든 물품 조회-->
+    <select id="selectAllSupply" resultMap="supply">
+        SELECT SUPPLY.*
+        FROM SUPPLY;
+    </select>
+
+    <!--    각 물품별 발주량의 합 가져오기-->
+    <select id="getOrderAmount" resultType="int">
+        SELECT IFNULL(SUM(ORDER_AMOUNT), 0)
+        FROM order_supply_info, ORDER_INFO
+        WHERE SUPPLY_NUM = #{supplyNum}
+        AND ORDER_INFO.ORDER_STATUS = '배송 전'
+        AND ORDER_SUPPLY_INFO.ORDER_NUM = ORDER_INFO.ORDER_NUM
+    </select>
+
+    <!--물품 등록시 물품 이름을 통해 물품의 중복검사 실행-->
+    <select id="checkSupply" resultMap="supply">
+        SELECT * FROM SUPPLY
+        WHERE SUPPLY_NAME = #{supplyName}
+    </select>
+
+    <!--새로운 물품 등록-->
+    <insert id="registSupply">
+        INSERT INTO SUPPLY (
+        SUPPLY_NAME
+        , SUPPLY_PRICE
+        , SUPPLY_STANDARD
+        , SUPPLIER
+        , SUPPLY_CAUTION
+        , SUPPLY_MIN_AMOUNT
+        , SUPPLY_IMAGE
+        ) VALUES (
+        #{supplyName}
+        , #{supplyPrice}
+        , #{supplyStandard}
+        , #{supplier}
+        , #{supplyCaution}
+        , #{supplyMinAmount}
+        , #{supplyImage}
+        )
+    </insert>
+
+    <insert id="commitOrder">
+        INSERT INTO order_info(
+        ORDER_MANAGER
+        , ORDER_DATE
+        , DELIVERY_DATE
+        , ORDER_NOTE
+        ) VALUES (
+        #{orderManager}
+        , NOW()
+        , #{deliveryDate}
+        , #{orderNote}
+        );
+    </insert>
+
+    <!--컨트롤러에서 실행 시에 orderNum 값을 어딘가 변수에 저장해서 그 값을 서브쿼리에 집어 넣으면 가능 할 것 같다.-->
+    <insert id="commitOrderedSupply">
+        INSERT INTO ORDER_SUPPLY_INFO(
+        SUPPLY_NUM,
+        ORDER_AMOUNT,
+        ORDER_NUM
+        ) VALUES (
+        #{supplyNum},
+        #{orderAmount},
+        (SELECT MAX(ORDER_NUM) FROM ORDER_INFO)
+        )
+    </insert>
+
+    <!--발주 내역 확인-->
+    <select id="getAllOrder" resultMap="order">
+        SELECT * FROM ORDER_INFO
+    </select>
+
+    <select id="getOrderSupplyList" resultMap="orderedSupply">
+        SELECT SUPPLY.SUPPLY_NUM,
+        ORDER_SUPPLY_NUM,
+        ORDER_NUM,
+        SUPPLY_NAME,
+        SUPPLY_PRICE,
+        ORDER_AMOUNT,
+        SUPPLY_STANDARD,
+        SUPPLIER,
+        SUPPLY_CAUTION
+        FROM SUPPLY, ORDER_SUPPLY_INFO
+        WHERE SUPPLY.SUPPLY_NUM = ORDER_SUPPLY_INFO.SUPPLY_NUM
+        AND ORDER_NUM = #{orderNum}
+        AND SUPPLY.SUPPLY_NUM IN(SELECT SUPPLY_NUM
+        FROM ORDER_SUPPLY_INFO
+        WHERE ORDER_NUM = #{orderNum})
+        ORDER BY SUPPLY_NUM;
+    </select>
+
+    <!--    <delete id="deleteOrderSupply">-->
+    <!--        DELETE FROM ORDER_SUPPLY_INFO-->
+    <!--        WHERE ORDER_SUPPLY_NUM = #{orderSupplyNum}-->
+    <!--    </delete>-->
+
+    <update id="updateOrderSupply">
+        UPDATE ORDER_SUPPLY_INFO SET ORDER_AMOUNT = #{orderAmount}
+        WHERE ORDER_SUPPLY_NUM = #{orderSupplyNum}
+    </update>
+
+
+    <update id="updateOrderStatus">
+        UPDATE ORDER_INFO
+        SET ORDER_STATUS = '입고 완료'
+        WHERE ORDER_NUM = #{orderNum};
+
+    </update>
+    <update id="cancelOrder">
+        UPDATE ORDER_INFO
+        SET ORDER_STATUS = '취소 됨'
+        WHERE ORDER_NUM = #{orderNum};
+    </update>
+
+    <!--여러개 받아와야 하는데...
+        checkBox로 전달받은 orderNum에 있는 orderSupplyInfo에서 supplyNum을 가져와야하는데 -->
+    <update id="updateSupplyAmount">
+        UPDATE SUPPLY
+        SET SUPPLY_AMOUNT = SUPPLY_AMOUNT + (
+        SELECT ORDER_AMOUNT
+        FROM order_SUPPLY_info
+        WHERE ORDER_NUM = #{orderNum} AND SUPPLY_NUM = SUPPLY.SUPPLY_NUM
+        )
+        WHERE SUPPLY_NUM IN (
+        SELECT SUPPLY_NUM
+        FROM order_SUPPLY_info
+        WHERE ORDER_NUM = #{orderNum}
+        );
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
