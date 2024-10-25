@@ -24,7 +24,7 @@
         <result column="DELIVERY_DATE" property="deliveryDate"/>
         <result column="ORDER_NOTE" property="orderNote"/>
         <result column="ORDER_STATUS" property="orderStatus"/>
-        <association property="orderedSupplyList" resultMap="orderedSupply"/>
+        <collection property="orderedSupplyList" resultMap="orderedSupply"/>
     </resultMap>
 
     <resultMap id="orderedSupply" type="com.green.TeamProject2.orders.vo.receive.OrderedSupplyVO">

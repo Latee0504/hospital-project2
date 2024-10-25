@@ -191,4 +191,9 @@ public class OrderFormServiceImpl implements OrderFormService{
     public void regDetailOrder(OrderedSupplyVO orderedSupplyVO) {
         sqlSession.insert("orderMapper.regOrderDetail", orderedSupplyVO);
     }
+
+    @Override
+    public int getMyOrderNum() {
+        return sqlSession.selectOne("orderMapper.getMyOrderNum");
+    }
 }

@@ -239,14 +239,14 @@
 
     <!--주문서 추가-->
     <insert id="regOrderForm">
-        INSERT INTO ORDER_FROM
+        INSERT INTO ORDER_FORM
         (CUSTOMER_NUM
         , ORDER_DATE
         , ORDER_MANAGER
         )
         VALUES
-        (#{customerNum}
-        , #{orderDate}
+        (4
+        , NOW()
         , #{orderManager}
         )
     </insert>
@@ -254,16 +254,24 @@
     <!--주문서 상세 내용 추가-->
     <insert id="regOrderDetail">
         INSERT INTO detail_order_form
-        (ORDER_NUM
+        ( ORDER_NUM
         , SUPPLY_NUM
         , ORDER_AMOUNT
         )
-        VALUES
-        ( #{orderNum}
+        VALUES(
+        #{orderNum}
         , #{supplyNum}
         , #{orderAmount}
         )
     </insert>
+
+    <!--가져온 주문 정보로 만들어진 내 주문 번호 얻기-->
+    <select id="getMyOrderNum" resultType="int">
+        SELECT ORDER_NUM
+        FROM ORDER_FORM
+        ORDER BY ORDER_DATE
+        LIMIT 1
+    </select>
 
     <!--처리에 실패한 주문서 얻기-->
     <select id="getFailOrderForm" resultMap="orderForm">

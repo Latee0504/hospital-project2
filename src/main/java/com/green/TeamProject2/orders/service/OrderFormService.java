@@ -33,4 +33,7 @@ public interface OrderFormService {
 
     // 상세 등록 기능
     public void regDetailOrder(OrderedSupplyVO orderedSupplyVO);
+
+    // 가져온 주문 정보로 만들어진 내 주문 번호 얻기
+    public int getMyOrderNum();
 }

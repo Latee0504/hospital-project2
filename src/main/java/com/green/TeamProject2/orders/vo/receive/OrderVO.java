@@ -7,6 +7,7 @@ import java.util.List;
     @Data
     public class OrderVO {
         private int orderNum;
+        private int orderSupplyNum;
         private String orderManager;
         private String orderDate;
         private int orderAmount;
@@ -16,6 +17,6 @@ import java.util.List;
         private List<SupplyVO> supplyList;
         //추가
         private List<OrderedSupplyVO> orderedSupplyList;
-        private int orderSupplyNum;
+
     }
 

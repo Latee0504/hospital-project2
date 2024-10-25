@@ -198,14 +198,16 @@ public class OrderController {
     public void receiveOrder(@RequestBody OrderVO orderVO){
         // 필요한 데이터 (주문 정보)
 
-       /*
+
             // 다른 컴에서 보내준 주문서의 결과 등록
 
             // 주문서 틀 등록 기능
             orderService.commitOrder(orderVO);
+            System.out.println(orderVO);
+
             // 주문서 상세 등록 기능(orderVO에 주문 정보리스트 추가)
             orderService.commitOrderedSupply(orderVO.getOrderedSupplyList());
-        */
+
 
 
 
@@ -213,9 +215,20 @@ public class OrderController {
 
         // 맞춰서 세팅
         orderFormService.regOrderForm(orderVO);
-        // 상세 맞춰서 세팅
+
+        // 만들어진 내 주문의 번호를 얻어야함
+        int res = orderFormService.getMyOrderNum();
+
+        for(int i = 0; i< orderVO.getOrderedSupplyList().size(); i++){
+            orderVO.getOrderedSupplyList().get(i).setOrderNum(res);
+        }
+
+
+        System.out.println(orderVO);
+
+       // 상세 맞춰서 세팅
         for(int i = 0; i <orderVO.getOrderedSupplyList().size(); i++){
-            orderFormService.regDetailOrder(orderVO.getOrderedSupplyList().get(i));
+           orderFormService.regDetailOrder(orderVO.getOrderedSupplyList().get(i));
         }
 
     }
