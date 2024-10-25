@@ -368,6 +368,8 @@
         #{supplyNum}
         , #{contractAmount}
         )
+        ON DUPLICATE KEY UPDATE
+        CONTRACT_AMOUNT = CONTRACT_AMOUNT + VALUES(CONTRACT_AMOUNT)
     </insert>
 
     <!--부족 수량 저장-->

@@ -3,25 +3,27 @@
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: #dddddd;
   gap: 20px;
 }
 
 .order-main>div:nth-child(1){
-  width: 10%;
+  width: 8%;
   height: 100vh;
-  color: white;
-  background: #393753;
+  background: #fff;
   display: flex;
+  border-right: 1px solid lightgray;
   flex-direction: column;
   justify-content: start;
-  gap: 30px;
+  gap: 15px;
+  font-size: 14px;
+  text-align: left;
+  padding-top: 20px;
+  padding-left: 15px;
 }
 
 .order-main>div:nth-child(1)>div{
   display: flex;
   flex-direction: column;
-
   gap: 20px;
 }
 
@@ -31,6 +33,5 @@
   width: 90%;
   gap: 10px;
   border-radius: 15px;
-  background-color: #dddddd;
 }
 

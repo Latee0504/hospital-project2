@@ -9,25 +9,25 @@ const Orders = () => {
   return (
     <div className='order-main'>
       <div>  
-        <h3>수주 관리</h3>
+        <h3>수주관리</h3>
         <div>
           <p>
-            <span onClick={(e)=>{navigate(`/orders`)}}>거래처 관리</span>
+            <span onClick={(e)=>{navigate(`/orders`)}}>거래처관리 </span>
           </p>
           <p>
-            <span onClick={(e)=>{navigate(`/orders/item`)}}>제품 관리</span>
+            <span onClick={(e)=>{navigate(`/orders/item`)}}>제품관리</span>
           </p>    
           <p>
-            <span onClick={(e)=>{navigate(`/orders/ordering`)}}>주문서 관리</span>
+            <span onClick={(e)=>{navigate(`/orders/ordering`)}}>주문서관리</span>
           </p>
         </div>
         <h3>사후 관리</h3>
         <div>
           <p>
-            <span onClick={(e)=>{navigate(`/orders/sales`)}}>매출</span>
+            <span onClick={(e)=>{navigate(`/orders/sales`)}}>매출관리</span>
           </p>
           <p>
-            <span onClick={(e)=>{navigate(`/orders/requires`)}}>필요 재고 </span>
+            <span onClick={(e)=>{navigate(`/orders/requires`)}}>재고관리 </span>
           </p>
         </div>
       </div>

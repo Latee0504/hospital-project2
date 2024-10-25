@@ -93,22 +93,21 @@ const SalesPage = () => {
           <h4>총 매출: {totalSales}원</h4>
           {
             topSales && (
-               <h4>가장 많이 팔린 상품: {topSales.name} & {topSales.amount}개</h4>
+              <h4>가장 많이 팔린 상품: {topSales.name} & {topSales.amount}개</h4>
             )
           }
-         
         </div>
-       
+
         <table className='done-table'>
           <thead>
             <tr>
-              <td>처리 번호</td>
-              <td>발주 사</td>
-              <td>처리 날짜</td>
-              <td>상품 명</td>
-              <td>총 상품 수</td>
-              <td>매출 액</td>
-              <td>처리 매니저</td>
+              <td>처리번호</td>
+              <td>발주사</td>
+              <td>처리날짜</td>
+              <td>상품명</td>
+              <td>총 상품</td>
+              <td>매출금액</td>
+              <td>담당자</td>
             </tr>
           </thead>
           <tbody>
