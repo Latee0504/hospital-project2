@@ -269,7 +269,7 @@
     <select id="getMyOrderNum" resultType="int">
         SELECT ORDER_NUM
         FROM ORDER_FORM
-        ORDER BY ORDER_DATE
+        ORDER BY ORDER_DATE DESC
         LIMIT 1
     </select>
 
