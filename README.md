@@ -18,15 +18,16 @@
    git clone https://github.com/Comleamae/TeamProject2.git
    
 2. **설치할 npm**
-   1)axios 등 기본 설치
    
-   2)캘린더 라이브러리 npm i react-calendar
-   
-   3)차트 라이브러리 npm install chart.js react-chartjs-2
-   
-   4)리액트 쿼리 라이브러리 npm install react-query 
-                         npm install @tanstack/react-query
-    
+  - 1)axios 등 기본 설치
+  - 2)캘린더 라이브러리
+     - npm i react-calendar   
+  - 3)차트 라이브러리
+     - npm install chart.js react-chartjs-2
+  - 4)리액트 쿼리 라이브러리
+     - npm install react-query
+     - npm install @tanstack/react-query
+       
 
 ## 개발자 소개
 - **박주원 (leamae)**: 팀장, 대시보드 차트 구현, 캘린더로 이전 날짜 데이터를 받아와 차트를 다시 그리는 기능, 발주 요청 처리 페이지 기능 담당
