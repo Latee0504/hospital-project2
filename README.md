@@ -28,8 +28,11 @@ TEAM_PROJECT_2(실시간 환자 체온 대시보드)
    
    DB에 저장된 데이터를 chart.js를 통해 라인 그래프를 그려줌.
    만약 일정 온도 이상이면 빨간색 점으로 기록
-   https://github.com/user-attachments/assets/51427e6c-cfa9-4cc9-8954-679e76a9946e
+   ![실시간 받아오는 데이터 1](https://github.com/user-attachments/assets/00947cc3-f363-4bca-a123-3f13c50a8ce1)
    
-3) 기준 날짜를 포함한 일주일 간의 평균 체온
-   (https://github.com/user-attachments/assets/c3c0c346-f6ad-49c5-bcb9-9337e94df320)
-   버튼을 통해 기준 날짜를 변경할 수 있으며 
+   
+4) 기준 날짜를 포함한 일주일 간의 평균 체온
+
+   버튼을 통해 기준 날짜를 변경할 수 있으며
+   
+   ![평균 기온](https://github.com/user-attachments/assets/c3c0c346-f6ad-49c5-bcb9-9337e94df320)
