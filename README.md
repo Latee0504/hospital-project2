@@ -20,6 +20,14 @@
 2. **설치할 npm**
    
   - 1)axios 등 기본 설치
+     
+     - 페이지 이동 관련(Route, Routes, Link, navigate)
+
+       -npm install react-router-dom
+
+     - 서버와 데이터 통신(Axios)
+
+       -npm install axios
   - 2)캘린더 라이브러리
      - npm i react-calendar   
   - 3)차트 라이브러리
