@@ -38,8 +38,8 @@
    
 ## 디렉토리 트리
       📦src
-       ┣ 📂craft
-       ┃ ┣ 📜NewBarChart.js
+       ┣ 📂craft -- 새로운 바, 라인 차트 컴포넌트를 담은 폴더
+       ┃ ┣ 📜NewBarChart.js 
        ┃ ┗ 📜NewLineChart.js
        ┣ 📂layout
        ┃ ┣ 📜MainLayout.css
@@ -71,11 +71,11 @@
        ┃ ┃ ┣ 📜SalesDetailModal.css
        ┃ ┃ ┗ 📜SalesDetailModal.js
        ┃ ┣ 📜DetailChart.css
-       ┃ ┣ 📜DetailChart.js
+       ┃ ┣ 📜DetailChart.js -- 캘린더를 활용한 상세 정보 페이지
        ┃ ┣ 📜Orders.css
        ┃ ┣ 📜Orders.js
        ┃ ┣ 📜TempChart.css
-       ┃ ┗ 📜TempChart.js
+       ┃ ┗ 📜TempChart.js -- 메인 차트 페이지
        ┣ 📜App.css
        ┣ 📜App.js
        ┣ 📜App.test.js
