@@ -40,8 +40,15 @@
 1. **고객/상품 정보**
 
    - 고객의 정보를 저장, 수정, 삭제해서 관리할 수 있음
+   ![거래처1](https://github.com/user-attachments/assets/2b0e2048-1ae1-4e2a-908b-0be070fb705d)
+   ![거래처2](https://github.com/user-attachments/assets/d8f9d5a0-9f62-43fb-b360-f6fc0ca31cb6)
+   ![거래처3](https://github.com/user-attachments/assets/0fd603e0-7060-4222-91a0-0909d0f38b39)
+
    - 상품의 재고와 입고 날짜 정보는 상품 상세 테이블에서 관리
    - 오래된 제품 순으로 정렬
+   ![아이템 등록](https://github.com/user-attachments/assets/f5d4174d-6e82-42f3-8d85-54c164c749ea)
+   ![아이템 상세](https://github.com/user-attachments/assets/abc9ffb7-0d38-432e-9755-f5348045d3d6)
+
 
 2. **발주사에서 보낸 주문서 정보 얻기**
 
@@ -56,6 +63,8 @@
    - 각 상품의 오래된 재고부터 차감 -> 차감하고 남는 재고수는 따로 담아 다시 반복함->0이 될때까지 반복
    - 주문서를 완료된 리스트로 이동
    - 매출 페이지로 이동
+
+   
 
 4. **매출 페이지 기능**
 
