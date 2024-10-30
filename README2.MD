@@ -47,6 +47,9 @@
 
    - 발주 컴퓨터에서 요청을 보낼 때 수주 컴퓨터의 데이터 베이스로 요청을 보내줌
 
+   ![발주 신청](https://github.com/user-attachments/assets/85464b7a-627b-4bb4-877c-64180689ac5e)
+   ![발주 신청2](https://github.com/user-attachments/assets/a0a7d65b-5bef-4a61-92f1-04fdb295fa2c)
+
 3. **주문서를 토대로 주문 성공 시 기능**
 
    - 필요한 상품의 수가 재고수보다 적거나 같다면 성공
