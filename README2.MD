@@ -20,11 +20,14 @@
    git clone https://github.com/Comleamae/TeamProject2.git
    
 2. **설치할 npm**
-  - *페이지 이동 관련(Route, Routes, Link, navigate)
+
+  - 페이지 이동 관련(Route, Routes, Link, navigate)
+      
       npm install react-router-dom
 
-   *서버와 데이터 통신(Axios)
-      npm install axios
+ - 서버와 데이터 통신(Axios)
+      
+   npm install axios
  
 ## 개발자 소개
 - **박주원 (leamae)**: 팀장, 수주 기능 구현, 데이터 베이스 구성, 두 컴퓨터 간의 연결 구현
