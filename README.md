@@ -46,6 +46,8 @@
 ## 주요 기능
 ### 1. 라즈베리파이를 통한 데이터 측정
 라즈베리파이로 실시간 체온 데이터를 수집하는 코드입니다.
+![라즈베리 진동수](https://github.com/user-attachments/assets/8af37eb5-e022-493c-9370-629a97293eff)
+![라즈베리 db연결](https://github.com/user-attachments/assets/329e561d-dd8e-4ba8-acdf-7d5b1b3b4917)
 
 ### 2. 실시간 데이터 시각화
 데이터베이스에 저장된 데이터를 `chart.js`를 활용하여 실시간 라인 그래프로 시각화하며, 특정 온도 이상일 경우 빨간색 점으로 표시합니다.
