@@ -18,9 +18,12 @@
    git clone https://github.com/Comleamae/TeamProject2.git
    
 2. **설치할 npm**
-   1)axios 등 기본 설치 
+   1)axios 등 기본 설치
+   
    2)캘린더 라이브러리 npm i react-calendar
+   
    3)차트 라이브러리 npm install chart.js react-chartjs-2
+   
    4)리액트 쿼리 라이브러리 npm install react-query 
                          npm install @tanstack/react-query
     
