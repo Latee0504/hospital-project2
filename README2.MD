@@ -28,6 +28,57 @@
  - 서버와 데이터 통신(Axios)
       
    npm install axios
+
+3. **트리 구조**
+
+📦src
+ ┣ 📂craft
+ ┃ ┣ 📜NewBarChart.js
+ ┃ ┗ 📜NewLineChart.js
+ ┣ 📂layout
+ ┃ ┣ 📜MainLayout.css
+ ┃ ┣ 📜MainLayout.js
+ ┃ ┣ 📜SubLayout.css
+ ┃ ┗ 📜SubLayout.js
+ ┣ 📂pages
+ ┃ ┣ 📂orderPage
+ ┃ ┃ ┣ 📜MangeCustomer.css
+ ┃ ┃ ┣ 📜MangeCustomer.js
+ ┃ ┃ ┣ 📜MangeItem.css
+ ┃ ┃ ┣ 📜MangeItem.js
+ ┃ ┃ ┣ 📜MangeOrdering.css
+ ┃ ┃ ┗ 📜MangeOrdering.js
+ ┃ ┣ 📂otherFunctionPage
+ ┃ ┃ ┣ 📜RequiresPage.css
+ ┃ ┃ ┣ 📜RequiresPage.js
+ ┃ ┃ ┣ 📜SalesPage.css
+ ┃ ┃ ┗ 📜SalesPage.js
+ ┃ ┣ 📂utils
+ ┃ ┃ ┣ 📜EditCustomerModal.css
+ ┃ ┃ ┣ 📜EditCustomerModal.js
+ ┃ ┃ ┣ 📜EditItemModal.css
+ ┃ ┃ ┣ 📜EditItemModal.js
+ ┃ ┃ ┣ 📜ItemDetailModal.css
+ ┃ ┃ ┣ 📜ItemDetailModal.js
+ ┃ ┃ ┣ 📜OrderDetailModal.css
+ ┃ ┃ ┣ 📜OrderDetailModal.js
+ ┃ ┃ ┣ 📜SalesDetailModal.css
+ ┃ ┃ ┗ 📜SalesDetailModal.js
+ ┃ ┣ 📜DetailChart.css
+ ┃ ┣ 📜DetailChart.js
+ ┃ ┣ 📜Orders.css
+ ┃ ┣ 📜Orders.js
+ ┃ ┣ 📜TempChart.css
+ ┃ ┗ 📜TempChart.js
+ ┣ 📜App.css
+ ┣ 📜App.js
+ ┣ 📜App.test.js
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┣ 📜logo.svg
+ ┣ 📜reportWebVitals.js
+ ┣ 📜reset.css
+ ┗ 📜setupTests.js
  
 ## 개발자 소개
 - **박주원 (leamae)**: 팀장, 수주 기능 구현, 데이터 베이스 구성, 두 컴퓨터 간의 연결 구현
