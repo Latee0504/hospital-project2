@@ -46,6 +46,9 @@
 ## 주요 기능
 ### 1. 라즈베리파이를 통한 데이터 측정
 라즈베리파이로 실시간 체온 데이터를 수집하는 코드입니다.
+온도센서를 통해 온도를 측정, 특정 온도 이상일 경우 부저센서를 통해 경보를 울립니다.
+scheduler를 이용하여 일정 시간마다 온도를 측정하도록 합니다.
+
 ![라즈베리 진동수](https://github.com/user-attachments/assets/8af37eb5-e022-493c-9370-629a97293eff)
 ![라즈베리 db연결](https://github.com/user-attachments/assets/329e561d-dd8e-4ba8-acdf-7d5b1b3b4917)
 
