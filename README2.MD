@@ -26,9 +26,7 @@
 ### 도구
 ![github](https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white)
 ![VisualStudioCode](https://img.shields.io/badge/VisualStudioCode-326CAC?style=flat-square&logo=VisualStudioCode&logoColor=white)
-
-
-
+![intelij]()
 
 ## 설치 및 실행 방법
 1. **레포지토리 클론**:
@@ -132,6 +130,10 @@
    - 주문서를 완료된 리스트로 이동
    - 매출 페이지로 이동
 
+   ![성공 시 재고 확인](https://github.com/user-attachments/assets/7a496848-e8f7-4b7a-a76e-c9bb81bdae8b)
+   ![성공 시 주문 넣기](https://github.com/user-attachments/assets/8fb91ecb-5003-43ce-8501-b5e4721ece47)
+   ![주문 넣기 성공](https://github.com/user-attachments/assets/b978fa91-8cc6-47e7-9943-834a6b2ede60)
+   ![주문 넣기 성공 후 감소한 재고 수](https://github.com/user-attachments/assets/7ffd5569-bb05-41bf-9084-fd8affbfcfc2)
    
 
 4. **매출 페이지 기능**
@@ -139,14 +141,28 @@
    - 총 매출을 화면에 표시
    - 가장 많이 팔린 품목의 이름과 매출액을 표시
 
+   ![주문 넣기 성공 후 매출 페이지에 추가된](https://github.com/user-attachments/assets/5000a44c-9a31-4c5c-b319-5e81112b9f05)
+
 4. **주문서를 토대로 주문 실패 시 기능**
 
    - 필요한 상품의 수가 재고수보다 많다면 실패
    - 필요한 재고의 수량을 기록-> 필요 재고 수 테이블에 수록
    - 주문서를 재고 보충 페이지의 실패 리스트에 이동
 
+   ![실패 실행 전 상품1](https://github.com/user-attachments/assets/3f5af84e-f5e5-4e1b-b7fe-5a2af816f203)
+   ![실패 실행 전 상품 2](https://github.com/user-attachments/assets/dabebbe9-bf8d-4a10-8a5c-43b558f19941)
+   ![실패 실행 전 주문된 재고 확인](https://github.com/user-attachments/assets/3b59e7e7-b6d7-4411-9ca3-4f47be104c4d)
+   ![실패 실행 재고 부족 알림](https://github.com/user-attachments/assets/25c7f8ef-dc38-4688-817a-2376a882113b)
+
 5. **재고 보충 페이지의 재고 보충 기능**
 
    - 필요 재고 수 정보를 확인하고 병합을 누르면 필요 재고 수를 상품별로 병합함
    - 병함한 정보를 토대로 상품의 재고를 보충함
    - 실패 리스트의 주문서를 처리 대기 중인 목록으로 이동 시킴
+
+
+   ![재고 보충 페이지](https://github.com/user-attachments/assets/a1f93ab5-a400-43c3-b18d-356881f9f0d4)
+   ![재고 보충에서 하나로 합침](https://github.com/user-attachments/assets/ee6168a2-6aae-4183-b748-ed09f028cf8d)
+   ![재고 보충 목록을 기준으로 재고 보충](https://github.com/user-attachments/assets/094f2f2f-a19e-4e73-8bb6-2e882c81d8f3)
+   ![보충된 모습 1](https://github.com/user-attachments/assets/4b3bc0e1-874f-4c3b-ac87-173d17812a36)
+   ![보충된 모습2](https://github.com/user-attachments/assets/4947727c-89d3-4435-8f2c-6239ffb452c7)
