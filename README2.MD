@@ -54,11 +54,22 @@
 
 ![거래처 관련](https://github.com/user-attachments/assets/d2fcd564-c45b-48e3-b2a7-9878d505461a)
 
+* 고객의 정보를 저장, 수정, 삭제해서 관리할 수 있음
+* 상품의 재고와 입고 날짜 정보는 상품 상세 테이블에서 관리함.
+* 오래된 제품 순으로 정렬
+
 </details>
 
 <details>2
 
+![발주 신청](https://github.com/user-attachments/assets/85464b7a-627b-4bb4-877c-64180689ac5e)
+![발주 신청2](https://github.com/user-attachments/assets/a0a7d65b-5bef-4a61-92f1-04fdb295fa2c)
+* 발주 컴퓨터에서 요청을 보낼 때 수주 컴퓨터의 데이터 베이스로 요청을 보내줌.
+
+
 ![상품 등록](https://github.com/user-attachments/assets/c1fc4d89-3732-42a7-be52-40ca7a8a6eba)
+
+
 
 </details>
 
