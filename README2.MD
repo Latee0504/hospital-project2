@@ -47,8 +47,9 @@
       
    npm install axios
 
-3. **디렉토리 트리**
+<details><summary>프로젝트 구조</summary>
 
+```plantext
             📦src
              ┣ 📂craft
              ┃ ┣ 📜NewBarChart.js
@@ -98,7 +99,7 @@
              ┣ 📜reset.css
              ┗ 📜setupTests.js
 
-
+</details>
 # 주요 기능 소개
 
 <details><summary>asdfasdf</summary></details>
