@@ -68,7 +68,7 @@
 
 
 ![상품 등록](https://github.com/user-attachments/assets/c1fc4d89-3732-42a7-be52-40ca7a8a6eba)
-
+* 상품 등록에 대한 기능 설명 필
 
 
 </details>
@@ -77,12 +77,21 @@
 
 ![성공 후 재고 감소](https://github.com/user-attachments/assets/8240e440-cb80-41ae-8bd4-54a74224e31a)
 
+* 필요한 상품의 수가 재고수보다 적거나 같다면 성공
+* 각 상품의 오래된 재고부터 차감 -> 차감하고 남는 재고수는 따로 담아 다시 반복함->0이 될때까지 반복
+* 주문서를 완료된 리스트로 이동
+* 매출 페이지로 이동
+
 </details>
 
 
 <details>4
 
 ![실패 후 재고](https://github.com/user-attachments/assets/fa912247-b74c-4c61-8b04-c244508cf2cf)
+
+* 필요한 상품의 수가 재고수보다 많다면 실패
+* 필요한 재고의 수량을 기록-> 필요 재고 수 테이블에 수록
+* 주문서를 재고 보충 페이지의 실패 리스트에 이동
 
 </details>
 
