@@ -47,58 +47,10 @@
       
    npm install axios
 
-<details><summary>프로젝트 구조</summary>
 
-```plantext
-            📦src
-             ┣ 📂craft
-             ┃ ┣ 📜NewBarChart.js
-             ┃ ┗ 📜NewLineChart.js
-             ┣ 📂layout
-             ┃ ┣ 📜MainLayout.css
-             ┃ ┣ 📜MainLayout.js
-             ┃ ┣ 📜SubLayout.css
-             ┃ ┗ 📜SubLayout.js
-             ┣ 📂pages
-             ┃ ┣ 📂orderPage
-             ┃ ┃ ┣ 📜MangeCustomer.css
-             ┃ ┃ ┣ 📜MangeCustomer.js -- 고객 등록 페이지
-             ┃ ┃ ┣ 📜MangeItem.css
-             ┃ ┃ ┣ 📜MangeItem.js --상품 등록 페이지
-             ┃ ┃ ┣ 📜MangeOrdering.css
-             ┃ ┃ ┗ 📜MangeOrdering.js -- 주문서 관리 페이지
-             ┃ ┣ 📂otherFunctionPage
-             ┃ ┃ ┣ 📜RequiresPage.css 
-             ┃ ┃ ┣ 📜RequiresPage.js -- 재고 보충 페이지
-             ┃ ┃ ┣ 📜SalesPage.css
-             ┃ ┃ ┗ 📜SalesPage.js -- 매출 페이지
-             ┃ ┣ 📂utils -- 각 페이지에서 사용하는 모달을 담은 폴더
-             ┃ ┃ ┣ 📜EditCustomerModal.css
-             ┃ ┃ ┣ 📜EditCustomerModal.js
-             ┃ ┃ ┣ 📜EditItemModal.css
-             ┃ ┃ ┣ 📜EditItemModal.js
-             ┃ ┃ ┣ 📜ItemDetailModal.css
-             ┃ ┃ ┣ 📜ItemDetailModal.js
-             ┃ ┃ ┣ 📜OrderDetailModal.css
-             ┃ ┃ ┣ 📜OrderDetailModal.js
-             ┃ ┃ ┣ 📜SalesDetailModal.css
-             ┃ ┃ ┗ 📜SalesDetailModal.js
-             ┃ ┣ 📜DetailChart.css
-             ┃ ┣ 📜DetailChart.js
-             ┃ ┣ 📜Orders.css
-             ┃ ┣ 📜Orders.js
-             ┃ ┣ 📜TempChart.css
-             ┃ ┗ 📜TempChart.js
-             ┣ 📜App.css
-             ┣ 📜App.js
-             ┣ 📜App.test.js
-             ┣ 📜index.css
-             ┣ 📜index.js
-             ┣ 📜logo.svg
-             ┣ 📜reportWebVitals.js
-             ┣ 📜reset.css
-             ┗ 📜setupTests.js
+<details><summary>주요 기능 소개</summary>
+
+
+
+
 </details>
-
-
-<details><summary>ㅁㄴㅇㄻㅇㄴㄹ</summary></details>
