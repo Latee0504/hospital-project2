@@ -50,7 +50,29 @@
 
 <details><summary>주요 기능 소개</summary>
 
+<details>1
+
+![거래처 관련](https://github.com/user-attachments/assets/d2fcd564-c45b-48e3-b2a7-9878d505461a)
+
+</details>
+
+<details>2
+
+![상품 등록](https://github.com/user-attachments/assets/c1fc4d89-3732-42a7-be52-40ca7a8a6eba)
+
+</details>
+
+<details>3
+
+![성공 후 재고 감소](https://github.com/user-attachments/assets/8240e440-cb80-41ae-8bd4-54a74224e31a)
+
+</details>
 
 
+<details>4
+
+![실패 후 재고](https://github.com/user-attachments/assets/fa912247-b74c-4c61-8b04-c244508cf2cf)
+
+</details>
 
 </details>
