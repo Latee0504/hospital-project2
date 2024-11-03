@@ -101,9 +101,3 @@
              ┗ 📜setupTests.js
 </details>
 
-
-
-
-# 주요 기능 소개
-
-<details><summary>asdfasdf</summary></details>
