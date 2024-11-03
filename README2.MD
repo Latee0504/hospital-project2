@@ -47,6 +47,7 @@
       
    npm install axios
 
+
 <details><summary>프로젝트 구조</summary>
 
 ```plantext
@@ -98,8 +99,10 @@
              ┣ 📜reportWebVitals.js
              ┣ 📜reset.css
              ┗ 📜setupTests.js
-
 </details>
+
+
+
 
 # 주요 기능 소개
 
