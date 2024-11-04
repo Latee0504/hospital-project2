@@ -18,7 +18,7 @@
 ## 개발 기간
 - 2024.09.30 ~ 2024.10.30
 
-## 개발 환
+## 개발 환경
 
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white)
 ![MARIADB](https://img.shields.io/badge/MARIADB-003545?style=flat-square&logo=MARIADB&logoColor=white)
@@ -49,6 +49,10 @@
 
 
 <details><summary>주요 기능 소개</summary>
+
+</details>
+
+
 
 <details> 거래처 정보 관리
 
@@ -93,7 +97,5 @@
 * 필요한 상품의 수가 재고수보다 많다면 실패
 * 필요한 재고의 수량을 기록-> 필요 재고 수 테이블에 수록
 * 주문서를 재고 보충 페이지의 실패 리스트에 이동
-
-</details>
 
 </details>
