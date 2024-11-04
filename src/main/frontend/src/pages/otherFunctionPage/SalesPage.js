@@ -90,10 +90,11 @@ const SalesPage = () => {
         <h4>매출 목록</h4>
         {/* 월별로 데이터를 분류해서 총 매출액 */}
         <div className='simple-notice'>
-          <p><strong>총 매출 </strong>: {totalSales}원</p>
+          <p><strong>💰 총 매출 </strong>: {totalSales}원</p>
           {
             topSales && (
-              <p>가장 많이 팔린 상품: {topSales.name} & {topSales.amount}개</p>
+              <p>
+                <strong>👑 가장 많이 상품 </strong>: {topSales.name} & {topSales.amount}개</p>
             )
           }
         </div>

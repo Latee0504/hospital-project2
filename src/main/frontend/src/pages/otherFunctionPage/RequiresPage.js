@@ -101,7 +101,7 @@ const RequiresPage = () => {
   return (
     <div className='requires-div'>
       
-     <div className='requires-list-div'>
+    <div className='requires-list-div'>
         <div className='fail-order-div'>
           <h4>실패한 주문서 리스트</h4>
           <table className='fail-table'>
@@ -142,68 +142,72 @@ const RequiresPage = () => {
             </tbody>
           </table>
         </div>
-        <h4>재고 추가 주문</h4>
+
         <div className='requries-functon-div'>
-          <div className='need-list-div'>
-            <h4>부족한 재고 리스트</h4>
-            <table className='require-table'>
-              <thead>
-                <tr>
-                  <td>리스트번호</td>
-                  <td>주문번호</td>
-                  <td>상품명</td>
-                  <td>필요수</td>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  needList.map((need, i)=>{
-                    return(
-                      <tr key={i}>
-                        <td>{i+1}</td>
-                        <td>{need.orderNum}</td>
-                        <td>{need.supplyVO.supplyName}</td>
-                        <td>{need.needCnt}개</td>
-                      </tr>
-                    )
-                  })
-                  
-                }
-              </tbody>
-            </table>
-          </div>
-          <div className='first-button-div'>
-              <button type='button' className='btn' onClick={()=>{passPlus()}}>병합하기</button>
-          </div>
-          <div className='plus-list-div'>
-            <h4>추가 요청 리스트</h4>
-            <table className='need-table'>
-              <thead>
-                <tr>
-                  <td>상품번호</td>
-                  <td>상품이름</td>
-                  <td>총 갯수</td>
-                </tr>
-              </thead>
-              <tbody>
-                {/* 왼쪽의 내용을 합쳐서 하나의 품목에 대한 것으로 바꾼 리스트 */}
-                {
-                  plusList.map((plus,i)=>{
-                    return(
-                      <tr key={i}>
-                        <td>{plus.supplyNum}</td>
-                        <td>{plus.supplyVO.supplyName}</td>
-                        <td>{plus.totalCnt}개</td>
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
-            <div className='second-button-div'>
-              <button type='button' className='btn' onClick={(e)=>{
-                regContract()
-              }}>주문하기</button>
+          <p>재고 추가 주문 + </p>
+          <div className='list-box'>
+            <div className='need-list-div'>
+              <h4>부족한 재고 리스트</h4>
+              <table className='require-table'>
+                <thead>
+                  <tr>
+                    <td>리스트번호</td>
+                    <td>주문번호</td>
+                    <td>상품명</td>
+                    <td>필요수</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    needList.map((need, i)=>{
+                      return(
+                        <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{need.orderNum}</td>
+                          <td>{need.supplyVO.supplyName}</td>
+                          <td>{need.needCnt}개</td>
+                        </tr>
+                      )
+                    })
+                    
+                  }
+                </tbody>
+              </table>
+              <div className='first-button-div'>
+                <button type='button' className='btnD' style={{width:'100px'}} onClick={()=>{passPlus()}}>병합하기</button>
+              </div>
+            </div>
+            
+            <div className='plus-list-div'>
+              <h4>추가 요청 리스트</h4>
+              <table className='need-table'>
+                <thead>
+                  <tr>
+                    <td>상품번호</td>
+                    <td>상품이름</td>
+                    <td>총 갯수</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* 왼쪽의 내용을 합쳐서 하나의 품목에 대한 것으로 바꾼 리스트 */}
+                  {
+                    plusList.map((plus,i)=>{
+                      return(
+                        <tr key={i}>
+                          <td>{plus.supplyNum}</td>
+                          <td>{plus.supplyVO.supplyName}</td>
+                          <td>{plus.totalCnt}개</td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+              <div className='second-button-div'>
+                <button type='button' className='btn' onClick={(e)=>{
+                  regContract()
+                }}>주문하기</button>
+              </div>
             </div>
           </div>
         </div>
