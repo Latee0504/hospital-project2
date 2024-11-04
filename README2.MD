@@ -99,17 +99,20 @@
 
 </details>
 
-## 프로젝트 구조
-<details>
-```plantext
+# 프로젝트 구조
+<details><summary>구조도 보기</summary>
+
+```plaintext
 
 ```
-</detilas>
+
+</details>
+
+# 테이블 구조
+<details><summary>구조도 보기</summary>
+    
 
 
-## 
-
-
-
+</details>
 
 
