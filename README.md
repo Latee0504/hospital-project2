@@ -6,25 +6,18 @@
 ## 개발 기간
 - 2024.09.09 ~ 2024.09.27
 
-## 기술 스택
-
-### 백엔드
-![Spring](https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white)
-![MARIADB](https://img.shields.io/badge/MARIADB-003545?style=flat-square&logo=MARIADB&logoColor=white)
-![MyBatis](https://img.shields.io/badge/MyBatis-621773?style=flat-square&logo=MyBatis&logoColor=white)
-![JAVA](https://img.shields.io/badge/Java-DE3723?style=flat-square&logo=JAVA&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)
-
-### 프론트엔드
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white)
-![html5](https://img.shields.io/badge/html5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![css3](https://img.shields.io/badge/css3-1572B6?style=flat-square&logo=css3&logoColor=white)
-
-### 도구
-![github](https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white)
-![VisualStudioCode](https://img.shields.io/badge/VisualStudioCode-326CAC?style=flat-square&logo=VisualStudioCode&logoColor=white)
-![intelij]()
+### 개발 환경
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node-dot-js&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white)
+![HeidiSQL](https://img.shields.io/badge/HeidiSQL-006400?style=for-the-badge&logo=heidisql&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
 ## 설치 및 실행 방법
 1. **레포지토리 클론**:
@@ -101,12 +94,6 @@
        ┗ 📜setupTests.js
              
 
-## 개발자 소개
-- **박주원 (leamae)**: 팀장, 대시보드 차트 구현, 캘린더로 이전 날짜 데이터를 받아와 차트를 다시 그리는 기능, 발주 요청 처리 페이지 기능 담당
-- **김탁현**: 라즈베리파이를 통한 데이터 수집, 경고음 코드 작성
-- **최윤형**: 페이지 CSS 스타일링
-- **김세훈**: (역할을 입력해주세요)
-
 ## 주요 기능
 ### 1. 라즈베리파이를 통한 데이터 측정
 라즈베리파이로 실시간 체온 데이터를 수집하는 코드입니다.
@@ -162,6 +149,9 @@ scheduler를 이용하여 일정 시간마다 온도를 측정하도록 합니�
 
    
 
-
+# 팀원 소개
+| 팀원    |박주원         | 김탁현              | 김세훈           | 최윤형         |
+|---------|--------------------|---------------------|------------------|-----------------|
+| 담당기능     | 전체 기능 담당 | 라즈베리파이를 통한 데이터 수집 및 경고음 기능 | DB 설계 및 구현 | 웹페이지 제작 및 PPT 제작 |
    
    
