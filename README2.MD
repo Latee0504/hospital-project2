@@ -50,7 +50,7 @@
 
 <details><summary>주요 기능 소개</summary>
 
-<details>1
+<details> 거래처 정보 관리
 
 ![거래처 관련](https://github.com/user-attachments/assets/d2fcd564-c45b-48e3-b2a7-9878d505461a)
 
@@ -60,7 +60,7 @@
 
 </details>
 
-<details>2
+<details> 발주 신청 연동하여 수주 기능 구현
 
 ![발주 신청](https://github.com/user-attachments/assets/85464b7a-627b-4bb4-877c-64180689ac5e)
 ![발주 신청2](https://github.com/user-attachments/assets/a0a7d65b-5bef-4a61-92f1-04fdb295fa2c)
@@ -68,12 +68,13 @@
 
 
 ![상품 등록](https://github.com/user-attachments/assets/c1fc4d89-3732-42a7-be52-40ca7a8a6eba)
-* 상품 등록에 대한 기능 설명 필
+* 발주에 성공하여 수주 컴퓨터로 데이터를 받아온 경우
+* 수주 컴퓨터에서 아이템 등록 및 기타 수정 기능을 할 수 있도록 구현
 
 
 </details>
 
-<details>3
+<details> 수주 성공 후 재고 감소 기능
 
 ![성공 후 재고 감소](https://github.com/user-attachments/assets/8240e440-cb80-41ae-8bd4-54a74224e31a)
 
@@ -85,7 +86,7 @@
 </details>
 
 
-<details>4
+<details> 수주 실패 후 재고 보충 기능
 
 ![실패 후 재고](https://github.com/user-attachments/assets/fa912247-b74c-4c61-8b04-c244508cf2cf)
 
