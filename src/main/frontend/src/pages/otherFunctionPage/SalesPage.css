@@ -2,10 +2,15 @@
   height: 100%;
 }
 
+
+.sales-list-div > h4 {
+  margin-top: 50px;
+  font-size: 24px;
+}
 .sales-list-div{
   background: white;
   width: 80%;
-  height: 50%;
+  height: 80%;
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 15px;
@@ -33,11 +38,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #F9FBFC;
+  background-color: #f3f6f8;
+  border-radius: 10px;
 }
+
+.simple-notice p {
+  color: #333352;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.simple-notice strong {
+  color: #53505f;
+  font-size: 16px;
+}
+
 
 .done-table{
   width: 90%;
-  height: 300px;
+  height: 600px;
   margin: 0 auto;
 }

@@ -4,7 +4,7 @@
 
 .requires-list-div{
   background-color: white;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 15px;
@@ -13,66 +13,120 @@
   justify-content: space-between;
 }
 
-.sales-list-div>h4{
-  margin-top: 20px;
-}
 
-.done-table>thead>tr{
+.done-table> thead > tr {
   padding: 20px;
 }
 
 .requries-functon-div{
-  margin: 0 auto;
-  display: flex;
-  width: 80%;
-  justify-content: space-between;
-}
-.fail-table{
   width: 100%;
   margin: 0 auto;
-  margin-top: 20px;
-}
-.fail-table>thead>tr>td{
-  background-color: gray;
-  color: white;
-  padding: 30px;
-}
-.fail-table>tbody>tr>td{
-  padding: 30px;
 }
 
-.require-table{
+.fail-order-div > h4 {
+  margin-top: 50px;
+}
+
+.requries-functon-div > p{
+  width: 95%;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+  color: #53505f;
+  border-bottom: 1.5px solid lightgray;
+}
+
+.fail-table{
+  width: 95%;
+  height: 100px;
+  border: 1px solid lightgray;
+  margin: 0 auto;
   margin-top: 20px;
+}
+
+.fail-table>thead>tr>td{
+  background-color: #F9FBFC;
+  color: #3E3E3E;
+  font-weight: bold;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+}
+
+.fail-table > tbody > tr, td {
+  padding: 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+.list-box {
+  width: 95%;
+  height: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.need-list-div{
+  width: 49%;
+  height: 350px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid lightgray;
+}
+
+
+.require-table{
   width: 100%;
 }
 
 .require-table>thead>tr>td{
-  padding: 30px;
-  background-color: gray;
-  color: white;
+  padding: 10px;
+  background-color: #F9FBFC;
+  color: #3E3E3E;
+  font-weight: bold;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 }
 .require-table>tbody>tr>td{
-  padding: 30px;
+  padding: 20px;
 }
 
 .need-table{
   margin-top: 20px;
   width: 100%;
+  height: 200px;
+  /* background: #7496bd; */
 }
 
 .need-table>thead>tr>td{
-  padding: 30px;
-  background-color: gray;
-  color: white;
+  padding: 10px;
+  border-top: 1px solid #7496bd;
+  border-bottom: 1px solid #7496bd;
+  color: rgb(71, 71, 141);
+  font-weight: bold;
+  font-size: 16px;
 }
 .need-table>tbody>tr>td{
-  padding: 30px;
+  padding: 20px;
 }
 
-.first-button-div>.btn{
- margin-top: 80px;
+.first-button-div> button{
+  margin-top: 30px;
 }
 
 .second-button-div>.btn{
-  margin-top: 80px;
+}
+
+
+.plus-list-div {
+  width: 49%;
+  height: 350px;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid lightgray;
 }

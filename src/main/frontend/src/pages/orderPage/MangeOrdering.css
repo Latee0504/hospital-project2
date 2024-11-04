@@ -33,7 +33,7 @@
 
 .order-start-div{
   background-color: white;
-  height: 40%;
+  height: 55%;
   width: 80%;
   margin: 0 auto;
   
@@ -46,6 +46,7 @@
 
 .order-start-div>table{
   width: 95%;
+  height: 70%;
   margin: 0 auto;
   margin-top: 20px;
 }

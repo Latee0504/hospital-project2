@@ -33,8 +33,8 @@ const MangeCustomer = () => {
   // 선택된 거래처 데이터
   const [selectedCustomer, setSelectedCustomer] = useState(null);  
 
-   // 입력받은 데이터로 바꾸는 함수
-   function changeData(e) {
+  // 입력받은 데이터로 바꾸는 함수
+  function changeData(e) {
     
 
     // 이메일 입력 처리
@@ -62,6 +62,7 @@ const MangeCustomer = () => {
     })
   }, [cnt])
 
+  
   //거래처 등록 함수
   function regCustomer(){
     axios
