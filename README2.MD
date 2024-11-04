@@ -50,7 +50,7 @@
 
 <details><summary>주요 기능 소개</summary>
 
-<details> 거래처 정보 관리
+<details><summary>거래처 관리 기능</summary>
 
 ![거래처 관련](https://github.com/user-attachments/assets/d2fcd564-c45b-48e3-b2a7-9878d505461a)
 
@@ -60,7 +60,7 @@
 
 </details>
 
-<details> 발주 신청 연동하여 수주 기능 구현
+<details><summary>발주 신청 연동하여 기능 구현</summary>
 
 ![발주 신청](https://github.com/user-attachments/assets/85464b7a-627b-4bb4-877c-64180689ac5e)
 ![발주 신청2](https://github.com/user-attachments/assets/a0a7d65b-5bef-4a61-92f1-04fdb295fa2c)
@@ -74,7 +74,7 @@
 
 </details>
 
-<details> 수주 성공 후 재고 감소 기능
+<details><summary>수주 성공 후 재고 감소</summary>
 
 ![성공 후 재고 감소](https://github.com/user-attachments/assets/8240e440-cb80-41ae-8bd4-54a74224e31a)
 
@@ -86,8 +86,7 @@
 </details>
 
 
-<details> 수주 실패 후 재고 보충 기능
-
+<details><summary>수주 실패 후 재고 보충</summary>
 ![실패 후 재고](https://github.com/user-attachments/assets/fa912247-b74c-4c61-8b04-c244508cf2cf)
 
 * 필요한 상품의 수가 재고수보다 많다면 실패
