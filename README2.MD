@@ -50,6 +50,8 @@
 
 <details><summary>주요 기능 소개</summary>
 
+
+
 <details><summary>거래처 관리 기능</summary>
 
 ![거래처 관련](https://github.com/user-attachments/assets/d2fcd564-c45b-48e3-b2a7-9878d505461a)
