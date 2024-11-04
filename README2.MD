@@ -110,8 +110,8 @@
 
 # 테이블 구조
 <details><summary>구조도 보기</summary>
-    
 
+![image28](https://github.com/user-attachments/assets/322f1ee3-622e-4be6-8724-a9fe853d6d86)
 
 </details>
 
