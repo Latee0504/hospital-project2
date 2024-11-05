@@ -103,7 +103,54 @@
 <details><summary>구조도 보기</summary>
 
 ```plaintext
-
+  📦src
+       ┣ 📂craft -- 새로운 바, 라인 차트 컴포넌트를 담은 폴더
+       ┃ ┣ 📜NewBarChart.js 
+       ┃ ┗ 📜NewLineChart.js
+       ┣ 📂layout
+       ┃ ┣ 📜MainLayout.css
+       ┃ ┣ 📜MainLayout.js
+       ┃ ┣ 📜SubLayout.css
+       ┃ ┗ 📜SubLayout.js
+       ┣ 📂pages
+       ┃ ┣ 📂orderPage
+       ┃ ┃ ┣ 📜MangeCustomer.css
+       ┃ ┃ ┣ 📜MangeCustomer.js
+       ┃ ┃ ┣ 📜MangeItem.css
+       ┃ ┃ ┣ 📜MangeItem.js
+       ┃ ┃ ┣ 📜MangeOrdering.css
+       ┃ ┃ ┗ 📜MangeOrdering.js
+       ┃ ┣ 📂otherFunctionPage
+       ┃ ┃ ┣ 📜RequiresPage.css
+       ┃ ┃ ┣ 📜RequiresPage.js
+       ┃ ┃ ┣ 📜SalesPage.css
+       ┃ ┃ ┗ 📜SalesPage.js
+       ┃ ┣ 📂utils
+       ┃ ┃ ┣ 📜EditCustomerModal.css
+       ┃ ┃ ┣ 📜EditCustomerModal.js
+       ┃ ┃ ┣ 📜EditItemModal.css
+       ┃ ┃ ┣ 📜EditItemModal.js
+       ┃ ┃ ┣ 📜ItemDetailModal.css
+       ┃ ┃ ┣ 📜ItemDetailModal.js
+       ┃ ┃ ┣ 📜OrderDetailModal.css
+       ┃ ┃ ┣ 📜OrderDetailModal.js
+       ┃ ┃ ┣ 📜SalesDetailModal.css
+       ┃ ┃ ┗ 📜SalesDetailModal.js
+       ┃ ┣ 📜DetailChart.css
+       ┃ ┣ 📜DetailChart.js -- 캘린더를 활용한 상세 정보 페이지
+       ┃ ┣ 📜Orders.css
+       ┃ ┣ 📜Orders.js
+       ┃ ┣ 📜TempChart.css
+       ┃ ┗ 📜TempChart.js -- 메인 차트 페이지
+       ┣ 📜App.css
+       ┣ 📜App.js
+       ┣ 📜App.test.js
+       ┣ 📜index.css
+       ┣ 📜index.js
+       ┣ 📜logo.svg
+       ┣ 📜reportWebVitals.js
+       ┣ 📜reset.css
+       ┗ 📜setupTests.js
 ```
 
 </details>
